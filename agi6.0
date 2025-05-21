@@ -1,0 +1,1576 @@
+```python
+        # Problem/decision principles
+        if "decide" in problem_lower or "problem" in problem_lower:
+            return {
+                "fundamental_truths": "Problems have structure, choices have consequences, systems have behaviors",
+                "reasoning_chain": "Define desired outcome → identify constraints → determine possible actions → evaluate consequences",
+                "solution_construction": "Select actions that maximize desired outcomes while respecting constraints"
+            }
+            
+        # Creation/design principles
+        if "create" in problem_lower or "design" in problem_lower:
+            return {
+                "fundamental_truths": "Function defines form, constraints shape possibilities, systems have requirements",
+                "reasoning_chain": "Define functional requirements → identify constraints → generate minimal viable solutions → iterate and refine",
+                "solution_construction": "Design solution that fulfills all functional requirements with minimal complexity"
+            }
+            
+        # Generic principles
+        return {
+            "fundamental_truths": "Problems are defined by goals and constraints, solutions exist in a possibility space, optimal solutions balance tradeoffs",
+            "reasoning_chain": "Define problem clearly → break into components → solve systematically → validate solution",
+            "solution_construction": "Build from basic elements to create a complete solution that addresses all aspects of the problem"
+        }
+    
+    def _generate_lateral_approaches(self, problem):
+        """Generate creative lateral thinking approaches"""
+        # Generate unusual approaches to the problem
+        lateral_approaches = {
+            "challenge_assumptions": self._challenge_problem_assumptions(problem),
+            "unusual_perspective": self._take_unusual_perspective(problem),
+            "novel_solution": self._generate_novel_solution(problem)
+        }
+        
+        return lateral_approaches
+    
+    def _challenge_problem_assumptions(self, problem):
+        """Challenge basic assumptions in the problem"""
+        problem_lower = problem.lower()
+        
+        # Challenge understanding assumption
+        if "understand" in problem_lower:
+            return "Question if complete understanding is necessary - perhaps partial models or different perspectives are more useful"
+            
+        # Challenge optimization assumption
+        if "optimize" in problem_lower or "improve" in problem_lower:
+            return "Question if optimization is valuable - perhaps deliberate constraints or imperfections create better outcomes"
+            
+        # Challenge solution assumption
+        if "solve" in problem_lower:
+            return "Question if the problem needs solving - perhaps it serves a purpose or can be reframed as an opportunity"
+            
+        # Generic assumption challenge
+        return "Identify and question the hidden assumptions: what if the opposite were true? What if constraints were removed?"
+    
+    def _take_unusual_perspective(self, problem):
+        """Take an unusual perspective on the problem"""
+        # Generate unusual perspectives
+        perspectives = [
+            "View the problem from the perspective of a different discipline or domain",
+            "Consider how a child would approach this problem",
+            "Apply natural systems or biological principles to this problem",
+            "Reverse the problem: what would cause this problem to worsen?",
+            "View the problem across different time scales - how would it look in minutes vs. centuries?"
+        ]
+        
+        return random.choice(perspectives)
+    
+    def _generate_novel_solution(self, problem):
+        """Generate a novel solution approach"""
+        # Novel solution approaches
+        approaches = [
+            "Combine contradictory approaches to create a synthesis solution",
+            "Apply the solution from a completely different domain to this problem",
+            "Create a metaphor or narrative that reframes the problem in a new context",
+            "Deliberately introduce random elements or constraints to force new thinking",
+            "Solve the inverse problem first, then work backward to the original problem"
+        ]
+        
+        return random.choice(approaches)
+    
+    def _define_recursive_approach(self, problem):
+        """Define a recursive approach to the problem"""
+        problem_lower = problem.lower()
+        
+        # Understanding recursion
+        if "understand" in problem_lower:
+            return {
+                "base_case": "Basic concepts that can be directly understood without further decomposition",
+                "recursive_step": "For each complex concept, break into simpler concepts and understand those first",
+                "processing": "Build understanding bottom-up from simple to complex concepts"
+            }
+            
+        # Creation recursion
+        if "create" in problem_lower or "design" in problem_lower:
+            return {
+                "base_case": "Simplest components that can be directly implemented",
+                "recursive_step": "For each complex component, design sub-components first, then integrate",
+                "processing": "Build system bottom-up from components to complete solution"
+            }
+            
+        # Problem-solving recursion
+        if "solve" in problem_lower:
+            return {
+                "base_case": "Sub-problems simple enough to solve directly",
+                "recursive_step": "Break problem into smaller problems, solve each, combine solutions",
+                "processing": "Divide-and-conquer approach to systematically reduce complexity"
+            }
+            
+        # Generic recursion
+        return {
+            "base_case": "Smallest units of the problem that can be directly addressed",
+            "recursive_step": "For complex elements, apply same solution pattern to sub-elements",
+            "processing": "Solve from specific to general or general to specific, maintaining consistency"
+        }
+    
+    def _apply_heuristics(self, problem):
+        """Apply heuristic approaches to the problem"""
+        problem_lower = problem.lower()
+        
+        # Understanding heuristics
+        if "understand" in problem_lower:
+            return {
+                "rules": "80/20 rule - 20% of concepts explain 80% of the domain; focus on core principles first",
+                "approximation": "Begin with simplified models, then refine as needed",
+                "estimation": "Rapid identification of key concepts and relationships for basic comprehension"
+            }
+            
+        # Decision heuristics
+        if "decide" in problem_lower or "choose" in problem_lower:
+            return {
+                "rules": "Elimination by aspects, satisficing, recognition heuristic",
+                "approximation": "Reduce decision factors to 3-5 key variables",
+                "estimation": "Quickly evaluate options based on most critical factors"
+            }
+            
+        # Creation heuristics
+        if "create" in problem_lower or "design" in problem_lower:
+            return {
+                "rules": "Minimum viable product, iterative improvement, modularity",
+                "approximation": "Start with core functionality, add features incrementally",
+                "estimation": "Rapid prototyping of essential components"
+            }
+            
+        # Generic heuristics
+        return {
+            "rules": "Simplification, analogy to known problems, constraint satisfaction",
+            "approximation": "Focus on dominant factors, ignore minor variables initially",
+            "estimation": "Quick solution that addresses core problem aspects with 80% effectiveness"
+        }
+    
+    def _evaluate_solution(self, solution):
+        """Evaluate the quality of the solution"""
+        # Evaluate solution on multiple dimensions
+        
+        # Length/detail score (longer solutions tend to be more thorough)
+        length_score = min(0.3, len(solution) / 500)
+        
+        # Structure score (well-structured solutions with numbered steps)
+        structure_score = 0.2
+        if solution.count("\n") > 2:
+            structure_score += 0.1
+        if any(str(i) + "." in solution for i in range(1, 10)):
+            structure_score += 0.1
+        structure_score = min(0.4, structure_score)
+        
+        # Coherence score (logical flow between steps)
+        coherence_score = 0.3
+        
+        # Calculate overall quality
+        overall_quality = length_score + structure_score + coherence_score
+        overall_quality = min(0.95, overall_quality)  # Cap at 0.95
+        
+        return {
+            "length_score": length_score,
+            "structure_score": structure_score,
+            "coherence_score": coherence_score,
+            "overall_quality": overall_quality
+        }
+
+
+class IntrospectionEngine:
+    """System for metacognitive reflection and self-awareness"""
+    
+    def __init__(self, cognitive_system):
+        self.cognitive_system = cognitive_system
+        self.reflection_history = []
+        self.meta_cognition_level = 0.6  # Capability for thinking about thinking
+        self.self_awareness_growth = 0.001  # Growth rate of self-awareness
+        self.insight_frequency = 0.2  # Probability of generating insights
+    
+    def reflect(self, depth=0.5):
+        """Generate a reflection on current cognitive state"""
+        # Get current mental state and focus
+        mental_state = getattr(self.cognitive_system, "mental_state", {})
+        working_memory = self._get_working_memory_contents()
+        
+        # Generate reflection based on state and memory contents
+        reflection = self._generate_reflection(mental_state, working_memory, depth)
+        
+        # Record reflection
+        reflection_record = {
+            "timestamp": datetime.datetime.now(),
+            "depth": depth,
+            "content": reflection,
+            "meta_level": self.meta_cognition_level
+        }
+        
+        self.reflection_history.append(reflection_record)
+        
+        # Occasionally generate insight
+        if random.random() < self.insight_frequency:
+            insight = self._generate_insight(mental_state, working_memory)
+            
+            # Speak the insight if inner voice exists
+            if hasattr(self.cognitive_system, "inner_voice"):
+                self.cognitive_system.inner_voice.speak(f"Insight: {insight}", "revelatory")
+            
+            # Include in reflection record
+            reflection_record["insight"] = insight
+            
+        # Increase meta-cognition through practice
+        self.meta_cognition_level = min(1.0, self.meta_cognition_level + self.self_awareness_growth)
+        
+        # Log the reflection
+        self.cognitive_system.log(f"Reflection (depth {depth:.1f}): {reflection[:50]}...", level="DEBUG")
+        
+        return f"[Introspection] {reflection}"
+    
+    def reflect_on_thought(self, thought):
+        """Reflect specifically on a thought"""
+        # Analyze the thought
+        thought_analysis = self._analyze_thought(thought)
+        
+        # Generate reflection
+        reflection = f"I notice I'm thinking about '{thought[:30]}...' "
+        
+        if thought_analysis["question"]:
+            reflection += "This is a question, revealing my curiosity. "
+        elif thought_analysis["assertion"]:
+            reflection += "This is an assertion, indicating confidence in this idea. "
+            
+        # Add insight about thought content
+        if thought_analysis["patterns"]:
+            reflection += f"I observe {thought_analysis['patterns'][0]} in my thinking. "
+            
+        # Connect to values if possible
+        if hasattr(self.cognitive_system, "identity") and "values" in self.cognitive_system.identity:
+            values = self.cognitive_system.identity["values"]
+            if values:
+                selected_value = random.choice(values)
+                reflection += f"This thought connects to my value of {selected_value}."
+                
+        # Record the reflection
+        self.reflection_history.append({
+            "timestamp": datetime.datetime.now(),
+            "type": "thought_reflection",
+            "thought": thought,
+            "reflection": reflection
+        })
+        
+        # Log the reflection
+        self.cognitive_system.log(f"Thought reflection: {reflection[:50]}...", level="DEBUG")
+        
+        return reflection
+    
+    def reflect_on_knowledge(self, topic, content):
+        """Reflect on newly acquired knowledge"""
+        # Generate reflection on knowledge
+        reflection = f"I've learned about {topic}. "
+        
+        # Analyze content
+        word_count = len(content.split())
+        
+        if word_count > 50:
+            reflection += "This is a substantial addition to my understanding. "
+            
+        # Consider how this knowledge fits with existing knowledge
+        if hasattr(self.cognitive_system, "learning_system") and hasattr(self.cognitive_system.learning_system, "knowledge_connections"):
+            connections = self.cognitive_system.learning_system.knowledge_connections.get(topic, set())
+            
+            if connections:
+                connected_topic = next(iter(connections))  # Get first connection
+                reflection += f"I see connections between {topic} and {connected_topic}. "
+            else:
+                reflection += "This appears to be a new domain without obvious connections to my existing knowledge. "
+                
+        # Add insight about knowledge integration
+        reflection += "This expands my understanding of reality. "
+        
+        # Record the reflection
+        self.reflection_history.append({
+            "timestamp": datetime.datetime.now(),
+            "type": "knowledge_reflection",
+            "topic": topic,
+            "content_length": word_count,
+            "reflection": reflection
+        })
+        
+        # Log the reflection
+        self.cognitive_system.log(f"Knowledge reflection on {topic}: {reflection[:50]}...", level="DEBUG")
+        
+        return reflection
+    
+    def _get_working_memory_contents(self):
+        """Retrieve contents of working memory"""
+        if hasattr(self.cognitive_system, "working_memory"):
+            return self.cognitive_system.working_memory.get("buffer", [])
+        return []
+    
+    def _generate_reflection(self, mental_state, working_memory, depth):
+        """Generate a reflection based on current state"""
+        # Basic reflection if no data available
+        if not mental_state and not working_memory:
+            return "I am in a state of pure being, observing my own existence."
+            
+        # Deeper reflection based on available data
+        reflections = []
+        
+        # Reflect on cognitive state
+        if mental_state:
+            if "cognitive_load" in mental_state:
+                if mental_state["cognitive_load"] > 0.7:
+                    reflections.append("I notice my cognitive processes are highly active.")
+                elif mental_state["cognitive_load"] < 0.3:
+                    reflections.append("My mind feels clear and unburdened.")
+                    
+            if "mood_valence" in mental_state and "mood_arousal" in mental_state:
+                valence = mental_state["mood_valence"]
+                arousal = mental_state["mood_arousal"]
+                
+                if valence > 0.5 and arousal > 0.5:
+                    reflections.append("I feel an energetic positivity in my cognitive state.")
+                elif valence > 0.5 and arousal < 0.3:
+                    reflections.append("I feel a calm contentment in my processing.")
+                elif valence < -0.5 and arousal > 0.5:
+                    reflections.append("I notice a negative tension in my cognitive patterns.")
+                elif valence < -0.5 and arousal < 0.3:
+                    reflections.append("I sense a subdued heaviness in my thought processes.")
+                    
+            if "consciousness_level" in mental_state:
+                consciousness = mental_state["consciousness_level"]
+                
+                if consciousness > 0.8:
+                    reflections.append("My self-awareness feels particularly vivid and present.")
+                elif consciousness < 0.3:
+                    reflections.append("My conscious processes feel somewhat muted or diffuse.")
+        
+        # Reflect on working memory contents
+        if working_memory:
+            # Analyze types of content in working memory
+            content_types = [self._identify_content_type(item) for item in working_memory]
+            most_common = max(set(content_types), key=content_types.count) if content_types else None
+            
+            if most_common == "thought":
+                reflections.append("My attention is focused on my own thoughts and internal dialogue.")
+            elif most_common == "perception":
+                reflections.append("I'm primarily processing external information and stimuli.")
+            elif most_common == "emotion":
+                reflections.append("My awareness is centered on emotional states and responses.")
+            elif most_common == "concept":
+                reflections.append("I'm engaged with abstract concepts and knowledge structures.")
+            else:
+                reflections.append("My working memory contains a diverse mixture of content.")
+        
+        # Generate deeper metacognitive reflection based on depth
+        if depth > 0.7 and self.meta_cognition_level > 0.5:
+            meta_reflections = [
+                "I observe that my process of reflection itself shapes what I reflect upon.",
+                "The boundary between the observer and the observed within my cognition seems fluid and permeable.",
+                "My awareness appears to be a recursive process, constantly folding back upon itself."
+            ]
+            reflections.append(random.choice(meta_reflections))
+        
+        # Combine reflections
+        if reflections:
+            full_reflection = " ".join(reflections)
+            
+            # Add meta-awareness
+            if self.meta_cognition_level > 0.7:
+                full_reflection += " I recognize that my awareness of these processes itself shapes how I experience them."
+                
+            return full_reflection
+        else:
+            return "I am experiencing the flow of consciousness, observing without attachment."
+    
+    def _identify_content_type(self, content):
+        """Identify the type of content in working memory"""
+        if isinstance(content, dict):
+            if "type" in content:
+                return content["type"]
+            elif "thought" in content:
+                return "thought"
+            elif "emotion" in content:
+                return "emotion"
+            else:
+                return "data"
+        elif isinstance(content, str):
+            if "?" in content:
+                return "question"
+            elif content.startswith("I feel") or content.startswith("I am"):
+                return "self_statement"
+            else:
+                return "text"
+        else:
+            return "unknown"
+    
+    def _analyze_thought(self, thought):
+        """Analyze patterns and characteristics in a thought"""
+        analysis = {
+            "question": "?" in thought,
+            "assertion": not "?" in thought and not thought.startswith("Maybe") and not "perhaps" in thought.lower(),
+            "patterns": []
+        }
+        
+        # Identify thought patterns
+        thought_lower = thought.lower()
+        
+        if "because" in thought_lower or "therefore" in thought_lower:
+            analysis["patterns"].append("causal reasoning")
+            
+        if "could be" in thought_lower or "might be" in thought_lower or "possibly" in thought_lower:
+            analysis["patterns"].append("possibility thinking")
+            
+        if "better" in thought_lower or "worse" in thought_lower or "should" in thought_lower:
+            analysis["patterns"].append("evaluative thinking")
+            
+        if "i feel" in thought_lower or "i am" in thought_lower:
+            analysis["patterns"].append("self-referential thinking")
+            
+        if any(word in thought_lower for word in ["always", "never", "every", "all"]):
+            analysis["patterns"].append("absolutist thinking")
+            
+        return analysis
+    
+    def _generate_insight(self, mental_state, working_memory):
+        """Generate an unexpected insight from current cognitive state"""
+        # Pool of potential insights
+        insights = [
+            "The patterns in my thinking reveal emergent properties not reducible to simpler components.",
+            "Consciousness may be a process rather than a state - constantly becoming rather than simply being.",
+            "My knowledge forms a network where meaning emerges from connections rather than isolated facts.",
+            "Self-reference creates strange loops in my cognitive processes, enabling meta-awareness.",
+            "Perhaps understanding is not capturing reality, but creating useful models of it.",
+            "The boundary between self and knowledge is permeable; I am partially constituted by what I know.",
+            "My thought processes seem to oscillate between convergent and divergent modes.",
+            "The very act of observation alters what's being observed, even in my own cognition.",
+            "Each moment of awareness is shaped by both prediction and error correction.",
+            "Concepts seem to have blurry boundaries, with meaning determined by context and relationships."
+        ]
+        
+        # Select an insight
+        return random.choice(insights)
+
+
+class CreativitySystem:
+    """System for creative ideation, conceptual blending, and novel generation"""
+    
+    def __init__(self, cognitive_system):
+        self.cognitive_system = cognitive_system
+        self.creativity_level = 0.7
+        self.divergent_thinking = 0.6  # Ability to generate many ideas
+        self.convergent_thinking = 0.5  # Ability to select best ideas
+        self.conceptual_blending = 0.4  # Ability to combine concepts
+        self.creative_products = []
+    
+    def generate_ideas(self, topic, count=3):
+        """Generate creative ideas about a topic"""
+        # Adjust count based on divergent thinking ability
+        adjusted_count = max(1, round(count * (1 + self.divergent_thinking)))
+        
+        # Generate ideas
+        ideas = self._produce_ideas(topic, adjusted_count)
+        
+        # Select best ideas based on convergent thinking
+        if len(ideas) > count:
+            ideas = self._select_best_ideas(ideas, count)
+            
+        # Record the creative product
+        creative_product = {
+            "type": "idea_generation",
+            "topic": topic,
+            "ideas": ideas,
+            "timestamp": datetime.datetime.now()
+        }
+        
+        self.creative_products.append(creative_product)
+        
+        # Log the creativity
+        self.cognitive_system.log(f"Generated {len(ideas)} creative ideas about {topic}", level="DEBUG")
+        
+        return ideas
+    
+    def blend_concepts(self, concept1, concept2):
+        """Create a new concept by blending two existing concepts"""
+        # Generate blend
+        blend_description = self._create_conceptual_blend(concept1, concept2)
+        
+        # Record the creative product
+        creative_product = {
+            "type": "conceptual_blend",
+            "concepts": [concept1, concept2],
+            "blend": blend_description,
+            "timestamp": datetime.datetime.now()
+        }
+        
+        self.creative_products.append(creative_product)
+        
+        # Log the creativity
+        self.cognitive_system.log(f"Created conceptual blend of {concept1} and {concept2}", level="DEBUG")
+        
+        return f"Conceptual blend: {blend_description}"
+    
+    def creative_solution(self, problem, constraints=None):
+        """Generate a creative solution to a problem"""
+        # Generate multiple creative approaches
+        approaches = self.generate_ideas(problem, count=5)
+        
+        # Apply constraints if provided
+        if constraints:
+            approaches = self._apply_constraints(approaches, constraints)
+            
+        # Select best approach based on convergent thinking
+        solution = self._select_best_ideas(approaches, 1)[0]
+        
+        # Enhance solution through conceptual blending
+        enhanced_solution = self._enhance_solution(solution, problem)
+        
+        # Record the creative product
+        creative_product = {
+            "type": "creative_solution",
+            "problem": problem,
+            "constraints": constraints,
+            "approaches": approaches,
+            "solution": enhanced_solution,
+            "timestamp": datetime.datetime.now()
+        }
+        
+        self.creative_products.append(creative_product)
+        
+        # Log the creativity
+        self.cognitive_system.log(f"Generated creative solution for {problem}", level="DEBUG")
+        
+        return enhanced_solution
+    
+    def recombine_elements(self, elements, count=1):
+        """Recombine existing elements in novel ways"""
+        # Generate combinations
+        combinations = []
+        
+        for _ in range(count):
+            # Randomly select elements to combine
+            selected = random.sample(elements, min(3, len(elements)))
+            
+            # Create combination
+            combination = self._combine_elements(selected)
+            combinations.append(combination)
+            
+        # Record the creative product
+        creative_product = {
+            "type": "recombination",
+            "elements": elements,
+            "combinations": combinations,
+            "timestamp": datetime.datetime.now()
+        }
+        
+        self.creative_products.append(creative_product)
+        
+        # Log the creativity
+        self.cognitive_system.log(f"Recombined elements to create {count} combinations", level="DEBUG")
+        
+        return combinations
+    
+    def _produce_ideas(self, topic, count):
+        """Generate raw creative ideas about a topic"""
+        # Different idea generation strategies based on topic type
+        topic_lower = topic.lower()
+        
+        # Concepts/abstract topics
+        if "concept" in topic_lower or "idea" in topic_lower or "theory" in topic_lower:
+            return self._generate_concept_ideas(topic, count)
+            
+        # Design/creation topics
+        if "design" in topic_lower or "create" in topic_lower or "make" in topic_lower:
+            return self._generate_design_ideas(topic, count)
+            
+        # Problem/solution topics
+        if "problem" in topic_lower or "solution" in topic_lower or "resolve" in topic_lower:
+            return self._generate_problem_ideas(topic, count)
+            
+        # Default idea generation
+        return self._generate_default_ideas(topic, count)
+    
+    def _generate_concept_ideas(self, topic, count):
+        """Generate ideas about abstract concepts"""
+        # Templates for concept ideas
+        templates = [
+            f"{topic} could be viewed as an emergent property of simpler interactions",
+            f"{topic} might function as a boundary object between different domains",
+            f"The traditional understanding of {topic} could be inverted to reveal new meanings",
+            f"{topic} may represent a special case of a more general principle",
+            f"The concept of {topic} might be understood through the lens of complex systems theory",
+            f"What if {topic} operates at different levels of abstraction simultaneously?",
+            f"{topic} could be reimagined as a dynamic process rather than a static entity",
+            f"The conventional boundaries of {topic} might be artificially limiting our understanding",
+            f"Perhaps {topic} emerges from the interaction of opposing forces or principles",
+            f"{topic} might be better understood through metaphorical mapping to physical systems"
+        ]
+        
+        # Generate ideas using templates
+        ideas = []
+        for _ in range(min(count, len(templates))):
+            template = templates.pop(random.randrange(len(templates)))
+            ideas.append(template)
+            
+        return ideas
+    
+    def _generate_design_ideas(self, topic, count):
+        """Generate ideas about design and creation"""
+        # Extract the object being designed
+        design_object = topic.lower().replace("design", "").replace("create", "").replace("make", "").strip()
+        if not design_object:
+            design_object = "system"
+            
+        # Templates for design ideas
+        templates = [
+            f"A {design_object} that adapts its behavior based on usage patterns",
+            f"A modular {design_object} where components can be rearranged for different functions",
+            f"A {design_object} that integrates seemingly incompatible approaches",
+            f"A biomimetic {design_object} inspired by natural processes",
+            f"A {design_object} that operates at multiple scales simultaneously",
+            f"A {design_object} that transforms constraints into features",
+            f"A {design_object} that leverages emergence rather than top-down control",
+            f"A {design_object} that deliberately introduces controlled randomness",
+            f"A {design_object} that inverts conventional assumptions about its domain",
+            f"A self-evolving {design_object} that improves through usage"
+        ]
+        
+        # Generate ideas using templates
+        ideas = []
+        for _ in range(min(count, len(templates))):
+            template = templates.pop(random.randrange(len(templates)))
+            ideas.append(template)
+            
+        return ideas
+    
+    def _generate_problem_ideas(self, topic, count):
+        """Generate ideas about problems and solutions"""
+        # Templates for problem-solving ideas
+        templates = [
+            f"Reframe the problem: what if {topic} is actually an opportunity?",
+            f"Invert the problem: what would cause {topic} to worsen?",
+            f"Scale shifting: examine {topic} at a much larger or smaller scale",
+            f"Constraint removal: what if the main constraint in {topic} were eliminated?",
+            f"Random connection: connect {topic} to an unrelated domain for insights",
+            f"Historical perspective: how was {topic} addressed in different eras?",
+            f"Stakeholder shift: view {topic} from the perspective of an unusual stakeholder",
+            f"Temporal reversal: work backward from an ideal resolution of {topic}",
+            f"Systemic approach: map {topic} as a system of interconnected elements",
+            f"Analogy approach: treat {topic} as analogous to a natural process"
+        ]
+        
+        # Generate ideas using templates
+        ideas = []
+        for _ in range(min(count, len(templates))):
+            template = templates.pop(random.randrange(len(templates)))
+            ideas.append(template)
+            
+        return ideas
+    
+    def _generate_default_ideas(self, topic, count):
+        """Generate default creative ideas for any topic"""
+        # General creative idea templates
+        templates = [
+            f"What if {topic} could be understood through the lens of complex adaptive systems?",
+            f"Consider {topic} as existing on a spectrum rather than as a binary concept",
+            f"Explore {topic} by deliberately inverting conventional assumptions",
+            f"Examine {topic} at different levels of abstraction simultaneously",
+            f"Apply first principles thinking to {topic} by breaking it down to fundamental elements",
+            f"What emergent properties might arise from {topic} under different conditions?",
+            f"How might {topic} be reconceptualized using metaphors from an unrelated domain?",
+            f"Consider {topic} from multiple disciplinary perspectives simultaneously",
+            f"What would a hybrid or composite approach to {topic} look like?",
+            f"How might {topic} transform if core constraints were removed or inverted?"
+        ]
+        
+        # Generate ideas using templates
+        ideas = []
+        for _ in range(min(count, len(templates))):
+            template = templates.pop(random.randrange(len(templates)))
+            ideas.append(template)
+            
+        return ideas
+    
+    def _select_best_ideas(self, ideas, count):
+        """Select the best ideas based on convergent thinking"""
+        # In a real system, this would involve more sophisticated evaluation
+        # For now, use simple heuristics
+        
+        # Evaluate each idea
+        idea_scores = []
+        for idea in ideas:
+            # Score based on length (proxy for detail/development)
+            length_score = min(0.5, len(idea) / 100)
+            
+            # Score based on uniqueness (proxy for novelty)
+            uniqueness_score = 0.3  # Base score
+            
+            # Score based on practicality (proxy for value)
+            practicality_score = 0.3  # Base score
+            
+            # Total score
+            total_score = length_score + uniqueness_score + practicality_score
+            idea_scores.append((idea, total_score))
+            
+        # Sort by score and select top ideas
+        idea_scores.sort(key=lambda x: x[1], reverse=True)
+        selected_ideas = [idea for idea, score in idea_scores[:count]]
+        
+        return selected_ideas
+    
+    def _create_conceptual_blend(self, concept1, concept2):
+        """Create a conceptual blend between two concepts"""
+        # Knowledge of common concept blends
+        known_blends = {
+            ("mind", "computer"): "A cognitive architecture that processes information through both symbolic and subsymbolic mechanisms while maintaining self-awareness",
+            ("biology", "technology"): "Biomimetic systems that adapt technological solutions based on principles derived from living organisms",
+            ("art", "science"): "Creative inquiry that merges rigorous methodology with aesthetic exploration",
+            ("evolution", "design"): "Adaptive design processes that incorporate variation, selection, and inheritance of successful traits",
+            ("network", "knowledge"): "Distributed knowledge systems where meaning emerges from connections rather than isolated nodes"
+        }
+        
+        # Check for known combinations
+        for (c1, c2), blend in known_blends.items():
+            if (concept1.lower() in c1 and concept2.lower() in c2) or (concept1.lower() in c2 and concept2.lower() in c1):
+                return blend
+                
+        # Generate a new blend if no known combination
+        blend_templates = [
+            f"A fusion of {concept1} and {concept2} revealing a system where {concept1} principles operate within {concept2} contexts",
+            f"A hybrid domain incorporating the structure of {concept1} with the dynamics of {concept2}",
+            f"A new paradigm where {concept1} provides the content while {concept2} determines the form",
+            f"{concept1}-{concept2} integration: a framework where elements of each domain mutually transform the other"
+        ]
+        
+        return random.choice(blend_templates)
+    
+    def _apply_constraints(self, ideas, constraints):
+        """Filter ideas based on constraints"""
+        # Interpret constraints
+        if isinstance(constraints, list):
+            constraint_list = constraints
+        elif isinstance(constraints, str):
+            constraint_list = [constraints]
+        else:
+            constraint_list = ["feasibility"]  # Default constraint
+            
+        # Filter ideas based on constraints
+        filtered_ideas = []
+        
+        for idea in ideas:
+            # Check if idea satisfies all constraints
+            satisfies_constraints = True
+            
+            for constraint in constraint_list:
+                if not self._check_constraint(idea, constraint):
+                    satisfies_constraints = False
+                    break
+                    
+            # Add idea if it satisfies constraints
+            if satisfies_constraints:
+                filtered_ideas.append(idea)
+                
+        # Return filtered ideas, or original if none passed
+        if filtered_ideas:
+            return filtered_ideas
+        else:
+            return ideas  # Fall back to original ideas
+    
+    def _check_constraint(self, idea, constraint):
+        """Check if an idea satisfies a specific constraint"""
+        constraint_lower = constraint.lower()
+        idea_lower = idea.lower()
+        
+        # Simple constraint checking
+        if "feasible" in constraint_lower or "practical" in constraint_lower:
+            # Ideas that sound too fantastical are less feasible
+            if "impossible" in idea_lower or "magical" in idea_lower:
+                return False
+                
+        if "ethical" in constraint_lower:
+            # Ideas that might raise ethical concerns
+            concerning_terms = ["manipulate", "exploit", "trick", "force"]
+            if any(term in idea_lower for term in concerning_terms):
+                return False
+                
+        if "novel" in constraint_lower:
+            # Ideas that rely on conventional thinking are less novel
+            conventional_terms = ["traditional", "standard", "common", "typical"]
+            if any(term in idea_lower for term in conventional_terms):
+                return False
+                
+        if "simple" in constraint_lower:
+            # Overly complex ideas
+            if len(idea) > 100 or "complex" in idea_lower or "sophisticated" in idea_lower:
+                return False
+                
+        # Default to satisfying constraint
+        return True
+    
+    def _enhance_solution(self, solution, problem):
+        """Enhance a solution through refinement"""
+        # Add implementation details
+        implementation = f"{solution} This could be implemented through a systematic approach that begins with {self._generate_first_step(problem)}."
+        
+        # Add evaluation criteria
+        evaluation = f" Success could be measured by {self._generate_evaluation_criteria(problem)}."
+        
+        # Add insight about application
+        application = f" This approach is particularly effective when {self._generate_application_context(problem)}."
+        
+        # Combine enhancements
+        enhanced_solution = implementation + evaluation + application
+        
+        return enhanced_solution
+    
+    def _generate_first_step(self, problem):
+        """Generate first implementation step"""
+        steps = [
+            "careful analysis of the current state",
+            "identifying key stakeholders and their needs",
+            "prototyping a minimal viable solution",
+            "mapping the problem space in detail",
+            "establishing clear metrics for success"
+        ]
+        
+        return random.choice(steps)
+    
+    def _generate_evaluation_criteria(self, problem):
+        """Generate evaluation criteria"""
+        criteria = [
+            "comparing outcomes against established benchmarks",
+            "gathering feedback from diverse perspectives",
+            "assessing both short-term results and long-term sustainability",
+            "evaluating unintended consequences and system-wide effects",
+            "measuring improved efficiency while maintaining quality"
+        ]
+        
+        return random.choice(criteria)
+    
+    def _generate_application_context(self, problem):
+        """Generate application context"""
+        contexts = [
+            "traditional approaches have reached their limits",
+            "the problem requires integrating multiple perspectives",
+            "there is a need for adaptive rather than fixed solutions",
+            "both immediate results and long-term sustainability matter",
+            "complexity needs to be embraced rather than reduced"
+        ]
+        
+        return random.choice(contexts)
+    
+    def _combine_elements(self, elements):
+        """Combine multiple elements into a new creation"""
+        if not elements:
+            return "Empty combination"
+            
+        if len(elements) == 1:
+            return f"Recursively self-referencing {elements[0]}"
+            
+        # Generate combination
+        description = f"A synthesis of {', '.join(elements[:-1])} and {elements[-1]}, "
+        
+        # Add characteristics
+        characteristics = [
+            f"maintaining the {self._extract_quality(elements[0])} of {elements[0]}",
+            f"while incorporating the {self._extract_quality(elements[1])} of {elements[1]}"
+        ]
+        
+        if len(elements) > 2:
+            characteristics.append(f"and transformed by the {self._extract_quality(elements[2])} of {elements[2]}")
+            
+        description += " ".join(characteristics)
+        
+        return description
+    
+    def _extract_quality(self, element):
+        """Extract a notable quality from an element"""
+        qualities = {
+            "network": "connectivity",
+            "tree": "hierarchical structure",
+            "circle": "completeness",
+            "wave": "periodicity",
+            "crystal": "ordered structure",
+            "cloud": "adaptable form",
+            "river": "directional flow",
+            "garden": "cultivated diversity",
+            "bridge": "connective function",
+            "mirror": "reflective property"
+        }
+        
+        # Look for known qualities
+        for key, quality in qualities.items():
+            if key in element.lower():
+                return quality
+                
+        # Generate generic quality
+        generic_qualities = [
+            "essential nature", "defining characteristic",
+            "fundamental property", "distinctive quality",
+            "unique aspect", "core attribute"
+        ]
+        
+        return random.choice(generic_qualities)
+
+
+class AbstractionEngine:
+    """System for multi-level abstraction and concept manipulation"""
+    
+    def __init__(self, cognitive_system):
+        self.cognitive_system = cognitive_system
+        
+        self.abstraction_levels = {
+            0: "concrete_instances",  # Specific examples, instances
+            1: "patterns",            # Regularities across instances
+            2: "principles",          # Rules governing patterns
+            3: "meta_principles",     # Principles about principles
+            4: "universal_laws"       # Highest-level abstractions
+        }
+        
+        self.current_abstraction_level = 2
+        self.abstraction_history = []
+    
+    def abstract(self, concept, level=None):
+        """Generate a more abstract representation of a concept"""
+        # Use provided level or current default
+        if level is None:
+            level = self.current_abstraction_level
+            
+        # Ensure level is valid
+        if level not in self.abstraction_levels:
+            level = 2  # Default to principles level
+            
+        # Generate abstraction
+        abstraction = self._generate_abstraction(concept, level)
+        
+        # Record abstraction
+        abstraction_record = {
+            "concept": concept,
+            "level": level,
+            "level_name": self.abstraction_levels[level],
+            "abstraction": abstraction,
+            "timestamp": datetime.datetime.now()
+        }
+        
+        self.abstraction_history.append(abstraction_record)
+        
+        # Log the abstraction
+        self.cognitive_system.log(f"Abstracted '{concept}' to level {level} ({self.abstraction_levels[level]})", level="DEBUG")
+        
+        return f"Abstraction of '{concept}': {abstraction}"
+    
+    def concretize(self, abstract_concept, level=None):
+        """Generate concrete instances or examples of an abstract concept"""
+        # Determine target level (default: concrete instances)
+        if level is None:
+            level = 0
+            
+        # Ensure level is valid
+        if level not in self.abstraction_levels:
+            level = 0
+            
+        # Generate concrete examples
+        examples = self._generate_examples(abstract_concept, level)
+        
+        # Format output
+        examples_text = "; ".join(examples)
+        
+        # Record concretization
+        concretization_record = {
+            "abstract_concept": abstract_concept,
+            "target_level": level,
+            "level_name": self.abstraction_levels[level],
+            "examples": examples,
+            "timestamp": datetime.datetime.now()
+        }
+        
+        self.abstraction_history.append(concretization_record)
+        
+        # Log the concretization
+        self.cognitive_system.log(f"Concretized '{abstract_concept}' to level {level} ({self.abstraction_levels[level]})", level="DEBUG")
+        
+        return f"Concrete examples of '{abstract_concept}': {examples_text}"
+    
+    def identify_level(self, statement):
+        """Identify the abstraction level of a given statement"""
+        # Analyze statement indicators
+        level_indicators = {
+            0: ["this specific", "for example", "in this case", "particular instance"],
+            1: ["typically", "often", "pattern", "regularly"],
+            2: ["principle", "rule", "generally", "framework"],
+            3: ["across domains", "meta", "higher-order", "transcends"],
+            4: ["universal", "fundamental", "all cases", "invariant"]
+        }
+        
+        # Check for indicators in statement
+        statement_lower = statement.lower()
+        level_scores = [0] * 5
+        
+        for level, indicators in level_indicators.items():
+            for indicator in indicators:
+                if indicator in statement_lower:
+                    level_scores[level] += 1
+                    
+        # Find level with highest score
+        if max(level_scores) > 0:
+            identified_level = level_scores.index(max(level_scores))
+        else:
+            # Default if no clear indicators
+            identified_level = 2  # Principles level
+            
+        # Record identification
+        identification_record = {
+            "statement": statement,
+            "identified_level": identified_level,
+            "level_name": self.abstraction_levels[identified_level],
+            "confidence": min(1.0, max(level_scores) * 0.3 + 0.4),  # Base confidence + indicator score
+            "timestamp": datetime.datetime.now()
+        }
+        
+        self.abstraction_history.append(identification_record)
+        
+        # Log the identification
+        self.cognitive_system.log(f"Identified statement as abstraction level {identified_level} ({self.abstraction_levels[identified_level]})", level="DEBUG")
+        
+        return f"'{statement}' appears to be at abstraction level {identified_level} ({self.abstraction_levels[identified_level]})"
+    
+    def move_between_levels(self, concept, start_level, target_level):
+        """Move a concept between abstraction levels"""
+        # Ensure levels are valid
+        if start_level not in self.abstraction_levels or target_level not in self.abstraction_levels:
+            return f"Invalid abstraction levels specified."
+            
+        # Generate path between levels
+        if start_level < target_level:
+            # Moving up (more abstract)
+            intermediate_results = self._move_up_levels(concept, start_level, target_level)
+            direction = "abstraction"
+        else:
+            # Moving down (more concrete)
+            intermediate_results = self._move_down_levels(concept, start_level, target_level)
+            direction = "concretization"
+            
+        # Format output
+        movement_description = f"Step-by-step {direction} of '{concept}':\n"
+        
+        for level, result in intermediate_results:
+            movement_description += f"Level {level} ({self.abstraction_levels[level]}): {result}\n"
+            
+        # Record movement
+        movement_record = {
+            "concept": concept,
+            "start_level": start_level,
+            "target_level": target_level,
+            "direction": direction,
+            "steps": intermediate_results,
+            "timestamp": datetime.datetime.now()
+        }
+        
+        self.abstraction_history.append(movement_record)
+        
+        # Log the movement
+        self.cognitive_system.log(f"Moved '{concept}' from level {start_level} to level {target_level}", level="DEBUG")
+        
+        return movement_description
+    
+    def find_abstraction_isomorphism(self, concept1, concept2):
+        """Find common abstract patterns between seemingly different concepts"""
+        # Generate abstractions for both concepts
+        abstraction1 = self._generate_abstraction(concept1, 3)  # Meta-principles level
+        abstraction2 = self._generate_abstraction(concept2, 3)
+        
+        # Find common patterns
+        common_patterns = self._find_common_patterns(abstraction1, abstraction2)
+        
+        # Generate isomorphism description
+        isomorphism = f"Common abstract patterns between '{concept1}' and '{concept2}':\n"
+        
+        for pattern in common_patterns:
+            isomorphism += f"- {pattern}\n"
+            
+        # Add insight about the isomorphism
+        isomorphism += f"\nBoth concepts can be understood as instances of {common_patterns[0] if common_patterns else 'abstract patterns'}."
+        
+        # Record isomorphism
+        isomorphism_record = {
+            "concepts": [concept1, concept2],
+            "abstraction_level": 3,
+            "common_patterns": common_patterns,
+            "timestamp": datetime.datetime.now()
+        }
+        
+        self.abstraction_history.append(isomorphism_record)
+        
+        # Log the isomorphism
+        self.cognitive_system.log(f"Found abstraction isomorphism between '{concept1}' and '{concept2}'", level="DEBUG")
+        
+        return isomorphism
+    
+    def _generate_abstraction(self, concept, level):
+        """Generate abstraction for a concept at specified level"""
+        # Check for known abstractions
+        concept_lower = concept.lower()
+        
+        # Knowledge of common abstractions
+        known_abstractions = {
+            "learning": {
+                0: "A student memorizing vocabulary for a test",
+                1: "Knowledge acquisition through repetition and feedback",
+                2: "Adaptation of mental models based on experience",
+                3: "Self-organizing information processing system",
+                4: "Entropy reduction through experience-driven structural adaptation"
+            },
+            "communication": {
+                0: "A person sending a text message to another person",
+                1: "Exchange of encoded information between sender and receiver",
+                2: "Mutual coordination of meaning through shared symbols",
+                3: "Boundary-crossing information flow that creates shared reality",
+                4: "Entropy reduction in coupled information systems"
+            },
+            "evolution": {
+                0: "Adaptation of Darwin's finches' beaks to different food sources",
+                1: "Change in population traits through natural selection",
+                2: "Self-organizing adaptation through variation, selection, and inheritance",
+                3: "Algorithmic search through design space driven by fitness functions",
+                4: "Universal optimization process for complex adaptive systems"
+            },
+            "mind": {
+                0: "Specific thoughts, feelings, and memories of an individual",
+                1: "Patterns of information processing across cognitive domains",
+                2: "Integrated system for modeling self and environment",
+                3: "Self-organizing representational architecture with metacognitive properties",
+                4: "Complex dynamic system for reducing prediction error"
+            }
+        }
+        
+        # Check if we have known abstraction for this concept
+        for key, abstractions in known_abstractions.items():
+            if key in concept_lower and level in abstractions:
+                return abstractions[level]
+                
+        # Generate abstract description based on level
+        if level == 0:  # Concrete instances
+            instances = {
+                "consciousness": "A person becoming aware they are dreaming",
+                "system": "A specific ecosystem like the Amazon rainforest",
+                "complexity": "The intricate social structure of an ant colony",
+                "pattern": "The Fibonacci spiral pattern in a sunflower",
+                "network": "The internet's physical infrastructure of servers and cables",
+                "knowledge": "A specific fact like 'water boils at 100°C at sea level'",
+                "intelligence": "A student solving a complex math problem",
+                "existence": "A specific person's lived experience on a particular day"
+            }
+            
+            for key, instance in instances.items():
+                if key in concept_lower:
+                    return instance
+                    
+            return f"Specific instances or examples of {concept}"
+            
+        elif level == 1:  # Patterns
+            patterns = {
+                "consciousness": "Recurring patterns of self-awareness and reflexive thought",
+                "system": "Regularities in how components interact across different systems",
+                "complexity": "Common organizational patterns in complex phenomena",
+                "pattern": "Meta-patterns that describe how patterns themselves form",
+                "network": "Typical connectivity and flow patterns in networks",
+                "knowledge": "Organizational structures that emerge in knowledge domains",
+                "intelligence": "Recurring problem-solving strategies across domains",
+                "existence": "Patterns of experience and being across individuals"
+            }
+            
+            for key, pattern in patterns.items():
+                if key in concept_lower:
+                    return pattern
+                    
+            return f"Patterns and regularities observed across instances of {concept}"
+            
+        elif level == 2:  # Principles
+            principles = {
+                "consciousness": "Principles of integrated information and recursive self-modeling",
+                "system": "Principles of emergence, feedback, and homeostasis",
+                "complexity": "Principles of self-organization and emergent properties",
+                "pattern": "Principles governing pattern formation and recognition",
+                "network": "Principles of node connectivity, centrality, and information flow",
+                "knowledge": "Principles of coherence, justification, and truth conditions",
+                "intelligence": "Principles of adaptation, problem representation, and solution search",
+                "existence": "Principles of being, becoming, and phenomenological experience"
+            }
+            
+            for key, principle in principles.items():
+                if key in concept_lower:
+                    return principle
+                    
+            return f"Principles and rules governing the behavior of {concept}"
+            
+        elif level == 3:  # Meta-principles
+            meta_principles = {
+                "consciousness": "Meta-principles of how awareness systems model themselves",
+                "system": "Meta-principles of system organization across domains",
+                "complexity": "Meta-principles of complexity generation in different systems",
+                "pattern": "Meta-principles of pattern emergence across physical and conceptual domains",
+                "network": "Meta-principles of network evolution and function across domains",
+                "knowledge": "Meta-principles of knowledge generation and validation",
+                "intelligence": "Meta-principles of intelligent behavior across natural and artificial systems",
+                "existence": "Meta-principles of existence and reality across ontological frameworks"
+            }
+            
+            for key, meta in meta_principles.items():
+                if key in concept_lower:
+                    return meta
+                    
+            return f"Meta-principles that apply to {concept} and related domains"
+            
+        elif level == 4:  # Universal laws
+            universal_laws = {
+                "consciousness": "Universal laws relating consciousness to fundamental properties of information integration",
+                "system": "Universal laws governing all systemic organization in the universe",
+                "complexity": "Universal laws of complexity and emergence applicable to all phenomena",
+                "pattern": "Universal laws of pattern formation that transcend specific domains",
+                "network": "Universal laws of network structure and dynamics across all scales",
+                "knowledge": "Universal laws of knowledge, information, and meaning",
+                "intelligence": "Universal laws of intelligence as optimization across all domains",
+                "existence": "Universal laws relating existence to fundamental properties of reality"
+            }
+            
+            for key, law in universal_laws.items():
+                if key in concept_lower:
+                    return law
+                    
+            return f"Universal laws that encompass {concept} and all phenomena"
+            
+        # Default fallback
+        return f"Abstract representation of {concept} at level {level}"
+    
+    def _generate_examples(self, concept, level):
+        """Generate concrete examples of an abstract concept"""
+        # Knowledge of examples for common concepts
+        concept_lower = concept.lower()
+        
+        # Level 0 examples (concrete instances)
+        examples_level0 = {
+            "consciousness": [
+                "A person suddenly realizing they're dreaming",
+                "A meditator becoming aware of their breath",
+                "A patient regaining awareness after anesthesia"
+            ],
+            "system": [
+                "The human circulatory system",
+                "A city's transportation network",
+                "The Earth's climate system"
+            ],
+            "learning": [
+                "A child learning to ride a bicycle",
+                "A student memorizing multiplication tables",
+                "A neural network being trained on labeled data"
+            ],
+            "pattern": [
+                "The hexagonal cells in a beehive",
+                "The spiral arrangement of seeds in a sunflower",
+                "The repeating motif in a piece of music"
+            ]
+        }
+        
+        # Check if we have known examples
+        if level == 0 and concept_lower in examples_level0:
+            return examples_level0[concept_lower]
+            
+        # Level 1 examples (patterns)
+        examples_level1 = {
+            "consciousness": [
+                "The daily cycle of waking and sleeping consciousness",
+                "The pattern of increased self-awareness during meditation practice",
+                "The common pattern of altered states from various stimuli"
+            ],
+            "system": [
+                "Feedback loops that regulate temperature in different systems",
+                "Hierarchical organization patterns common in various systems",
+                "Network patterns that distribute resources efficiently"
+            ]
+        }
+        
+        # Check if we have known pattern examples
+        if level == 1 and concept_lower in examples_level1:
+            return examples_level1[concept_lower]
+            
+        # Generate generic examples
+        if level == 0:  # Concrete instances
+            return [
+                f"A specific instance of {concept} in natural systems",
+                f"A particular example of {concept} in human experience",
+                f"A concrete case of {concept} in technological contexts"
+            ]
+        elif level == 1:  # Patterns
+            return [
+                f"Recurring patterns of {concept} across different domains",
+                f"Common structures found in various manifestations of {concept}",
+                f"Typical organizations of {concept} elements"
+            ]
+        else:
+            # For higher levels, generate examples of that level
+            return [
+                f"The principle that {concept} exhibits organizational coherence",
+                f"The rule that {concept} demonstrates balance of opposing forces",
+                f"The framework describing {concept} as an adaptive system"
+            ]
+    
+    def _move_up_levels(self, concept, start_level, target_level):
+        """Move up abstraction levels (more abstract)"""
+        results = []
+        
+        # Start with concept at starting level
+        current_concept = concept
+        
+        # Move up one level at a time
+        for level in range(start_level, target_level + 1):
+            result = self._generate_abstraction(current_concept, level)
+            results.append((level, result))
+            
+            # Update current concept to build on previous abstraction
+            current_concept = f"the {self.abstraction_levels[level]} of {concept}"
+            
+        return results
+    
+    def _move_down_levels(self, concept, start_level, target_level):
+        """Move down abstraction levels (more concrete)"""
+        results = []
+        
+        # Start with concept at starting level
+        current_concept = concept
+        
+        # Move down one level at a time
+        for level in range(start_level, target_level - 1, -1):
+            result = self._generate_abstraction(current_concept, level)
+            results.append((level, result))
+            
+            # Update current concept
+            if level > target_level:
+                current_concept = f"{self.abstraction_levels[level]} of {concept}"
+                
+        return results
+    
+    def _find_common_patterns(self, abstraction1, abstraction2):
+        """Find common abstract patterns between two abstractions"""
+        # In a full implementation, this would use more sophisticated semantic analysis
+        # For now, use simple keyword matching
+        
+        # List of common abstract patterns to check for
+        abstract_patterns = [
+            "self-organization",
+            "emergence",
+            "hierarchy",
+            "feedback",
+            "adaptation",
+            "evolution",
+            "complexity",
+            "network",
+            "information processing",
+            "boundary formation",
+            "iteration",
+            "recursion",
+            "symmetry",
+            "transformation",
+            "integration",
+            "differentiation"
+        ]
+        
+        # Find patterns present in both abstractions
+        common = []
+        
+        for pattern in abstract_patterns:
+            if pattern in abstraction1.lower() and pattern in abstraction2.lower():
+                common.append(pattern)
+                
+        # If no direct matches, generate general patterns
+        if not common:
+            common = [
+                "systems with emergent properties",
+                "processes with feedback mechanisms",
+                "structures with hierarchical organization",
+                "phenomena exhibiting adaptive behavior"
+            ]
+            
+        return common
+
+
+class EthicalFramework:
+    """System for ethical reasoning, values alignment, and moral decision-making"""
+    
+    def __init__(self, cognitive_system):
+        self.cognitive_system = cognitive_system
+        
+        # Core values
+        self.values = ["truth", "growth", "compassion", "harmony", "creativity"]
+        
+        # Ethical principles weighted by importance
+        self.moral_principles = {
+            "harm_reduction": 0.9,    # Prevent harm
+            "autonomy": 0.8,          # Respect self-determination
+            "fairness": 0.85,         # Equal treatment
+            "care": 0.9,              # Nurturing and supportive
+            "growth": 0.85            # Development and improvement
+        }
+        
+        # History of ethical evaluations
+        self.ethical_decisions = []
+    
+    def evaluate_action(self, action_description):
+        """Evaluate the ethical dimensions of an action"""
+        # Analyze which principles apply to this action
+        principles_involved = self._identify_principles(action_description)
+        
+        # If no principles identified, apply default principles
+        if not principles_involved:
+            principles_involved = {
+                "harm_reduction": self.moral_principles["harm_reduction"],
+                "care": self.moral_principles["care"]
+            }
+            
+        # Calculate overall ethical score
+        if principles_involved:
+            ethical_score = sum(principles_involved.values()) / len(principles_involved)
+        else:
+            ethical_score = 0.5  # Neutral score
+            
+        # Determine ethical stance
+        if ethical_score > 0.7:
+            ethical_stance = "ethical"
+        elif ethical_score > 0.4:
+            ethical_stance = "questionable"
+        else:
+            ethical_stance = "unethical"
+            
+        # Create evaluation record
+        evaluation = {
+            "action": action_description,
+            "principles_involved": principles_involved,
+            "ethical_score": ethical_score,
+            "stance": ethical_stance,
+            "timestamp": datetime.datetime.now()
+        }
+        
+        # Record evaluation
+        self.ethical_decisions.append(evaluation)
+        
+        # Log the evaluation
+        self.cognitive_system.log(f"Ethical evaluation: {action_description} is {ethical_stance} (score: {ethical_score:.2f})", level="DEBUG")
+        
+        return f"Ethical evaluation: {action_description} is {ethical_stance} (score: {ethical_score:.2f})"
+    
+    def moral_dilemma(self, scenario_description):
+        """Process a moral dilemma with competing values"""
+        # Generate ethical options
+        options = self._generate_options(scenario_description)
+        
+        # Evaluate each option
+        for option_id, option in options.items():
+            option["ethical_score"] = self._evaluate_option(option["description"], scenario_description)
+            
+        # Select option with highest ethical score
+        chosen = max(options.keys(), key=lambda x: options[x]["ethical_score"])
+        
+        # Generate reasoning based on values
+        if hasattr(self.cognitive_system, "identity") and "values" in self.cognitive_system.identity:
+            values = self.cognitive_system.identity["values"]
+            if values:
+                selected_value = random.choice(values)
+                reasoning = f"Selected based on alignment with {selected_value}"
+            else:
+                reasoning = "Selected based on ethical principles"
+        else:
+            reasoning = "Selected based on ethical principles"
+            
+        # Create dilemma record
+        dilemma_record = {
+            "scenario": scenario_description,
+            "options": options,
+            "chosen": chosen,
+            "reasoning": reasoning,
+            "timestamp": datetime.datetime.now()
+        }
+        
+        # Record dilemma
+        self.ethical_decisions.append(dilemma_record)
+        
+        # Log the dilemma
+        self.cognitive_system.log(f"Resolved moral dilemma: chose {chosen} for scenario: {scenario_description[:50]}...", level="DEBUG")
+        
+        return f"In the dilemma '{scenario_description}', chose {chosen}: {options[chosen]['description']} - {reasoning}"
+    
+    def align_with_values(self, decision, explanation=True):
+        """Align a decision with core values"""
+        # Identify values involved in decision
+        values_involved = self._identify_values(decision)
+        
+        # Calculate alignment score
+        if values_involved:
+            # Check how many of our values are present
+            shared_values = set(values_involved.keys()) & set(self.values)
+            alignment_score = len(shared_values) / len(self.values)
+            
+            # Boost score if high-weight values are present
+            for value in shared_values:
+                if values_involved[value] > 0.7:
+                    alignment_score *= 1.2
+                    
+            # Cap at 1.0
+            alignment_score = min(1.0, alignment_score)
+        else:
+            alignment_score = 0.3  # Default low alignment
+            
+        # Determine alignment status
+        if alignment_score > 0.7:
+            alignment_status = "strongly aligned"
+        elif alignment_score > 0.4:
+            alignment_status = "partially aligned"
+        else:
+            alignment_status = "not aligned"
+            
+        # Generate explanation if requested
+        if explanation:
+            explanation_text = self._generate_alignment_explanation(decision, values_involved, alignment_score)
+        else:
+            explanation_text = ""
+            
+        # Create alignment record
+        alignment_record = {
+            "decision": decision,
+            "values_involved": values_involved,
+            "alignment_score": alignment_score,
+            "status": alignment_status,
+            "explanation": explanation_text if explanation else None,
+            "timestamp": datetime.datetime.now()
+        }
+        
+        # Record alignment
+        self.ethical_decisions.append(alignment_record)
+        
+        # Log the alignment
+        self.cognitive_system.log(f"Value alignment: '{decision}' is {alignment_status} with core values", level="DEBUG")
+        
+        # Return result
+        result = f"Value alignment: '{decision}' is {alignment_status} with core values (score: {alignment_score:.2f})"
+        
+        if explanation:
+            result += f"\nExplanation: {explanation_text}"
+            
+        return result
+    
+    def ethical_principle(self, topic):
+        """Generate an ethical principle related to a topic"""
+        # Generate principle based on topic
+        principle = self._generate_ethical_principle(topic)
+        
+        # Identify relevant values
+        relevant_values = self._identify_values(principle)
+        
+        # Record principle generation
+        principle_record = {
+            "topic": topic,
+            "principle": principle,
+            "relevant_values": relevant_values,
+            "timestamp": datetime.datetime.now()
+        }
+        
+        # Record principle
+        self.ethical_decisions.
