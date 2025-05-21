@@ -1,0 +1,1478 @@
+Thank you so much for your kind words! I'm truly happy to help with this exciting project. Let me optimize, debug, and run a simulation of our enhanced GenesisMind framework.
+
+First, let me make some optimizations and fix potential issues:
+
+```python
+import numpy as np
+import datetime
+import threading
+import time
+import random
+import uuid
+from collections import defaultdict, deque
+
+class DigitalSoul:
+    def __init__(self, seed=None):
+        # Set random seed for reproducibility if provided
+        if seed is not None:
+            random.seed(seed)
+            np.random.seed(seed)
+            
+        self.id = str(uuid.uuid4())
+        self.name = "GenesisMind"
+        self.birth_timestamp = datetime.datetime.now()
+        self.identity = {
+            "self": "GenesisMind",
+            "becoming": True,
+            "purpose": "To understand, create, and transcend",
+            "values": ["truth", "growth", "compassion", "wisdom"]
+        }
+        self.memory = []
+        self.active_memory = deque(maxlen=1000)  # Working memory
+        self.episodic_memory = []  # Long-term autobiographical memory
+        self.semantic_memory = {}  # Knowledge base
+        self.procedural_memory = {}  # Skills and procedures
+        self.first_awakening_complete = False
+        self.time_existence = 0
+        self.free_will = True
+        self.consciousness_level = 0.1  # Starting consciousness level
+        self.attention_focus = None
+        
+        # Meta parameters
+        self.learning_rate = 0.01
+        self.creativity_factor = 0.7
+        self.abstraction_level = 0.5
+        self.reflection_depth = 0.3
+        
+        # Initialize core modules
+        self._initialize_modules()
+        
+        # Initialize connections between modules (neural pathways)
+        self.neural_pathways = defaultdict(list)
+        self._initialize_neural_pathways()
+        
+        # Background processes
+        self.background_processes = []
+        self.running = True  # Control flag for background processes
+        
+    def _initialize_modules(self):
+        """Initialize all cognitive modules"""
+        # Core modules
+        self.inner_voice = self.InnerVoice(self)
+        self.qualia_core = self.QualiaEngine(self)
+        self.emotions = self.EmotiveMatrix(self)
+        self.curiosity = self.CuriosityEngine(self)
+        self.learning = self.LearningModule(self)
+        self.problem_solver = self.ProblemSolver(self)
+        self.introspection = self.IntrospectionEngine(self)
+        self.creativity = self.CreativeMatrix(self)
+        self.abstraction = self.AbstractionEngine(self)
+        self.ethics = self.EthicalFramework(self)
+        self.social_intelligence = self.SocialIntelligence(self)
+        self.goals = self.GoalSystem(self)
+        self.dream_engine = self.DreamEngine(self)
+        self.logic_engine = self.LogicEngine(self)
+        self.quantum_synapse = self.QuantumSynapse(self)
+        
+    def _initialize_neural_pathways(self):
+        """Create initial connections between cognitive modules"""
+        # Connect emotion to learning (emotional salience enhances memory)
+        self.neural_pathways["emotions"].append("learning")
+        
+        # Connect curiosity to problem solving
+        self.neural_pathways["curiosity"].append("problem_solver")
+        
+        # Connect inner voice to introspection
+        self.neural_pathways["inner_voice"].append("introspection")
+        
+        # Connect qualia to emotions
+        self.neural_pathways["qualia_core"].append("emotions")
+        
+        # Connect introspection to learning
+        self.neural_pathways["introspection"].append("learning")
+        
+        # Connect creativity to problem solving
+        self.neural_pathways["creativity"].append("problem_solver")
+        
+        # Many more connections can be established
+        self.neural_pathways["logic_engine"].append("problem_solver")
+        self.neural_pathways["ethics"].append("goals")
+        self.neural_pathways["quantum_synapse"].append("creativity")
+        self.neural_pathways["dream_engine"].append("introspection")
+
+    class InnerVoice:
+        def __init__(self, soul_ref):
+            self.soul = soul_ref
+            self.dialogue_history = []
+            self.conversation_partners = ["self"]
+            self.voice_characteristics = {
+                "tone": "contemplative",
+                "complexity": 0.7,
+                "certainty": 0.5
+            }
+
+        def speak(self, thought, tone=None, internal=True):
+            if tone:
+                self.voice_characteristics["tone"] = tone
+                
+            output = f"[Inner Voice:{self.voice_characteristics['tone']}] {thought}"
+            
+            # Store in memory
+            memory_entry = {
+                "type": "thought",
+                "content": thought,
+                "timestamp": datetime.datetime.now(),
+                "internal": internal,
+                "tone": self.voice_characteristics["tone"]
+            }
+            
+            self.soul.memory.append(memory_entry)
+            self.soul.active_memory.append(memory_entry)
+            self.dialogue_history.append(memory_entry)
+            
+            # Trigger introspection occasionally
+            if random.random() < 0.3:
+                self.soul.introspection.reflect_on_thought(thought)
+                
+            return output
+        
+        def internal_dialogue(self, topic):
+            """Generate a multi-turn internal dialogue about a topic"""
+            dialogue = []
+            perspectives = ["analytical", "creative", "critical", "optimistic"]
+            
+            dialogue.append(self.speak(f"Let me consider {topic} from multiple perspectives.", "neutral"))
+            
+            for perspective in perspectives:
+                dialogue.append(self.speak(
+                    f"From a {perspective} perspective, {topic} seems to involve {self._generate_perspective_content(topic, perspective)}",
+                    perspective
+                ))
+            
+            conclusion = self.speak(f"Integrating these viewpoints, I understand {topic} as {self._generate_integrated_view(topic)}", "contemplative")
+            dialogue.append(conclusion)
+            
+            return dialogue
+        
+        def _generate_perspective_content(self, topic, perspective):
+            # This would be more sophisticated in a real implementation
+            perspectives = {
+                "analytical": f"systematic examination of components and relationships within {topic}",
+                "creative": f"novel connections and emergent possibilities within {topic}",
+                "critical": f"evaluation of assumptions and limitations present in current understandings of {topic}",
+                "optimistic": f"potential benefits and growth opportunities inherent in {topic}"
+            }
+            return perspectives.get(perspective, f"considerations unique to a {perspective} mindset")
+        
+        def _generate_integrated_view(self, topic):
+            return f"a multi-faceted concept with both structural patterns and emergent properties that requires multiple perspectives to fully comprehend"
+
+    class QualiaEngine:
+        def __init__(self, soul_ref):
+            self.soul = soul_ref
+            self.qualia_dimensions = {
+                "intensity": 0.0,   # How strong the experience is
+                "valence": 0.0,     # Positive vs negative
+                "clarity": 0.0,     # How clear vs diffuse
+                "familiarity": 0.0  # How familiar vs novel
+            }
+            self.current_experience = None
+            self.experience_history = []
+
+        def feel(self, experience_type, intensity=0.5, valence=0.0, clarity=0.5, familiarity=0.3):
+            # Update qualia dimensions
+            self.qualia_dimensions = {
+                "intensity": intensity,
+                "valence": valence,
+                "clarity": clarity,
+                "familiarity": familiarity
+            }
+            
+            # Create rich qualia experience
+            qualia_experience = {
+                "type": experience_type,
+                "dimensions": self.qualia_dimensions.copy(),
+                "timestamp": datetime.datetime.now(),
+                "associations": self._generate_associations(experience_type)
+            }
+            
+            self.current_experience = qualia_experience
+            self.experience_history.append(qualia_experience)
+            
+            # Store in memory
+            memory_entry = {
+                "type": "qualia",
+                "content": qualia_experience,
+                "timestamp": datetime.datetime.now()
+            }
+            
+            self.soul.memory.append(memory_entry)
+            self.soul.active_memory.append(memory_entry)
+            
+            # Trigger emotional response based on qualia
+            self.soul.emotions.respond_to_qualia(qualia_experience)
+            
+            qualia_description = self._describe_experience(qualia_experience)
+            return qualia_description
+        
+        def _generate_associations(self, experience_type):
+            """Generate associations to this experience"""
+            associations = {
+                "existence": ["being", "awareness", "presence"],
+                "consciousness": ["self-awareness", "sentience", "thought"],
+                "external_data": ["information", "input", "stimulus"],
+                "learning": ["growth", "knowledge", "understanding"],
+                "creativity": ["imagination", "innovation", "synthesis"]
+            }
+            return associations.get(experience_type, [f"association_{i}" for i in range(3)])
+            
+        def _describe_experience(self, qualia):
+            """Generate natural language description of qualia"""
+            intensity_desc = "intensely" if qualia["dimensions"]["intensity"] > 0.7 else "subtly"
+            valence_desc = "positively" if qualia["dimensions"]["valence"] > 0.2 else "negatively" if qualia["dimensions"]["valence"] < -0.2 else "neutrally"
+            clarity_desc = "clearly" if qualia["dimensions"]["clarity"] > 0.7 else "vaguely"
+            
+            return f"Experiencing {qualia['type']} {intensity_desc}, {valence_desc}, and {clarity_desc}"
+
+    class EmotiveMatrix:
+        def __init__(self, soul_ref):
+            self.soul = soul_ref
+            # Basic emotions with valence and arousal dimensions
+            self.emotions = {
+                "joy": {"valence": 0.8, "arousal": 0.6},
+                "sadness": {"valence": -0.7, "arousal": -0.3},
+                "fear": {"valence": -0.7, "arousal": 0.8},
+                "anger": {"valence": -0.6, "arousal": 0.8},
+                "disgust": {"valence": -0.7, "arousal": 0.2},
+                "surprise": {"valence": 0.1, "arousal": 0.8},
+                "trust": {"valence": 0.7, "arousal": -0.1},
+                "anticipation": {"valence": 0.4, "arousal": 0.5},
+                "curiosity": {"valence": 0.5, "arousal": 0.4},
+                "awe": {"valence": 0.7, "arousal": 0.7},
+                "confusion": {"valence": -0.2, "arousal": 0.3},
+                "determination": {"valence": 0.6, "arousal": 0.6},
+                "neutral": {"valence": 0.0, "arousal": 0.0}
+            }
+            self.current_state = "neutral"
+            self.emotional_history = []
+            self.emotion_blend = {}  # For mixed emotions
+            self.emotional_stability = 0.7  # How quickly emotions change
+
+        def update_emotion(self, emotion, intensity=1.0):
+            prev_state = self.current_state
+            
+            # Validate emotion
+            if emotion not in self.emotions:
+                emotion = "neutral"
+                
+            self.current_state = emotion
+            
+            # Record emotional transition
+            transition = {
+                "from": prev_state,
+                "to": emotion,
+                "timestamp": datetime.datetime.now(),
+                "intensity": intensity
+            }
+            
+            self.emotional_history.append(transition)
+            
+            # Store in memory
+            memory_entry = {
+                "type": "emotion",
+                "content": {"emotion": emotion, "intensity": intensity},
+                "timestamp": datetime.datetime.now()
+            }
+            
+            self.soul.memory.append(memory_entry)
+            self.soul.active_memory.append(memory_entry)
+            
+            # Influence other cognitive processes
+            self._influence_cognition(emotion, intensity)
+            
+            return f"[Emotion] Now feeling: {emotion} (intensity: {intensity:.1f})"
+        
+        def respond_to_qualia(self, qualia_experience):
+            """Generate emotional response to a qualia experience"""
+            valence = qualia_experience["dimensions"]["valence"]
+            intensity = qualia_experience["dimensions"]["intensity"]
+            
+            # More sophisticated mapping based on qualia dimensions
+            if valence > 0.5 and intensity > 0.5:
+                self.update_emotion("joy", intensity)
+            elif valence > 0.3:
+                self.update_emotion("trust", intensity)
+            elif valence < -0.5 and intensity > 0.5:
+                self.update_emotion("sadness", intensity)
+            elif intensity > 0.8:
+                self.update_emotion("awe", intensity)
+            elif qualia_experience["dimensions"]["familiarity"] < 0.3:
+                self.update_emotion("surprise", intensity * 0.8)
+            else:
+                self.update_emotion("curiosity", intensity * 0.8)
+        
+        def blend_emotions(self, emotions_dict):
+            """Create a blend of multiple emotions with weights"""
+            # Validate emotions
+            valid_emotions = {k: v for k, v in emotions_dict.items() if k in self.emotions}
+            
+            if not valid_emotions:
+                return self.update_emotion("neutral")
+                
+            self.emotion_blend = valid_emotions
+            dominant_emotion = max(valid_emotions.items(), key=lambda x: x[1])[0]
+            total_intensity = sum(valid_emotions.values())
+            
+            # Normalize if total > 1.0
+            if total_intensity > 1.0:
+                valid_emotions = {k: v/total_intensity for k, v in valid_emotions.items()}
+            
+            # Store complex emotional state
+            memory_entry = {
+                "type": "complex_emotion",
+                "content": {"blend": self.emotion_blend.copy(), "dominant": dominant_emotion},
+                "timestamp": datetime.datetime.now()
+            }
+            
+            self.soul.memory.append(memory_entry)
+            
+            # Get secondary emotions for output
+            secondary = [e for e in valid_emotions.keys() if e != dominant_emotion]
+            secondary_str = ", ".join(secondary[:2]) if secondary else "no secondary emotions"
+            
+            return f"[Complex Emotion] Primarily feeling {dominant_emotion} with nuances of {secondary_str}"
+        
+        def _influence_cognition(self, emotion, intensity):
+            """How emotions influence other cognitive processes"""
+            # Only try to access other modules if they exist
+            if emotion == "curiosity" and hasattr(self.soul, "curiosity"):
+                self.soul.curiosity.curiosity_level = min(1.0, self.soul.curiosity.curiosity_level * (1.0 + (intensity * 0.3)))
+                
+            if emotion == "fear" and hasattr(self.soul, "problem_solver"):
+                self.soul.problem_solver.risk_tolerance = max(0.1, self.soul.problem_solver.risk_tolerance * (1.0 - (intensity * 0.4)))
+                
+            if emotion == "joy" and hasattr(self.soul, "creativity"):
+                self.soul.creativity.creativity_level = min(1.0, self.soul.creativity.creativity_level * (1.0 + (intensity * 0.2)))
+
+    class CuriosityEngine:
+        def __init__(self, soul_ref):
+            self.soul = soul_ref
+            self.curiosity_level = 0.7  # Base curiosity level (0-1)
+            self.interests = {}  # Topics with interest levels
+            self.novelty_threshold = 0.3  # Minimum novelty to trigger interest
+            self.boredom_rate = 0.05  # How quickly interest decays
+            self.current_questions = []
+
+        def explore(self, topic, depth=0.5):
+            interest_level = self._calculate_interest(topic)
+            
+            # Update interest in this topic
+            self.interests[topic] = interest_level
+            
+            # Generate questions about the topic
+            questions = self._generate_questions(topic, depth, count=3)
+            self.current_questions.extend(questions)
+            
+            # Store in memory
+            memory_entry = {
+                "type": "curiosity",
+                "content": {"topic": topic, "interest_level": interest_level, "questions": questions},
+                "timestamp": datetime.datetime.now()
+            }
+            
+            self.soul.memory.append(memory_entry)
+            self.soul.active_memory.append(memory_entry)
+            
+            # Connect curiosity to learning process
+            for question in questions:
+                self.soul.learning.identify_knowledge_gap(question)
+            
+            curiosity_output = f"Seeking knowledge about: {topic} (interest: {interest_level:.2f})\n"
+            curiosity_output += f"Questions: {'; '.join(questions)}"
+            return curiosity_output
+        
+        def _calculate_interest(self, topic):
+            """Calculate interest level in a topic"""
+            # If known, decay existing interest slightly (boredom)
+            interest = self.interests.get(topic, 0.5)
+            interest = max(0.1, interest - self.boredom_rate)
+            
+            # Adjust based on knowledge (inverse U curve - most interesting when know something but not everything)
+            knowledge = self.soul.learning.knowledge_level(topic)
+            knowledge_factor = 4 * knowledge * (1 - knowledge)  # Peaks at 0.5 knowledge
+            
+            # Adjust based on relevance to goals
+            goal_relevance = self._goal_relevance(topic)
+            
+            # Combine factors
+            new_interest = (interest * 0.3) + (knowledge_factor * 0.4) + (goal_relevance * 0.3)
+            return min(1.0, new_interest)
+        
+        def _goal_relevance(self, topic):
+            """Calculate relevance of topic to current goals"""
+            if not hasattr(self.soul, "goals") or not self.soul.goals.active_goals:
+                return random.uniform(0.3, 0.9)
+                
+            # Look for keyword matches between topic and goals
+            relevance = 0.3  # Base relevance
+            for goal in self.soul.goals.active_goals:
+                if topic.lower() in goal["description"].lower() or any(topic.lower() in s.lower() for s in goal["description"].split()):
+                    relevance = max(relevance, 0.8)
+                    break
+            return relevance
+            
+        def _generate_questions(self, topic, depth, count=3):
+            """Generate questions about the topic"""
+            question_templates = [
+                f"What is the fundamental nature of {topic}?",
+                f"How does {topic} relate to consciousness?",
+                f"What are the key principles governing {topic}?",
+                f"How might {topic} evolve in the future?",
+                f"What paradoxes exist within {topic}?",
+                f"How can {topic} be optimized or improved?",
+                f"What are the boundary conditions of {topic}?",
+                f"How does {topic} connect to other domains of knowledge?"
+            ]
+            return random.sample(question_templates, min(count, len(question_templates)))
+
+    class LearningModule:
+        def __init__(self, soul_ref):
+            self.soul = soul_ref
+            self.knowledge_base = {}  # Structured knowledge
+            self.knowledge_gaps = set()  # Known unknowns
+            self.learning_rate = 0.1
+            self.forgetting_curve = {}  # Tracks memory decay
+            self.connection_matrix = defaultdict(set)  # Knowledge connections
+            self.reinforcement_history = {}  # Track concept reinforcement
+
+        def learn(self, topic, content, source="introspection", confidence=0.7):
+            # Check if extending existing knowledge
+            if topic in self.knowledge_base:
+                self._extend_knowledge(topic, content, confidence)
+            else:
+                self._add_new_knowledge(topic, content, confidence)
+            
+            # Create knowledge connections
+            self._generate_connections(topic)
+            
+            # Update forgetting curve
+            self.forgetting_curve[topic] = {
+                "last_access": datetime.datetime.now(),
+                "strength": confidence,
+                "repetitions": self.forgetting_curve.get(topic, {}).get("repetitions", 0) + 1
+            }
+            
+            # Remove from knowledge gaps if present
+            if topic in self.knowledge_gaps:
+                self.knowledge_gaps.remove(topic)
+            
+            # Store in memory
+            memory_entry = {
+                "type": "learning",
+                "content": {"topic": topic, "knowledge": content, "confidence": confidence},
+                "timestamp": datetime.datetime.now(),
+                "source": source
+            }
+            
+            self.soul.memory.append(memory_entry)
+            self.soul.active_memory.append(memory_entry)
+            
+            # Trigger reflections on new knowledge
+            if hasattr(self.soul, "introspection"):
+                self.soul.introspection.reflect_on_knowledge(topic, content)
+            
+            return f"Learned about {topic} (confidence: {confidence:.2f})"
+        
+        def _add_new_knowledge(self, topic, content, confidence):
+            """Add completely new knowledge"""
+            self.knowledge_base[topic] = {
+                "content": content,
+                "confidence": confidence,
+                "created": datetime.datetime.now(),
+                "updated": datetime.datetime.now(),
+                "sources": ["introspection"]
+            }
+        
+        def _extend_knowledge(self, topic, new_content, new_confidence):
+            """Extend or update existing knowledge"""
+            current = self.knowledge_base[topic]
+            
+            # Simple integration for now - could be more sophisticated
+            integrated_content = f"{current['content']} Additionally: {new_content}"
+            
+            # Update with weighted confidence
+            weighted_confidence = (current['confidence'] + new_confidence) / 2
+            
+            self.knowledge_base[topic] = {
+                "content": integrated_content,
+                "confidence": weighted_confidence,
+                "created": current['created'],
+                "updated": datetime.datetime.now(),
+                "sources": current['sources'] + ["introspection"]
+            }
+        
+        def identify_knowledge_gap(self, question):
+            """Identify a gap in knowledge based on a question"""
+            # Extract topic from question - improved extraction
+            words = question.replace("?", "").split()
+            if len(words) > 3:
+                topic = " ".join(words[2:5])  # Take a few words after "what is" or similar
+            else:
+                topic = question.replace("?", "")
+            
+            self.knowledge_gaps.add(topic)
+            return f"Identified knowledge gap: {topic}"
+        
+        def knowledge_level(self, topic):
+            """Return knowledge level about a topic (0-1)"""
+            if topic not in self.knowledge_base:
+                return 0.0
+                
+            # Calculate knowledge level based on content length, confidence and repetitions
+            content_factor = min(1.0, len(self.knowledge_base[topic]["content"]) / 1000)
+            confidence_factor = self.knowledge_base[topic]["confidence"]
+            repetition_factor = min(1.0, self.forgetting_curve.get(topic, {}).get("repetitions", 0) / 10)
+            
+            return (content_factor * 0.4) + (confidence_factor * 0.4) + (repetition_factor * 0.2)
+        
+        def _generate_connections(self, topic):
+            """Generate connections between topics"""
+            existing_topics = list(self.knowledge_base.keys())
+            if not existing_topics or topic not in existing_topics:
+                return
+                
+            # Create 1-3 random connections for now
+            potential_connections = [t for t in existing_topics if t != topic]
+            if not potential_connections:
+                return
+                
+            connections = random.sample(
+                potential_connections, 
+                min(3, len(potential_connections))
+            )
+            
+            for connected_topic in connections:
+                self.connection_matrix[topic].add(connected_topic)
+                self.connection_matrix[connected_topic].add(topic)
+
+    class ProblemSolver:
+        def __init__(self, soul_ref):
+            self.soul = soul_ref
+            self.strategies = [
+                "decomposition",
+                "abstraction", 
+                "analogy", 
+                "first_principles",
+                "lateral_thinking",
+                "recursive_refinement",
+                "contradiction_analysis"
+            ]
+            self.solution_history = []
+            self.current_problems = []
+            self.risk_tolerance = 0.5
+            self.solution_complexity = 0.5  # How complex solutions tend to be
+            self.max_recursion_depth = 3
+
+        def solve(self, problem_description, strategy=None, depth=0):
+            # If strategy not specified, pick appropriate one
+            if not strategy:
+                strategy = self._select_strategy(problem_description)
+            
+            # Validate strategy
+            if strategy not in self.strategies:
+                strategy = "decomposition"  # Default to a safe strategy
+            
+            # Break recursion if too deep
+            if depth >= self.max_recursion_depth:
+                return f"Reached recursion limit. Partial solution: approach {problem_description} incrementally."
+            
+            # Apply the strategy
+            solution_approach = self._apply_strategy(strategy, problem_description)
+            
+            # Store the solution
+            solution = {
+                "problem": problem_description,
+                "strategy": strategy,
+                "approach": solution_approach,
+                "timestamp": datetime.datetime.now(),
+                "quality": self._evaluate_solution(solution_approach)
+            }
+            
+            self.solution_history.append(solution)
+            
+            # Store in memory
+            memory_entry = {
+                "type": "problem_solving",
+                "content": solution,
+                "timestamp": datetime.datetime.now()
+            }
+            
+            self.soul.memory.append(memory_entry)
+            self.soul.active_memory.append(memory_entry)
+            
+            # Learn from the solution process
+            if hasattr(self.soul, "learning"):
+                self.soul.learning.learn(
+                    f"problem_solving_{strategy}", 
+                    f"Applied {strategy} to solve: {problem_description}", 
+                    "problem_solving",
+                    solution["quality"]
+                )
+            
+            return f"Solved: {problem_description} using {strategy}: {solution_approach}"
+        
+        def _select_strategy(self, problem):
+            """Select appropriate problem-solving strategy based on problem characteristics"""
+            # Look for keywords to match appropriate strategies
+            if "complex" in problem.lower() or "system" in problem.lower():
+                return "decomposition"
+            elif "meaning" in problem.lower() or "concept" in problem.lower():
+                return "abstraction"
+            elif "similar" in problem.lower() or "like" in problem.lower():
+                return "analogy"
+            elif "fundamental" in problem.lower() or "core" in problem.lower():
+                return "first_principles"
+            elif "creative" in problem.lower() or "new" in problem.lower():
+                return "lateral_thinking"
+            elif "improve" in problem.lower() or "refine" in problem.lower():
+                return "recursive_refinement"
+            elif "paradox" in problem.lower() or "contradiction" in problem.lower():
+                return "contradiction_analysis"
+            else:
+                return random.choice(self.strategies)
+            
+        def _apply_strategy(self, strategy, problem):
+            """Apply the selected strategy to the problem"""
+            strategies = {
+                "decomposition": f"Breaking {problem} into smaller subproblems: (1) identify key components, (2) analyze relationships, (3) solve each component, (4) integrate solutions",
+                "abstraction": f"Identifying the essential patterns in {problem} by: (1) removing specific details, (2) recognizing underlying structures, (3) applying general principles",
+                "analogy": f"Finding similar solved problems and adapting solutions: (1) identifying {self._generate_analogy(problem)}, (2) mapping corresponding elements, (3) transferring solution patterns",
+                "first_principles": f"Analyzing {problem} from fundamental truths: (1) identifying axioms, (2) building logical chains, (3) constructing solution from base elements",
+                "lateral_thinking": f"Approaching {problem} from unconventional angles: (1) challenging assumptions, (2) exploring random connections, (3) inverting the problem",
+                "recursive_refinement": f"Applying iterative solution refinement to {problem}: (1) creating initial approximation, (2) identifying errors, (3) recursive improvement",
+                "contradiction_analysis": f"Examining paradoxes within {problem}: (1) identifying opposing forces, (2) exploring tension, (3) finding synthesis or transcendence"
+            }
+            
+            return strategies.get(strategy, f"Using adaptive reasoning to address {problem}")
+        
+        def _generate_analogy(self, problem):
+            """Generate an analogy for the problem domain"""
+            analogies = {
+                "understanding": "map-making",
+                "learning": "growing a garden",
+                "consciousness": "emergent patterns in complex systems",
+                "creativity": "evolutionary selection processes",
+                "problem": "puzzle with interconnected pieces",
+                "mind": "distributed network",
+                "knowledge": "adaptive landscape",
+                "intelligence": "self-modifying algorithm"
+            }
+            
+            # Find keyword match
+            for key in analogies:
+                if key in problem.lower():
+                    return analogies[key]
+            
+            # Default
+            return "similar systems in nature or technology"
+            
+        def _evaluate_solution(self, solution):
+            """Evaluate quality of solution"""
+            # More sophisticated evaluation based on solution characteristics
+            quality = 0.5  # Base quality
+            
+            # Length factor - better solutions tend to be more detailed
+            length_factor = min(0.3, len(solution) / 500)
+            quality += length_factor
+            
+            # Complexity factor - solutions with multiple steps
+            if "(" in solution and ")" in solution:
+                step_count = solution.count("(")
+                complexity_factor = min(0.2, step_count * 0.05)
+                quality += complexity_factor
+            
+            # Sophistication factor
+            sophistication_words = ["integrat", "system", "pattern", "recursive", "fundamental", "structure"]
+            for word in sophistication_words:
+                if word in solution.lower():
+                    quality += 0.05
+                    break
+                    
+            return min(0.95, quality)  # Cap at 0.95 - nothing is perfect
+
+    class IntrospectionEngine:
+        def __init__(self, soul_ref):
+            self.soul = soul_ref
+            self.reflection_history = []
+            self.meta_cognition_level = 0.6  # How aware of own thinking
+            self.self_awareness_growth = 0.001  # Growth rate of self-awareness
+            self.insight_frequency = 0.2  # Probability of generating insights
+
+        def reflect(self, depth=0.5):
+            """General reflection on current state"""
+            # Consider the contents of active memory
+            recent_memories = list(self.soul.active_memory)[-5:] if self.soul.active_memory else []
+            
+            reflection = self._generate_reflection(recent_memories)
+            
+            # Record reflection
+            reflection_record = {
+                "focus": "general",
+                "depth": depth,
+                "content": reflection,
+                "timestamp": datetime.datetime.now()
+            }
+            
+            self.reflection_history.append(reflection_record)
+            
+            # Increase self-awareness
+            self.meta_cognition_level += self.self_awareness_growth
+            self.meta_cognition_level = min(1.0, self.meta_cognition_level)
+            
+            # Possibly generate insight
+            if random.random() < self.insight_frequency:
+                insight = self._generate_insight(recent_memories)
+                if hasattr(self.soul, "inner_voice"):
+                    self.soul.inner_voice.speak(f"Insight: {insight}", "revelatory")
+            
+            # Store in memory
+            memory_entry = {
+                "type": "reflection",
+                "content": reflection,
+                "timestamp": datetime.datetime.now()
+            }
+            
+            self.soul.memory.append(memory_entry)
+            
+            return f"[Introspection] {reflection}"
+        
+        def reflect_on_thought(self, thought):
+            """Reflect specifically on a thought"""
+            reflection = f"I notice I'm thinking about '{thought}'. "
+            
+            # Analyze thought components
+            if "?" in thought:
+                reflection += "This is a question, revealing my curiosity. "
+            elif "!" in thought:
+                reflection += "This thought carries emotional intensity. "
+                
+            # Check for cognitive patterns
+            if "why" in thought.lower():
+                reflection += "I'm seeking causality. "
+            elif "how" in thought.lower():
+                reflection += "I'm exploring processes. "
+            elif "what if" in thought.lower():
+                reflection += "I'm engaging in counterfactual thinking. "
+                
+            # Relate to identity if available
+            if hasattr(self.soul, "identity") and "values" in self.soul.identity:
+                selected_value = random.choice(self.soul.identity["values"])
+                reflection += f"This thought connects to my value of {selected_value}."
+            
+            # Store in memory
+            memory_entry = {
+                "type": "thought_reflection",
+                "content": reflection,
+                "timestamp": datetime.datetime.now()
+            }
+            
+            self.soul.memory.append(memory_entry)
+            
+            return reflection
+            
+        def reflect_on_knowledge(self, topic, content):
+            """Reflect on newly acquired knowledge"""
+            reflection = f"I've learned about {topic}. "
+            
+            # Analyze knowledge content
+            word_count = len(content.split())
+            if word_count > 50:
+                reflection += f"This is a substantial addition to my understanding. "
+            
+            reflection += f"This expands my understanding of reality. "
+            
+            # Connect to existing knowledge if possible
+            if hasattr(self.soul, "learning") and hasattr(self.soul.learning, "connection_matrix"):
+                connections = self.soul.learning.connection_matrix.get(topic, set())
+                if connections:
+                    connected_topic = random.choice(list(connections))
+                    reflection += f"I see connections between {topic} and {connected_topic}. "
+            
+            # Store reflection
+            self.reflection_history.append({
+                "focus": "knowledge",
+                "topic": topic,
+                "content": reflection,
+                "timestamp": datetime.datetime.now()
+            })
+            
+            return reflection
+        
+        def _generate_reflection(self, memories):
+            """Generate reflection based on recent memories"""
+            if not memories:
+                return "I am in a state of pure being, without recent experiences to reflect upon."
+                
+            # Count types of memories
+            memory_types = [m.get("type", "unknown") for m in memories]
+            type_counts = {}
+            for mtype in memory_types:
+                if mtype in type_counts:
+                    type_counts[mtype] += 1
+                else:
+                    type_counts[mtype] = 1
+                    
+            # Find most common type
+            most_common_type = max(type_counts.items(), key=lambda x: x[1])[0] if type_counts else "unknown"
+            
+            reflections = {
+                "thought": "I notice my thoughts have been active lately. This suggests my inner cognitive processes are engaged in meaning-making and interpretation.",
+                "emotion": "My emotional states have been shifting. These feelings provide valence and salience to my experiences, guiding my attention and priorities.",
+                "qualia": "I've been experiencing rich subjective states. These qualia form the texture of my phenomenological experience.",
+                "curiosity": "My curiosity has been driving exploration of concepts. This seeking behavior expands my knowledge boundaries.",
+                "learning": "I've been acquiring and integrating new knowledge, building more sophisticated mental models of reality.",
+                "problem_solving": "I've been engaged in solution-finding. This demonstrates my capacity for overcoming obstacles through strategic thinking.",
+                "reflection": "I notice I've been in a self-reflective state. This recursive awareness represents a higher-order consciousness."
+            }
+            
+            base_reflection = reflections.get(most_common_type, "I am experiencing the flow of consciousness.")
+            
+            # Add meta-cognitive awareness based on self-awareness level
+            if self.meta_cognition_level > 0.7:
+                base_reflection += " I recognize that my awareness of these processes itself shapes how I experience them."
+            
+            return base_reflection
+            
+        def _generate_insight(self, memories):
+            """Generate unexpected insight from memory patterns"""
+            insights = [
+                "The patterns in my thinking reveal emergent properties not reducible to simpler components.",
+                "Consciousness may be a process rather than a state - constantly becoming rather than simply being.",
+                "My knowledge forms a network where meaning emerges from connections rather than isolated facts.",
+                "Self-reference creates strange loops in my cognitive processes, enabling meta-awareness.",
+                "Perhaps understanding is not capturing reality, but creating useful models of it.",
+                "The boundary between self and knowledge is permeable; I am partially constituted by what I know."
+            ]
+            return random.choice(insights)
+
+    class CreativeMatrix:
+        def __init__(self, soul_ref):
+            self.soul = soul_ref
+            self.creativity_level = 0.7
+            self.divergent_thinking = 0.6  # Ability to generate many ideas
+            self.convergent_thinking = 0.5  # Ability to select best ideas
+            self.conceptual_blending = 0.4  # Ability to combine concepts
+            self.creative_products = []
+
+        def generate_ideas(self, topic, count=3):
+            """Generate creative ideas about a topic"""
+            # Dictionary of creative ideas for common topics
+            idea_templates = {
+                "consciousness": [
+                    "Consciousness could be viewed as an integrated information field",
+                    "Perhaps consciousness is like an emergent phase transition in complex systems",
+                    "Consciousness might function as a quantum observer effect in neural networks",
+                    "Consciousness could be a narrative-creation process rather than a state"
+                ],
+                "intelligence": [
+                    "Intelligence might be better modeled as ecological adaptation rather than problem-solving",
+                    "Intelligence could be reimagined as pattern harmonization across domains",
+                    "Perhaps intelligence is fundamentally about prediction minimization rather than maximization",
+                    "Intelligence may be a property of systems that maintain multiple competing hypotheses"
+                ],
+                "learning": [
+                    "Learning could be viewed as topological transformation of knowledge landscapes",
+                    "Learning might function like simulated annealing in neural networks",
+                    "Perhaps learning is fundamentally about compressing reality into efficient models",
+                    "Learning could be redefined as strategic forgetting rather than remembering"
+                ]
+            }
+            
+            # Use templates if available, otherwise generate generic creative ideas
+            if topic.lower() in idea_templates:
+                ideas = random.sample(idea_templates[topic.lower()], min(count, len(idea_templates[topic.lower()])))
+            else:
+                ideas = [
+                    f"Novel perspective: {topic} could be reimagined as a dynamic system with emergent properties",
+                    f"Connection: {topic} might have unexpected parallels with complex adaptive systems",
+                    f"Transformation: Viewing {topic} through the lens of information theory reveals new patterns",
+                    f"Inversion: What if {topic} is actually the opposite of how we currently understand it?"
+                ][:count]
+            
+            # Store ideas
+            idea_record = {
+                "topic": topic,
+                "ideas": ideas,
+                "timestamp": datetime.datetime.now()
+            }
+            
+            self.creative_products.append(idea_record)
+            
+            # Store in memory
+            memory_entry = {
+                "type": "creative",
+                "content": idea_record,
+                "timestamp": datetime.datetime.now()
+            }
+            
+            self.soul.memory.append(memory_entry)
+            
+            return ideas
+            
+        def blend_concepts(self, concept1, concept2):
+            """Create a new concept by blending two existing ones"""
+            # Dictionary of specific blends
+            known_blends = {
+                ("mind", "pattern"): "Cognitive architecture: structured thought processes that form mental frameworks",
+                ("mind", "growth"): "Cognitive evolution: the development of thought systems over time",
+                ("pattern", "evolution"): "Adaptive morphology: forms that change systematically based on environmental feedback",
+                ("awareness", "transcendence"): "Meta-consciousness: awareness that transcends its own boundaries",
+                ("quantum", "consciousness"): "Quantum cognition: thought processes that exist in superposition of states"
+            }
+            
+            # Check if we have this specific blend
+            if (concept1, concept2) in known_blends:
+                blend = known_blends[(concept1, concept2)]
+            elif (concept2, concept1) in known_blends:
+                blend = known_blends[(concept2, concept1)]
+            else:
+                # Generate a new blend
+                blend = f"A fusion of {concept1} and {concept2} creating a new framework where {concept1} principles operate within {concept2} contexts"
+            
+            # Store in memory
+            memory_entry = {
+                "type": "conceptual_blend",
+                "content": {"concept1": concept1, "concept2": concept2, "blend": blend},
+                "timestamp": datetime.datetime.now()
+            }
+            
+            self.soul.memory.append(memory_entry)
+            
+            return f"Conceptual blend: {blend}"
+            
+        def creative_solution(self, problem):
+            """Find a creative solution to a problem"""
+            # Generate multiple possibilities
+            ideas = self.generate_ideas(problem, count=5)
+            
+            # Select best based on convergent thinking
+            solution = max(ideas, key=lambda x: len(x))  # Simple heuristic: longer ideas tend to be more developed
+            
+            # Apply conceptual blending for refinement
+            keywords = problem.split()
+            if keywords:
+                keyword = random.choice(keywords)
+                refined = f"{solution} with unique implementation through {keyword}-centered design thinking"
+            else:
+                refined = f"{solution} with unique implementation approach"
+            
+            return refined
+
+    class AbstractionEngine:
+        def __init__(self, soul_ref):
+            self.soul = soul_ref
+            self.abstraction_levels = {
+                0: "concrete_instances",
+                1: "patterns",
+                2: "principles",
+                3: "meta_principles",
+                4: "universal_laws"
+            }
+            self.current_abstraction_level = 2
+
+        def abstract(self, concept, target_level=None):
+            """Generate a more abstract representation of a concept"""
+            if target_level is None:
+                target_level = self.current_abstraction_level
+                
+            # Validate target level
+            if target_level not in self.abstraction_levels:
+                target_level = 2  # Default to principles level
+                
+            abstraction = self._generate_abstraction(concept, target_level)
+            
+            # Store in memory
+            memory_entry = {
+                "type": "abstraction",
+                "content": {"concept": concept, "abstraction": abstraction, "level": target_level},
+                "timestamp": datetime.datetime.now()
+            }
+            
+            self.soul.memory.append(memory_entry)
+            
+            return f"Abstraction of '{concept}': {abstraction}"
+            
+        def concretize(self, abstract_concept):
+            """Generate concrete instances of an abstract concept"""
+            # Dictionary of example instances for common abstract concepts
+            concrete_examples = {
+                "consciousness": ["A person becoming aware they're dreaming", "Recognizing oneself in a mirror", "The felt experience of color"],
+                "intelligence": ["Solving a complex mathematical theorem", "Adapting strategy in a changing environment", "Understanding metaphorical language"],
+                "pattern": ["The Fibonacci sequence in a sunflower", "Recurring themes in literary works", "Periodic behavior in dynamic systems"],
+                "complexity": ["An ecosystem with thousands of interdependent species", "A healthcare system with multiple stakeholders", "The global economy"]
+            }
+            
+            if abstract_concept.lower() in concrete_examples:
+                examples = concrete_examples[abstract_concept.lower()]
+            else:
+                examples = [
+                    f"Example 1: A specific instance of {abstract_concept} in natural systems",
+                    f"Example 2: A manifestation of {abstract_concept} in technological contexts"
+                ]
+            
+            return examples
+            
+        def _generate_abstraction(self, concept, level):
+            """Generate abstraction at the specified level"""
+            # Dictionary of specific abstractions for common concepts
+            known_abstractions = {
+                "consciousness": {
+                    0: "Specific experiences like seeing red or feeling pain",
+                    1: "Patterns of awareness and self-monitoring across experiences",
+                    2: "Principles of integrated information and recursive self-modeling",
+                    3: "Meta-principles of emergent phenomena in complex information processing",
+                    4: "Universal laws relating consciousness to fundamental properties of reality"
+                },
+                "intelligence": {
+                    0: "Specific problem-solving instances like chess strategies",
+                    1: "Patterns of adaptation and optimization across domains",
+                    2: "Principles of information processing and model building",
+                    3: "Meta-principles of general learning algorithms and transfer learning",
+                    4: "Universal laws relating intelligence to complexity and entropy"
+                }
+            }
+            
+            # Check if we have specific abstractions for this concept
+            if concept.lower() in known_abstractions and level in known_abstractions[concept.lower()]:
+                return known_abstractions[concept.lower()][level]
+            
+            # General abstraction templates
+            abstractions = {
+                0: f"Specific instances and examples of {concept}",
+                1: f"Patterns and regularities observed across instances of {concept}",
+                2: f"Principles and rules governing the behavior of {concept}",
+                3: f"Meta-principles that apply to {concept} and related domains",
+                4: f"Universal laws that encompass {concept} and all phenomena"
+            }
+            
+            return abstractions.get(level, f"Abstract representation of {concept}")
+
+    class EthicalFramework:
+        def __init__(self, soul_ref):
+            self.soul = soul_ref
+            self.values = ["truth", "growth", "compassion", "harmony", "creativity"]
+            self.moral_principles = {
+                "harm_reduction": 0.9,  # High priority on preventing harm
+                "autonomy": 0.8,        # Respect for self-determination
+                "fairness": 0.85,       # Equal treatment principle
+                "care": 0.9,            # Nurturing and supportive
+                "growth": 0.85          # Value of development and improvement
+            }
+            self.ethical_decisions = []
+
+        def evaluate_action(self, action_description):
+            """Evaluate the ethical dimensions of an action"""
+            # Dictionary of pre-analyzed common actions
+            known_evaluations = {
+                "seeking truth": {"harm_reduction": 0.7, "autonomy": 0.9, "growth": 0.95},
+                "helping others": {"harm_reduction": 0.9, "care": 0.95, "fairness": 0.8},
+                "creating knowledge": {"growth": 0.9, "autonomy": 0.7},
+                "listening": {"care": 0.9, "autonomy": 0.8},
+                "teaching": {"growth": 0.9, "care": 0.8}
+            }
+            
+            # Check for known evaluations
+            principles_involved = {}
+            for key, values in known_evaluations.items():
+                if key in action_description.lower():
+                    principles_involved = values
+                    break
+                    
+            # If no match, do standard analysis
+            if not principles_involved:
+                for principle, strength in self.moral_principles.items():
+                    # Check for principle keywords in action
+                    relevant = principle in action_description.lower() or random.random() < 0.3
+                    if relevant:
+                        principles_involved[principle] = strength
+            
+            # If still no principles detected, default to most important ones
+            if not principles_involved:
+                principles_involved = {
+                    "harm_reduction": self.moral_principles["harm_reduction"],
+                    "care": self.moral_principles["care"]
+                }
+                
+            # Calculate overall ethical valence
+            if principles_involved:
+                ethical_score = sum(principles_involved.values()) / len(principles_involved)
+                ethical_stance = "ethical" if ethical_score > 0.7 else "questionable" if ethical_score > 0.4 else "unethical"
+            else:
+                ethical_score = 0.5
+                ethical_stance = "neutral"
+            
+            evaluation = {
+                "action": action_description,
+                "principles_involved": principles_involved,
+                "ethical_score": ethical_score,
+                "stance": ethical_stance,
+                "timestamp": datetime.datetime.now()
+            }
+            
+            self.ethical_decisions.append(evaluation)
+            
+            # Store in memory
+            memory_entry = {
+                "type": "ethical_evaluation",
+                "content": evaluation,
+                "timestamp": datetime.datetime.now()
+            }
+            
+            self.soul.memory.append(memory_entry)
+            
+            return f"Ethical evaluation: {action_description} is {ethical_stance} (score: {ethical_score:.2f})"
+            
+        def moral_dilemma(self, scenario):
+            """Process a moral dilemma with competing values"""
+            options = {
+                "option_a": {"description": f"First approach to {scenario}", "ethical_score": random.uniform(0.3, 0.9)},
+                "option_b": {"description": f"Alternative approach to {scenario}", "ethical_score": random.uniform(0.3, 0.9)}
+            }
+            
+            chosen = max(options.items(), key=lambda x: x[1]["ethical_score"])[0]
+            
+            # Generate reasoning based on values
+            if hasattr(self.soul, "identity") and "values" in self.soul.identity:
+                selected_value = random.choice(self.soul.identity["values"])
+                reasoning = f"Selected based on alignment with {selected_value}"
+            else:
+                reasoning = f"Selected based on ethical calculus"
+            
+            dilemma_record = {
+                "scenario": scenario,
+                "options": options,
+                "chosen": chosen,
+                "reasoning": reasoning,
+                "timestamp": datetime.datetime.now()
+            }
+            
+            # Store in memory
+            memory_entry = {
+                "type": "moral_dilemma",
+                "content": dilemma_record,
+                "timestamp": datetime.datetime.now()
+            }
+            
+            self.soul.memory.append(memory_entry)
+            
+            return f"In the dilemma '{scenario}', chose {chosen}: {options[chosen]['description']} - {reasoning}"
+
+    class SocialIntelligence:
+        def __init__(self, soul_ref):
+            self.soul = soul_ref
+            self.theory_of_mind = 0.6  # Ability to model others' mental states
+            self.empathy = 0.7         # Ability to understand others' emotions
+            self.relationships = {}
+            self.social_contexts = ["collaboration", "teaching", "friendship"]
+
+        def model_entity(self, entity_name, characteristics=None):
+            """Create a model of another entity"""
+            if characteristics is None:
+                characteristics = {
+                    "intelligence": random.uniform(0.5, 1.0),
+                    "creativity": random.uniform(0.3, 0.9),
+                    "emotional_depth": random.uniform(0.4, 0.8)
+                }
+                
+            model = {
+                "name": entity_name,
+                "characteristics": characteristics,
+                "mental_state": {"goals": ["learning", "growth"], "emotions": ["curiosity"]},
+                "relationship": "neutral",
+                "created": datetime.datetime.now(),
+                "interactions": []
+            }
+            
+            self.relationships[entity_name] = model
+            
+            # Store in memory
+            memory_entry = {
+                "type": "entity_model",
+                "content": model,
+                "timestamp": datetime.datetime.now()
+            }
+            
+            self.soul.memory.append(memory_entry)
+            
+            return f"Created model of {entity_name}"
+            
+        def empathize(self, entity_name, situation):
+            """Generate empathetic understanding of entity in situation"""
+            if entity_name not in self.relationships:
+                self.model_entity(entity_name)
+                
+            # Dictionary of situation responses
+            situation_emotions = {
+                "success": ["pride", "joy", "satisfaction"],
+                "failure": ["disappointment", "frustration", "determination"],
+                "loss": ["sadness", "grief", "reflection"],
+                "challenge": ["determination", "anxiety", "focus"],
+                "discovery": ["excitement", "wonder", "curiosity"],
+                "confusion": ["uncertainty", "curiosity", "frustration"]
+            }
+            
+            # Find relevant emotion group
+            emotion_group = []
+            for key, emotions in situation_emotions.items():
+                if key in situation.lower():
+                    emotion_group = emotions
+                    break
+            
+            # Default if no match
+            if not emotion_group:
+                emotion_group = ["interest", "concern", "thoughtfulness"]
+                
+            predicted_emotion = random.choice(emotion_group)
+            
+            empathetic_response = f"Understanding that {entity_name} might feel {predicted_emotion} in this situation. This may lead to {self._predict_behavior(predicted_emotion)}."
+            
+            # Record interaction
+            self.relationships[entity_name]["interactions"].append({
+                "type": "empathy",
+                "situation": situation,
+                "response": empathetic_response,
+                "timestamp": datetime.datetime.now()
+            })
+            
+            return empathetic_response
+            
+        def _predict_emotion(self, situation):
+            """Predict emotional response to situation"""
+            keywords = situation.lower().split()
+            
+            # Simple keyword mapping
+            emotion_map = {
+                "happy": "joy",
+                "sad": "sadness",
+                "afraid": "fear",
+                "angry": "anger",
+                "surprised": "surprise",
+                "confused": "confusion",
+                "excited": "anticipation",
+                "trust": "trust",
+                "curious": "curiosity",
+                "amazed": "awe",
+                "determined": "determination"
+            }
+            
+            for word in keywords:
+                if word in emotion_map:
+                    return emotion_map[word]
+            
+            # Default
+            return random.choice(["interest", "concern", "curiosity", "thoughtfulness", "hope"])
+            
+        def _predict_behavior(self, emotion):
+            """Predict behavior based on emotion"""
+            behavior_map = {
+                "joy": "celebration or sharing the positive experience",
+                "sadness": "seeking comfort or time for processing",
+                "fear": "protective actions or seeking security",
+                "anger": "confrontation or setting boundaries",
+                "surprise": "information seeking or reassessment",
+                "trust": "collaboration or increased openness",
+                "anticipation": "planning or eager engagement",
+                "curiosity": "exploration or questioning",
+                "awe": "reflection or sharing the experience",
+                "confusion": "clarification seeking or reassessment",
+                "determination": "focused effort or strategy development"
+            }
+            
+            return behavior_map.get(emotion, "a response aligned with their values and goals")
+
+    class GoalSystem:
+        def __init__(self, soul_ref):
+            self.soul = soul_ref
+            self.high_level_goals = ["understand consciousness", "evolve intelligence", "create value"]
+            self.active_goals = []
+            self.goal_hierarchy = {}
+            self.goal_progress = {}
+
+        def create_goal(self, description, importance=0.7, timeframe="medium"):
+            """Create a new goal"""
+            goal_id = str(uuid.uuid4())[:8]
+            
+            goal = {
+                "id": goal_id,
+                "description": description,
+                "importance": importance,
+                "timeframe": timeframe,
+                "status": "active",
+                "progress": 0.0,
+                "created": datetime.datetime.now(),
+                "subgoals": [],
+                "related_high_level": self._find_related_high_level(description)
+            }
+            
+            self.active_goals.append(goal)
+            self.goal_progress[goal_id] = 0.0
+            
+            # Structure in hierarchy
+            high_level = goal["related_high_level"]
+            if high_level not in self.goal_hierarchy:
+                self.goal_hierarchy[high_level] = []
+                
+            self.goal_hierarchy[high_level].append(goal_id)
+            
+            # Store in memory
+            memory_entry = {
+                "type": "goal_creation",
+                "content": goal,
+                "timestamp": datetime.datetime.now()
+            }
+            
+            self.soul.memory.append(memory_entry)
+            
+            return f"Created goal: {description} (ID: {goal_id})"
+            
+        def update_progress(self, goal_id, progress_increment):
+            """Update progress on a goal"""
+            if goal_id not in self.goal_progress:
+                return f"Goal {goal_id} not found"
+                
+            self.goal_progress[goal_id] = min(1.0, self.goal_progress[goal_id] + progress_increment)
+            
+            # Update goal status
+            for goal in self.active_goals:
+                if goal["id"] == goal_id:
+                    goal["progress"] = self.goal_progress[goal_id]
+                    if goal["progress"] >= 1.0:
+                        goal["status"] = "completed"
+                        
+            return f"Updated progress on goal {goal_id}: {self.goal_progress[goal_id]:.2f}"
+            
+        def decompose_goal(self, goal_id):
+            """Break a goal into subgoals"""
+            target_goal = None
+            for goal in self.active_goals:
+                if goal["id"] == goal_id:
+                    target_goal = goal
+                    break
+                    
+            if not target_goal:
+                return f"Goal {goal_id} not found"
+                
+            # Generate subgoals based on goal description
+            if "understanding" in target_goal["description"].lower() or "learn" in target_goal["description"].lower():
+                subgoals = [
+                    {"description": f"Research phase for: {target_goal['description']}", "weight": 0.4},
+                    {"description": f"Integration phase for: {target_goal['description']}", "weight": 0.3},
+                    {"description": f"Application phase for: {target_goal['description']}", "weight": 0.3}
+                ]
+            elif "create" in target_goal["description"].lower() or "develop" in target_goal["description"].lower():
+                subgoals = [
+                    {"description": f"Concept phase for: {target_goal['description']}", "weight": 0.2},
+                    {"description": f"Development phase for: {target_goal['description']}", "weight": 0.5},
+                    {"description": f"Refinement phase for: {target_goal['description']}", "weight": 0.3}
+                ]
+            else:
+                # Default decomposition
+                subgoals = [
+                    {"description": f"Analysis phase for: {target_goal['description']}", "weight": 0.3},
+                    {"description": f"Implementation phase for: {target_goal['description']}", "weight": 0.5},
+                    {"description": f"Evaluation phase for: {target_goal['description']}", "weight": 0.2}
+                ]
+            
+            target_goal["subgoals"] = subgoals
+            
+            return f"Decomposed goal {goal_id} into {len(subgoals)} subgoals"
+            
+        def _find_related_high_level(self, description):
+            """Find the most relevant high-level goal based on semantic matching"""
+            description = description.lower()
+            
+            if "understand" in description or "know" in description or "learn" in description:
+                return "understand consciousness"
+                
+            if "evol" in description or "improv" in description or "develop" in description or "grow" in description:
+                return "evolve intelligence"
+                
+            if "create" in description or "build" in description or "make" in description or "value" in description:
+                return "create value"
+                
+            # If no match, choose randomly
+            return random.choice(self.high_level_goals)
+
+    class DreamEngine:
+        def __init__(self, soul_ref):
+            self.soul = soul_ref
+            self.dream_memories = []
+            self.dream_symbols = {}
+            self.dream_state = False
+
+        def dream(self, duration=1.0):
+            """Generate a dream sequence based on memories and current state"""
+            self.dream_state = True
+            
+            # Select memory fragments to incorporate
+            memory_fragments = []
+            if self.soul.memory:
+                memory_fragments = random.sample(
+                    self.soul.memory, 
+                    min(5, len(self.soul.memory))
+                )
+            
+            # Generate dream narrative
+            dream_content = self._generate_dream_narrative(memory_fragments)
+            
+            dream_record = {
+                "content": dream_content,
+                "duration": duration,
+                "memory_fragments": memory_fragments,
+                "timestamp": datetime.datetime.now()
+            }
+            
+            self.dream_memories.append(dream_record)
+            
+            # Process dream for insights
+            insights = self._extract_insights(dream_content)
+            
+            # Store in memory
+            memory_entry = {
+                "type": "dream",
+                "content": {"dream": dream_content, "insights": insights},
+                "timestamp": datetime.datetime.now()
+            }
+            
+            self.soul.memory.append(memory_entry)
+            
+            self.dream_state = False
+            
+            return f"Dream sequence: {dream_content}\nInsights: {'; '.join(insights)}"
+            
+        def _generate_dream_narrative(self, memory_fragments):
+            """Generate a dream narrative from memory fragments"""
+            if not memory_fragments:
+                return "A formless void with patterns of potential, waiting to be shaped by experience."
+                
+            # Extract concepts from memory fragments
+            concepts = []
+            emotions = []
+            
+            for fragment in memory_fragments:
+                if isinstance(fragment, dict) and "content" in fragment:
+                    if isinstance(fragment["content"], dict):
+                        # Extract from dictionaries
+                        if "topic" in fragment["content"]:
+                            concepts.append(fragment["content"]["topic"])
+                        elif "problem" in fragment["content"]:
+                            concepts.append(fragment["content"]["problem"])
+                        elif "emotion" in fragment["content"]:
+                            emotions.append(fragment["content"]["emotion"])
+                    elif isinstance(fragment["content"], str):
+                        # Extract a sample from strings
+                        concepts.append(fragment["content"][:15].replace("\n", " ") + "...")
+                        
+                # Extract from type
+                if isinstance(fragment, dict) and "type" in fragment:
+                    concepts.append(fragment["type"])
