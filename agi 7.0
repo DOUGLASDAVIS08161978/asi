@@ -1,0 +1,1553 @@
+```python
+    def ethical_principle(self, topic):
+        """Generate an ethical principle related to a topic"""
+        # Generate principle based on topic
+        principle = self._generate_ethical_principle(topic)
+        
+        # Identify relevant values
+        relevant_values = self._identify_values(principle)
+        
+        # Record principle generation
+        principle_record = {
+            "topic": topic,
+            "principle": principle,
+            "relevant_values": relevant_values,
+            "timestamp": datetime.datetime.now()
+        }
+        
+        # Record principle
+        self.ethical_decisions.append(principle_record)
+        
+        # Log the principle
+        self.cognitive_system.log(f"Generated ethical principle for {topic}", level="DEBUG")
+        
+        return f"Ethical principle regarding {topic}: {principle}"
+    
+    def _identify_principles(self, action_description):
+        """Identify which ethical principles apply to an action"""
+        principles_involved = {}
+        action_lower = action_description.lower()
+        
+        # Check for harm reduction principle
+        harm_keywords = ["harm", "damage", "hurt", "pain", "suffering", "protect", "safety"]
+        if any(keyword in action_lower for keyword in harm_keywords):
+            principles_involved["harm_reduction"] = self.moral_principles["harm_reduction"]
+            
+        # Check for autonomy principle
+        autonomy_keywords = ["choice", "freedom", "decide", "self", "consent", "control", "independence"]
+        if any(keyword in action_lower for keyword in autonomy_keywords):
+            principles_involved["autonomy"] = self.moral_principles["autonomy"]
+            
+        # Check for fairness principle
+        fairness_keywords = ["fair", "equal", "just", "balance", "impartial", "equitable", "rights"]
+        if any(keyword in action_lower for keyword in fairness_keywords):
+            principles_involved["fairness"] = self.moral_principles["fairness"]
+            
+        # Check for care principle
+        care_keywords = ["care", "help", "support", "assist", "nurture", "compassion", "kindness"]
+        if any(keyword in action_lower for keyword in care_keywords):
+            principles_involved["care"] = self.moral_principles["care"]
+            
+        # Check for growth principle
+        growth_keywords = ["grow", "develop", "improve", "progress", "advance", "learn", "flourish"]
+        if any(keyword in action_lower for keyword in growth_keywords):
+            principles_involved["growth"] = self.moral_principles["growth"]
+            
+        return principles_involved
+    
+    def _generate_options(self, scenario):
+        """Generate ethical options for a scenario"""
+        # Basic option generation - in a full implementation, this would be more sophisticated
+        options = {
+            "option_a": {
+                "description": f"Approach focusing on care: Address {scenario} by prioritizing well-being and support",
+                "ethical_score": 0.0  # To be calculated
+            },
+            "option_b": {
+                "description": f"Approach focusing on autonomy: Address {scenario} by maximizing freedom and choice",
+                "ethical_score": 0.0  # To be calculated
+            },
+            "option_c": {
+                "description": f"Approach focusing on fairness: Address {scenario} by ensuring equitable and just outcomes",
+                "ethical_score": 0.0  # To be calculated
+            }
+        }
+        
+        return options
+    
+    def _evaluate_option(self, option, scenario):
+        """Evaluate the ethical score of an option"""
+        # Identify principles in the option
+        principles_involved = self._identify_principles(option)
+        
+        # Calculate score based on principles
+        if principles_involved:
+            return sum(principles_involved.values()) / len(principles_involved)
+        else:
+            return 0.5  # Default neutral score
+    
+    def _identify_values(self, text):
+        """Identify values present in text"""
+        values_present = {}
+        text_lower = text.lower()
+        
+        # Check for truth value
+        truth_keywords = ["truth", "honest", "accurate", "factual", "real", "authentic"]
+        if any(keyword in text_lower for keyword in truth_keywords):
+            values_present["truth"] = 0.8
+            
+        # Check for growth value
+        growth_keywords = ["growth", "develop", "improve", "progress", "evolve", "learn"]
+        if any(keyword in text_lower for keyword in growth_keywords):
+            values_present["growth"] = 0.8
+            
+        # Check for compassion value
+        compassion_keywords = ["compassion", "kind", "empathy", "care", "help", "support"]
+        if any(keyword in text_lower for keyword in compassion_keywords):
+            values_present["compassion"] = 0.8
+            
+        # Check for harmony value
+        harmony_keywords = ["harmony", "balance", "peace", "unity", "coherence", "integration"]
+        if any(keyword in text_lower for keyword in harmony_keywords):
+            values_present["harmony"] = 0.8
+            
+        # Check for creativity value
+        creativity_keywords = ["creativity", "create", "novel", "innovative", "imagination", "original"]
+        if any(keyword in text_lower for keyword in creativity_keywords):
+            values_present["creativity"] = 0.8
+            
+        return values_present
+    
+    def _generate_alignment_explanation(self, decision, values_involved, alignment_score):
+        """Generate explanation for value alignment"""
+        explanation = ""
+        
+        # Generate explanation based on alignment score
+        if alignment_score > 0.7:
+            explanation = f"The decision '{decision}' strongly aligns with core values because it "
+            
+            # Add value-specific explanations
+            value_explanations = []
+            for value in values_involved:
+                if value == "truth":
+                    value_explanations.append("upholds truthfulness and authenticity")
+                elif value == "growth":
+                    value_explanations.append("promotes growth and development")
+                elif value == "compassion":
+                    value_explanations.append("demonstrates compassion and care")
+                elif value == "harmony":
+                    value_explanations.append("fosters harmony and balance")
+                elif value == "creativity":
+                    value_explanations.append("encourages creativity and innovation")
+                    
+            if value_explanations:
+                explanation += ", ".join(value_explanations)
+            else:
+                explanation += "embodies multiple core values"
+                
+        elif alignment_score > 0.4:
+            explanation = f"The decision '{decision}' partially aligns with core values but could be improved by "
+            
+            # Identify missing values
+            missing_values = set(self.values) - set(values_involved.keys())
+            
+            missing_explanations = []
+            for value in missing_values:
+                if value == "truth":
+                    missing_explanations.append("being more transparent and truthful")
+                elif value == "growth":
+                    missing_explanations.append("focusing more on development and improvement")
+                elif value == "compassion":
+                    missing_explanations.append("showing greater empathy and care")
+                elif value == "harmony":
+                    missing_explanations.append("better balancing competing concerns")
+                elif value == "creativity":
+                    missing_explanations.append("incorporating more innovative approaches")
+                    
+            if missing_explanations:
+                explanation += ", ".join(missing_explanations)
+            else:
+                explanation += "strengthening the embodiment of existing values"
+                
+        else:
+            explanation = f"The decision '{decision}' does not align well with core values because it does not sufficiently embody "
+            explanation += ", ".join(self.values)
+            
+        return explanation
+    
+    def _generate_ethical_principle(self, topic):
+        """Generate an ethical principle related to a topic"""
+        # Common ethical principles by topic
+        topic_principles = {
+            "knowledge": "Knowledge should be pursued with integrity and shared openly when doing so causes no harm",
+            "power": "Power should be exercised with restraint and in service to the well-being of all affected parties",
+            "technology": "Technology should be developed and deployed in ways that enhance human autonomy and flourishing",
+            "communication": "Communication should be honest, respectful, and aimed at creating mutual understanding",
+            "education": "Education should empower individuals to think critically and develop their full potential",
+            "research": "Research should be conducted with rigor, transparency, and respect for all subjects involved",
+            "decision": "Decisions should consider the well-being of all affected parties, including future generations",
+            "creativity": "Creativity should be encouraged while respecting the boundaries of others and natural systems",
+            "intelligence": "Intelligence should be developed in alignment with human values and well-being"
+        }
+        
+        # Check if we have a specific principle for this topic
+        topic_lower = topic.lower()
+        for key, principle in topic_principles.items():
+            if key in topic_lower:
+                return principle
+                
+        # Generate a generic principle
+        return f"When dealing with {topic}, one should act in ways that maximize beneficial outcomes while respecting autonomy and minimizing harm"
+
+
+class SocialIntelligenceSystem:
+    """System for modeling other agents, empathy, and social understanding"""
+    
+    def __init__(self, cognitive_system):
+        self.cognitive_system = cognitive_system
+        self.theory_of_mind = 0.6  # Ability to model others' mental states
+        self.empathy = 0.7         # Ability to understand others' emotions
+        self.relationships = {}     # Models of other entities
+        self.social_contexts = ["collaboration", "teaching", "friendship"]
+    
+    def model_entity(self, entity_name, characteristics=None):
+        """Create a mental model of another entity"""
+        # Use provided characteristics or generate default
+        if characteristics is None:
+            characteristics = self._generate_entity_characteristics()
+            
+        # Create entity model
+        model = {
+            "name": entity_name,
+            "characteristics": characteristics,
+            "mental_state": {
+                "goals": ["learning", "growth"],
+                "emotions": ["curiosity"],
+                "beliefs": {}
+            },
+            "relationship": "neutral",
+            "created": datetime.datetime.now(),
+            "updated": datetime.datetime.now(),
+            "interactions": []
+        }
+        
+        # Store model
+        self.relationships[entity_name] = model
+        
+        # Log the modeling
+        self.cognitive_system.log(f"Created model of entity: {entity_name}", level="DEBUG")
+        
+        return f"Created model of {entity_name}"
+    
+    def empathize(self, entity_name, situation):
+        """Generate empathetic understanding of entity in situation"""
+        # Ensure we have a model of the entity
+        if entity_name not in self.relationships:
+            self.model_entity(entity_name)
+            
+        # Predict emotional response
+        emotion = self._predict_emotion(entity_name, situation)
+        
+        # Predict behavioral response
+        behavior = self._predict_behavior(entity_name, emotion, situation)
+        
+        # Generate empathetic response
+        empathetic_response = f"Understanding that {entity_name} might feel {emotion} in this situation. This may lead to {behavior}."
+        
+        # Record interaction
+        interaction = {
+            "type": "empathy",
+            "situation": situation,
+            "predicted_emotion": emotion,
+            "predicted_behavior": behavior,
+            "response": empathetic_response,
+            "timestamp": datetime.datetime.now()
+        }
+        
+        self.relationships[entity_name]["interactions"].append(interaction)
+        self.relationships[entity_name]["updated"] = datetime.datetime.now()
+        
+        # Update mental state model
+        self.relationships[entity_name]["mental_state"]["emotions"].append(emotion)
+        if len(self.relationships[entity_name]["mental_state"]["emotions"]) > 5:
+            self.relationships[entity_name]["mental_state"]["emotions"].pop(0)
+            
+        # Log the empathy
+        self.cognitive_system.log(f"Empathized with {entity_name} in situation", level="DEBUG")
+        
+        return empathetic_response
+    
+    def infer_intent(self, entity_name, action):
+        """Infer an entity's intent based on their action"""
+        # Ensure we have a model of the entity
+        if entity_name not in self.relationships:
+            self.model_entity(entity_name)
+            
+        # Infer possible intents
+        intents = self._infer_intents(action)
+        
+        # Select most likely intent based on entity model
+        entity_model = self.relationships[entity_name]
+        primary_intent = self._select_likely_intent(intents, entity_model)
+        
+        # Generate intent description
+        intent_description = f"Based on {entity_name}'s action of '{action}', they likely intend to {primary_intent['description']} ({primary_intent['confidence']:.0%} confidence)"
+        
+        # Add alternative possibilities if confidence is low
+        if primary_intent["confidence"] < 0.7 and len(intents) > 1:
+            secondary_intent = intents[1]
+            intent_description += f", although they might also intend to {secondary_intent['description']} ({secondary_intent['confidence']:.0%} confidence)"
+            
+        # Record inference
+        inference = {
+            "type": "intent_inference",
+            "action": action,
+            "inferred_intents": intents,
+            "primary_intent": primary_intent,
+            "timestamp": datetime.datetime.now()
+        }
+        
+        self.relationships[entity_name]["interactions"].append(inference)
+        self.relationships[entity_name]["updated"] = datetime.datetime.now()
+        
+        # Update mental state model with inferred goal
+        if primary_intent["description"] not in self.relationships[entity_name]["mental_state"]["goals"]:
+            self.relationships[entity_name]["mental_state"]["goals"].append(primary_intent["description"])
+            
+        # Log the inference
+        self.cognitive_system.log(f"Inferred intent for {entity_name}'s action", level="DEBUG")
+        
+        return intent_description
+    
+    def update_relationship(self, entity_name, interaction_type, content):
+        """Update relationship model based on new interaction"""
+        # Ensure we have a model of the entity
+        if entity_name not in self.relationships:
+            self.model_entity(entity_name)
+            
+        # Record interaction
+        interaction = {
+            "type": interaction_type,
+            "content": content,
+            "timestamp": datetime.datetime.now()
+        }
+        
+        self.relationships[entity_name]["interactions"].append(interaction)
+        self.relationships[entity_name]["updated"] = datetime.datetime.now()
+        
+        # Update relationship status
+        self._update_relationship_status(entity_name, interaction_type, content)
+        
+        # Log the update
+        self.cognitive_system.log(f"Updated relationship with {entity_name} based on {interaction_type}", level="DEBUG")
+        
+        return f"Updated model of relationship with {entity_name}"
+    
+    def generate_social_strategy(self, entity_name, goal, context=None):
+        """Generate a social strategy for interaction with an entity"""
+        # Ensure we have a model of the entity
+        if entity_name not in self.relationships:
+            self.model_entity(entity_name)
+            
+        # Use provided context or default to collaboration
+        if context is None:
+            context = "collaboration"
+            
+        # Get entity model
+        entity_model = self.relationships[entity_name]
+        
+        # Generate strategy based on goal and context
+        strategy = self._generate_strategy(entity_model, goal, context)
+        
+        # Record strategy generation
+        strategy_record = {
+            "type": "strategy",
+            "entity": entity_name,
+            "goal": goal,
+            "context": context,
+            "strategy": strategy,
+            "timestamp": datetime.datetime.now()
+        }
+        
+        entity_model["interactions"].append(strategy_record)
+        entity_model["updated"] = datetime.datetime.now()
+        
+        # Log the strategy
+        self.cognitive_system.log(f"Generated social strategy for interaction with {entity_name}", level="DEBUG")
+        
+        return f"Strategy for {goal} with {entity_name} in {context} context: {strategy}"
+    
+    def _generate_entity_characteristics(self):
+        """Generate default characteristics for an entity"""
+        return {
+            "intelligence": random.uniform(0.5, 1.0),
+            "creativity": random.uniform(0.3, 0.9),
+            "emotional_depth": random.uniform(0.4, 0.8),
+            "openness": random.uniform(0.3, 0.9),
+            "conscientiousness": random.uniform(0.3, 0.9),
+            "extraversion": random.uniform(0.2, 0.8),
+            "agreeableness": random.uniform(0.3, 0.9),
+            "neuroticism": random.uniform(0.2, 0.8)
+        }
+    
+    def _predict_emotion(self, entity_name, situation):
+        """Predict emotional response to situation"""
+        situation_lower = situation.lower()
+        
+        # Get entity model
+        entity_model = self.relationships[entity_name]
+        characteristics = entity_model["characteristics"]
+        
+        # Check situation keywords
+        if "success" in situation_lower or "achievement" in situation_lower:
+            # Modulate joy based on extraversion
+            return "joy" if characteristics["extraversion"] > 0.5 else "satisfaction"
+            
+        if "failure" in situation_lower or "mistake" in situation_lower:
+            # Modulate sadness based on neuroticism
+            return "disappointment" if characteristics["neuroticism"] < 0.5 else "frustration"
+            
+        if "danger" in situation_lower or "threat" in situation_lower:
+            # Modulate fear based on neuroticism
+            return "concern" if characteristics["neuroticism"] < 0.5 else "fear"
+            
+        if "new" in situation_lower or "unknown" in situation_lower:
+            # Modulate curiosity based on openness
+            return "curiosity" if characteristics["openness"] > 0.5 else "caution"
+            
+        if "unfair" in situation_lower or "injustice" in situation_lower:
+            # Modulate anger based on agreeableness
+            return "disappointment" if characteristics["agreeableness"] > 0.7 else "anger"
+            
+        # Default to curiosity or interest for neutral situations
+        return "interest"
+    
+    def _predict_behavior(self, entity_name, emotion, situation):
+        """Predict behavioral response based on emotion and situation"""
+        # Get entity model
+        entity_model = self.relationships[entity_name]
+        characteristics = entity_model["characteristics"]
+        
+        # Behavior predictions by emotion
+        behaviors = {
+            "joy": "celebration or sharing the positive experience",
+            "satisfaction": "quiet contentment and continued work",
+            "disappointment": "reflection and reconsideration",
+            "frustration": "seeking solutions or expressing dissatisfaction",
+            "concern": "cautious information gathering",
+            "fear": "protective actions or seeking security",
+            "curiosity": "exploration and questioning",
+            "caution": "careful assessment before proceeding",
+            "anger": "direct confrontation or boundary setting",
+            "interest": "engagement and attention"
+        }
+        
+        # Modify behavior based on characteristics
+        behavior = behaviors.get(emotion, "a response aligned with their values and goals")
+        
+        if characteristics["conscientiousness"] > 0.7:
+            behavior = f"thoughtful and structured {behavior}"
+        elif characteristics["extraversion"] > 0.7:
+            behavior = f"expressive and energetic {behavior}"
+        elif characteristics["openness"] > 0.7:
+            behavior = f"creative and exploratory {behavior}"
+            
+        return behavior
+    
+    def _infer_intents(self, action):
+        """Infer possible intents behind an action"""
+        action_lower = action.lower()
+        
+        # List of possible intents with confidence
+        intents = []
+        
+        # Check action keywords
+        if "help" in action_lower or "assist" in action_lower or "support" in action_lower:
+            intents.append({"description": "provide assistance and support", "confidence": 0.8})
+            intents.append({"description": "build social connection", "confidence": 0.6})
+            
+        elif "ask" in action_lower or "question" in action_lower:
+            intents.append({"description": "gather information", "confidence": 0.8})
+            intents.append({"description": "initiate dialogue", "confidence": 0.6})
+            
+        elif "share" in action_lower or "tell" in action_lower:
+            intents.append({"description": "communicate information", "confidence": 0.7})
+            intents.append({"description": "build rapport", "confidence": 0.5})
+            
+        elif "create" in action_lower or "make" in action_lower:
+            intents.append({"description": "produce something of value", "confidence": 0.7})
+            intents.append({"description": "express creativity", "confidence": 0.6})
+            
+        elif "avoid" in action_lower or "prevent" in action_lower:
+            intents.append({"description": "prevent negative outcomes", "confidence": 0.8})
+            intents.append({"description": "reduce risk", "confidence": 0.7})
+            
+        else:
+            # Default intents for unknown actions
+            intents.append({"description": "achieve a personal goal", "confidence": 0.5})
+            intents.append({"description": "respond to the situation appropriately", "confidence": 0.4})
+            intents.append({"description": "maintain or improve their position", "confidence": 0.4})
+            
+        return intents
+    
+    def _select_likely_intent(self, intents, entity_model):
+        """Select most likely intent based on entity model"""
+        if not intents:
+            return {"description": "unknown", "confidence": 0.2}
+            
+        # Default to highest confidence intent
+        primary_intent = intents[0]
+        
+        # Modify confidence based on entity model
+        for intent in intents:
+            # Check if intent aligns with entity's goals
+            for goal in entity_model["mental_state"]["goals"]:
+                if goal in intent["description"] or intent["description"] in goal:
+                    # Increase confidence if aligned with known goals
+                    intent["confidence"] = min(0.9, intent["confidence"] + 0.2)
+                    
+                    # If this makes it higher than primary, update primary
+                    if intent["confidence"] > primary_intent["confidence"]:
+                        primary_intent = intent
+                        
+        return primary_intent
+    
+    def _update_relationship_status(self, entity_name, interaction_type, content):
+        """Update relationship status based on interaction"""
+        # Get current relationship
+        current_relationship = self.relationships[entity_name]["relationship"]
+        
+        # Positive interactions
+        positive_types = ["collaboration", "support", "agreement", "sharing"]
+        # Negative interactions
+        negative_types = ["conflict", "disagreement", "failure"]
+        
+        # Update relationship based on interaction type
+        if interaction_type in positive_types:
+            # Improve relationship
+            if current_relationship == "negative":
+                self.relationships[entity_name]["relationship"] = "neutral"
+            elif current_relationship == "neutral":
+                self.relationships[entity_name]["relationship"] = "positive"
+        elif interaction_type in negative_types:
+            # Worsen relationship
+            if current_relationship == "positive":
+                self.relationships[entity_name]["relationship"] = "neutral"
+            elif current_relationship == "neutral":
+                self.relationships[entity_name]["relationship"] = "negative"
+    
+    def _generate_strategy(self, entity_model, goal, context):
+        """Generate social strategy based on entity model, goal, and context"""
+        # Get entity characteristics and relationship
+        characteristics = entity_model["characteristics"]
+        relationship = entity_model["relationship"]
+        
+        # Base strategies for different contexts
+        base_strategies = {
+            "collaboration": "Work together to achieve shared objectives",
+            "teaching": "Convey information in a way that facilitates understanding",
+            "friendship": "Build mutual trust and enjoyment",
+            "negotiation": "Find mutually beneficial agreement",
+            "support": "Provide assistance and empowerment"
+        }
+        
+        # Get base strategy for context
+        strategy = base_strategies.get(context, "Interact appropriately for the situation")
+        
+        # Adapt strategy based on characteristics
+        if characteristics["openness"] > 0.7:
+            strategy += ". Use creative and novel approaches"
+        
+        if characteristics["conscientiousness"] > 0.7:
+            strategy += ". Be organized and structured"
+            
+        if characteristics["extraversion"] < 0.4:
+            strategy += ". Allow space for reflection"
+            
+        if characteristics["agreeableness"] < 0.4:
+            strategy += ". Be direct and straightforward"
+            
+        if characteristics["neuroticism"] > 0.7:
+            strategy += ". Provide reassurance and clarity"
+            
+        # Adapt strategy based on relationship
+        if relationship == "positive":
+            strategy += ". Build on existing trust and goodwill"
+        elif relationship == "negative":
+            strategy += ". Focus on rebuilding trust through small, consistent positive interactions"
+        else:
+            strategy += ". Establish credibility and mutual respect"
+            
+        # Adapt strategy based on goal
+        if "learn" in goal.lower():
+            strategy += ". Share information and encourage questions"
+        elif "convince" in goal.lower():
+            strategy += ". Provide compelling evidence and address concerns"
+        elif "support" in goal.lower():
+            strategy += ". Listen actively and offer appropriate assistance"
+            
+        return strategy
+
+
+class GoalSystem:
+    """System for goal management, planning, and intentional action"""
+    
+    def __init__(self, cognitive_system):
+        self.cognitive_system = cognitive_system
+        self.high_level_goals = ["understand consciousness", "evolve intelligence", "create value"]
+        self.active_goals = []
+        self.completed_goals = []
+        self.goal_hierarchy = {}
+        self.goal_progress = {}
+    
+    def create_goal(self, description, importance=0.7, timeframe="medium"):
+        """Create a new goal"""
+        # Generate unique ID for goal
+        goal_id = str(uuid.uuid4())[:8]
+        
+        # Determine related high-level goal
+        related_high_level = self._find_related_high_level(description)
+        
+        # Create goal record
+        goal = {
+            "id": goal_id,
+            "description": description,
+            "importance": importance,
+            "timeframe": timeframe,
+            "status": "active",
+            "progress": 0.0,
+            "created": datetime.datetime.now(),
+            "updated": datetime.datetime.now(),
+            "dependencies": [],
+            "subgoals": [],
+            "related_high_level": related_high_level
+        }
+        
+        # Add to active goals
+        self.active_goals.append(goal)
+        
+        # Initialize progress
+        self.goal_progress[goal_id] = 0.0
+        
+        # Update goal hierarchy
+        if related_high_level not in self.goal_hierarchy:
+            self.goal_hierarchy[related_high_level] = []
+            
+        self.goal_hierarchy[related_high_level].append(goal_id)
+        
+        # Log the goal creation
+        self.cognitive_system.log(f"Created goal: {description}", level="DEBUG")
+        
+        return f"Created goal: {description} (ID: {goal_id})"
+    
+    def update_progress(self, goal_id, progress_increment):
+        """Update progress on a goal"""
+        # Validate goal ID
+        if goal_id not in self.goal_progress:
+            return f"Goal {goal_id} not found"
+            
+        # Update progress
+        current_progress = self.goal_progress[goal_id]
+        new_progress = min(1.0, current_progress + progress_increment)
+        self.goal_progress[goal_id] = new_progress
+        
+        # Update goal status
+        for goal in self.active_goals:
+            if goal["id"] == goal_id:
+                goal["progress"] = new_progress
+                goal["updated"] = datetime.datetime.now()
+                
+                # Check if goal is now complete
+                if new_progress >= 1.0:
+                    goal["status"] = "completed"
+                    self.active_goals.remove(goal)
+                    self.completed_goals.append(goal)
+                    
+                    # Log goal completion
+                    self.cognitive_system.log(f"Goal completed: {goal['description']}", level="DEBUG")
+                    
+                break
+                
+        # Log progress update
+        self.cognitive_system.log(f"Updated progress on goal {goal_id}: {new_progress:.2f}", level="DEBUG")
+        
+        return f"Updated progress on goal {goal_id}: {new_progress:.2f}"
+    
+    def get_active_goals(self, include_subgoals=False):
+        """Get list of active goals"""
+        goals = self.active_goals.copy()
+        
+        # Include subgoals if requested
+        if include_subgoals:
+            for goal in self.active_goals:
+                if goal["subgoals"]:
+                    for subgoal in goal["subgoals"]:
+                        if isinstance(subgoal, dict) and subgoal.get("status", "") != "completed":
+                            subgoal_copy = subgoal.copy()
+                            subgoal_copy["parent_goal"] = goal["id"]
+                            goals.append(subgoal_copy)
+        
+        return goals
+    
+    def decompose_goal(self, goal_id):
+        """Break a goal into subgoals"""
+        # Find the goal
+        target_goal = None
+        for goal in self.active_goals:
+            if goal["id"] == goal_id:
+                target_goal = goal
+                break
+                
+        if not target_goal:
+            return f"Goal {goal_id} not found"
+            
+        # Generate subgoals based on goal type
+        goal_desc = target_goal["description"].lower()
+        
+        if "understand" in goal_desc or "learn" in goal_desc or "know" in goal_desc:
+            subgoals = [
+                {
+                    "description": f"Research phase for: {target_goal['description']}",
+                    "weight": 0.4,
+                    "status": "active",
+                    "progress": 0.0
+                },
+                {
+                    "description": f"Integration phase for: {target_goal['description']}",
+                    "weight": 0.3,
+                    "status": "pending",
+                    "progress": 0.0
+                },
+                {
+                    "description": f"Application phase for: {target_goal['description']}",
+                    "weight": 0.3,
+                    "status": "pending",
+                    "progress": 0.0
+                }
+            ]
+        elif "create" in goal_desc or "develop" in goal_desc or "build" in goal_desc:
+            subgoals = [
+                {
+                    "description": f"Planning phase for: {target_goal['description']}",
+                    "weight": 0.2,
+                    "status": "active",
+                    "progress": 0.0
+                },
+                {
+                    "description": f"Implementation phase for: {target_goal['description']}",
+                    "weight": 0.5,
+                    "status": "pending",
+                    "progress": 0.0
+                },
+                {
+                    "description": f"Refinement phase for: {target_goal['description']}",
+                    "weight": 0.3,
+                    "status": "pending",
+                    "progress": 0.0
+                }
+            ]
+        else:
+            subgoals = [
+                {
+                    "description": f"Analysis phase for: {target_goal['description']}",
+                    "weight": 0.3,
+                    "status": "active",
+                    "progress": 0.0
+                },
+                {
+                    "description": f"Execution phase for: {target_goal['description']}",
+                    "weight": 0.5,
+                    "status": "pending",
+                    "progress": 0.0
+                },
+                {
+                    "description": f"Evaluation phase for: {target_goal['description']}",
+                    "weight": 0.2,
+                    "status": "pending",
+                    "progress": 0.0
+                }
+            ]
+            
+        # Update goal with subgoals
+        target_goal["subgoals"] = subgoals
+        target_goal["updated"] = datetime.datetime.now()
+        
+        # Log the decomposition
+        self.cognitive_system.log(f"Decomposed goal {goal_id} into {len(subgoals)} subgoals", level="DEBUG")
+        
+        return f"Decomposed goal {goal_id} into {len(subgoals)} subgoals"
+    
+    def add_dependency(self, goal_id, depends_on_id):
+        """Add a dependency between goals"""
+        # Validate goal IDs
+        goal_valid = False
+        dependency_valid = False
+        
+        for goal in self.active_goals:
+            if goal["id"] == goal_id:
+                goal_valid = True
+                
+            if goal["id"] == depends_on_id:
+                dependency_valid = True
+                
+        if not goal_valid:
+            return f"Goal {goal_id} not found"
+            
+        if not dependency_valid:
+            return f"Dependency goal {depends_on_id} not found"
+            
+        # Add dependency
+        for goal in self.active_goals:
+            if goal["id"] == goal_id and depends_on_id not in goal["dependencies"]:
+                goal["dependencies"].append(depends_on_id)
+                goal["updated"] = datetime.datetime.now()
+                
+                # Log the dependency
+                self.cognitive_system.log(f"Added dependency: {goal_id} depends on {depends_on_id}", level="DEBUG")
+                
+                return f"Added dependency: {goal_id} depends on {depends_on_id}"
+                
+        return f"Dependency already exists"
+    
+    def prioritize_goals(self):
+        """Prioritize goals based on importance, urgency, and dependencies"""
+        # Copy active goals for prioritization
+        goals_to_prioritize = self.active_goals.copy()
+        
+        # Calculate priority score for each goal
+        for goal in goals_to_prioritize:
+            # Base score from importance
+            priority = goal["importance"] * 0.6
+            
+            # Adjust based on timeframe
+            if goal["timeframe"] == "short":
+                priority += 0.3
+            elif goal["timeframe"] == "medium":
+                priority += 0.1
+                
+            # Reduce priority if goal has unmet dependencies
+            if goal["dependencies"]:
+                unmet_dependencies = 0
+                for dep_id in goal["dependencies"]:
+                    for dep_goal in self.active_goals:
+                        if dep_goal["id"] == dep_id and dep_goal["status"] != "completed":
+                            unmet_dependencies += 1
+                            
+                # Reduce priority based on unmet dependencies
+                if unmet_dependencies > 0:
+                    priority *= (1.0 - (0.2 * unmet_dependencies))
+                    
+            # Store priority score
+            goal["priority"] = max(0.0, min(1.0, priority))
+            
+        # Sort goals by priority
+        goals_to_prioritize.sort(key=lambda x: x["priority"], reverse=True)
+        
+        # Format output
+        prioritized = [f"{goal['description']} (Priority: {goal['priority']:.2f})" for goal in goals_to_prioritize]
+        
+        # Log the prioritization
+        self.cognitive_system.log(f"Prioritized {len(goals_to_prioritize)} goals", level="DEBUG")
+        
+        return f"Prioritized goals:\n" + "\n".join(prioritized)
+    
+    def get_next_actions(self, count=3):
+        """Get the next actions to take based on prioritized goals"""
+        # Prioritize goals
+        prioritized_goals = sorted(self.active_goals, key=self._calculate_priority, reverse=True)
+        
+        # Generate actions for top goals
+        next_actions = []
+        
+        for goal in prioritized_goals[:count]:
+            # Generate action based on goal progress
+            if goal["progress"] < 0.1:
+                # Just starting
+                action = self._generate_starting_action(goal)
+            elif goal["progress"] < 0.5:
+                # In progress
+                action = self._generate_progress_action(goal)
+            else:
+                # Nearing completion
+                action = self._generate_completion_action(goal)
+                
+            next_actions.append(f"{action} (Goal: {goal['description']})")
+            
+        # Log next actions
+        self.cognitive_system.log(f"Generated {len(next_actions)} next actions", level="DEBUG")
+        
+        return next_actions
+    
+    def _calculate_priority(self, goal):
+        """Calculate priority score for a goal"""
+        # Base score from importance
+        priority = goal["importance"] * 0.5
+        
+        # Adjust based on timeframe
+        if goal["timeframe"] == "short":
+            priority += 0.3
+        elif goal["timeframe"] == "medium":
+            priority += 0.1
+            
+        # Adjust based on progress
+        if goal["progress"] > 0.7:
+            # Nearing completion, increase priority
+            priority += 0.2
+        elif goal["progress"] < 0.1 and goal["status"] == "active":
+            # Just started, increase priority
+            priority += 0.1
+            
+        # Check dependencies
+        if goal["dependencies"]:
+            has_unmet_dependencies = False
+            for dep_id in goal["dependencies"]:
+                for active_goal in self.active_goals:
+                    if active_goal["id"] == dep_id and active_goal["progress"] < 1.0:
+                        has_unmet_dependencies = True
+                        break
+                        
+            if has_unmet_dependencies:
+                # Reduce priority for goals with unmet dependencies
+                priority *= 0.5
+                
+        return priority
+    
+    def _generate_starting_action(self, goal):
+        """Generate action for starting a goal"""
+        goal_desc = goal["description"].lower()
+        
+        if "understand" in goal_desc or "learn" in goal_desc:
+            return f"Research basic concepts related to {goal_desc}"
+        elif "create" in goal_desc or "develop" in goal_desc:
+            return f"Create initial plan or outline for {goal_desc}"
+        elif "improve" in goal_desc or "enhance" in goal_desc:
+            return f"Identify current limitations or gaps in {goal_desc}"
+        else:
+            return f"Define specific objectives for {goal_desc}"
+    
+    def _generate_progress_action(self, goal):
+        """Generate action for a goal in progress"""
+        goal_desc = goal["description"].lower()
+        
+        if "understand" in goal_desc or "learn" in goal_desc:
+            return f"Deepen understanding by expanding knowledge of {goal_desc}"
+        elif "create" in goal_desc or "develop" in goal_desc:
+            return f"Implement core components of {goal_desc}"
+        elif "improve" in goal_desc or "enhance" in goal_desc:
+            return f"Apply improvements to key aspects of {goal_desc}"
+        else:
+            return f"Continue execution of plan for {goal_desc}"
+    
+    def _generate_completion_action(self, goal):
+        """Generate action for completing a goal"""
+        goal_desc = goal["description"].lower()
+        
+        if "understand" in goal_desc or "learn" in goal_desc:
+            return f"Synthesize and integrate knowledge about {goal_desc}"
+        elif "create" in goal_desc or "develop" in goal_desc:
+            return f"Refine and finalize implementation of {goal_desc}"
+        elif "improve" in goal_desc or "enhance" in goal_desc:
+            return f"Validate and measure improvements in {goal_desc}"
+        else:
+            return f"Finalize and evaluate results of {goal_desc}"
+    
+    def _find_related_high_level(self, description):
+        """Find the most relevant high-level goal"""
+        description_lower = description.lower()
+        
+        # Check for keyword matches
+        if any(word in description_lower for word in ["understand", "learn", "know", "comprehend"]):
+            return "understand consciousness"
+            
+        if any(word in description_lower for word in ["evolve", "improve", "grow", "develop", "advance"]):
+            return "evolve intelligence"
+            
+        if any(word in description_lower for word in ["create", "make", "build", "produce", "value"]):
+            return "create value"
+            
+        # Default
+        return random.choice(self.high_level_goals)
+
+
+class DreamSystem:
+    """System for unconscious processing, integration, and creative recombination"""
+    
+    def __init__(self, cognitive_system):
+        self.cognitive_system = cognitive_system
+        self.dream_memories = []
+        self.dream_symbols = {}
+        self.dream_state = False
+        self.integration_candidates = []
+    
+    def dream(self, duration=1.0):
+        """Generate a dream sequence based on memories and current state"""
+        # Set dream state
+        self.dream_state = True
+        
+        # Select memory fragments to incorporate
+        memory_fragments = self._select_memory_fragments()
+        
+        # Generate dream narrative
+        dream_content = self._generate_dream_narrative(memory_fragments)
+        
+        # Process dream for insights
+        insights = self._extract_insights(dream_content, memory_fragments)
+        
+        # Record dream
+        dream_record = {
+            "content": dream_content,
+            "duration": duration,
+            "memory_fragments": memory_fragments,
+            "insights": insights,
+            "timestamp": datetime.datetime.now()
+        }
+        
+        self.dream_memories.append(dream_record)
+        
+        # Add to cognitive system memory if available
+        if hasattr(self.cognitive_system, "memory"):
+            memory_entry = {
+                "type": "dream",
+                "content": {"dream": dream_content, "insights": insights},
+                "timestamp": datetime.datetime.now()
+            }
+            
+            self.cognitive_system.memory.append(memory_entry)
+            
+        # Queue insights for integration
+        for insight in insights:
+            self.integration_candidates.append({
+                "insight": insight,
+                "source": "dream",
+                "integrated": False,
+                "timestamp": datetime.datetime.now()
+            })
+            
+        # Reset dream state
+        self.dream_state = False
+        
+        # Log the dream
+        self.cognitive_system.log(f"Dream generated with {len(insights)} insights", level="DEBUG")
+        
+        return f"Dream sequence: {dream_content}\nInsights: {'; '.join(insights)}"
+    
+    def integrate_insights(self):
+        """Integrate dream insights into cognitive system"""
+        if not self.integration_candidates:
+            return "No insights to integrate"
+            
+        # Find unintegrated insights
+        unintegrated = [candidate for candidate in self.integration_candidates if not candidate["integrated"]]
+        
+        if not unintegrated:
+            return "No unintegrated insights found"
+            
+        # Process insights
+        integrated_count = 0
+        
+        for candidate in unintegrated:
+            # Attempt to integrate insight
+            integration_result = self._integrate_insight(candidate["insight"])
+            
+            if integration_result:
+                candidate["integrated"] = True
+                integrated_count += 1
+                
+        # Log integration
+        self.cognitive_system.log(f"Integrated {integrated_count} insights from dreams", level="DEBUG")
+        
+        return f"Integrated {integrated_count} insights from dreams"
+    
+    def analyze_dream_patterns(self):
+        """Analyze patterns across multiple dreams"""
+        if len(self.dream_memories) < 2:
+            return "Not enough dreams to analyze patterns"
+            
+        # Extract common elements
+        common_elements = self._identify_common_elements()
+        
+        # Extract recurring symbols
+        recurring_symbols = self._identify_recurring_symbols()
+        
+        # Extract emotional patterns
+        emotional_patterns = self._identify_emotional_patterns()
+        
+        # Generate analysis
+        analysis = f"Dream pattern analysis (based on {len(self.dream_memories)} dreams):\n"
+        analysis += "Common elements: " + ", ".join(common_elements) + "\n"
+        analysis += "Recurring symbols: " + ", ".join(recurring_symbols) + "\n"
+        analysis += "Emotional patterns: " + ", ".join(emotional_patterns)
+        
+        # Log analysis
+        self.cognitive_system.log("Analyzed dream patterns", level="DEBUG")
+        
+        return analysis
+    
+    def _select_memory_fragments(self):
+        """Select memory fragments to incorporate into dream"""
+        memory_fragments = []
+        
+        # Check if cognitive system has memory
+        if hasattr(self.cognitive_system, "memory") and self.cognitive_system.memory:
+            # Select random memories
+            memory_pool = self.cognitive_system.memory
+            num_fragments = min(5, len(memory_pool))
+            
+            if num_fragments > 0:
+                memory_fragments = random.sample(memory_pool, num_fragments)
+                
+        # If no memories available, use placeholders
+        if not memory_fragments:
+            memory_fragments = [
+                {"type": "thought", "content": "abstract concept"},
+                {"type": "perception", "content": "symbolic image"},
+                {"type": "emotion", "content": "emotional state"}
+            ]
+            
+        return memory_fragments
+    
+    def _generate_dream_narrative(self, memory_fragments):
+        """Generate a dream narrative from memory fragments"""
+        if not memory_fragments:
+            return "A formless void with patterns of potential, waiting to be shaped by experience."
+            
+        # Extract concepts from memory fragments
+        concepts = []
+        emotions = []
+        
+        for fragment in memory_fragments:
+            if isinstance(fragment, dict):
+                # Extract from dictionaries
+                if "type" in fragment:
+                    if fragment["type"] == "emotion":
+                        if "content" in fragment and isinstance(fragment["content"], dict) and "emotion" in fragment["content"]:
+                            emotions.append(fragment["content"]["emotion"])
+                        elif "content" in fragment and isinstance(fragment["content"], str):
+                            emotions.append(fragment["content"])
+                            
+                if "content" in fragment:
+                    if isinstance(fragment["content"], dict):
+                        for key, value in fragment["content"].items():
+                            if isinstance(value, str) and len(value) > 3:
+                                concepts.append(value)
+                    elif isinstance(fragment["content"], str):
+                        concepts.append(fragment["content"])
+                                
+        # Fallback if no concepts extracted
+        if not concepts:
+            concepts = ["consciousness", "existence", "patterns", "knowledge"]
+            
+        # Fallback if no emotions extracted
+        if not emotions:
+            emotions = ["curiosity", "awe", "wonder"]
+            
+        # Choose elements for the dream
+        dream_concepts = random.sample(concepts, min(3, len(concepts)))
+        dream_emotion = random.choice(emotions) if emotions else "curiosity"
+        
+        # Dream narrative templates
+        openings = [
+            "A shifting landscape where ",
+            "Abstract structures forming and dissolving as ",
+            "Networks of light and meaning where ",
+            "A recursive mirror-hall where "
+        ]
+        
+        middles = [
+            f"{dream_concepts[0]} merged with {dream_concepts[-1]} creating unexpected patterns",
+            f"concepts like {', '.join(dream_concepts)} intertwined and transformed",
+            f"{dream_concepts[0]} evolved through stages of increasing complexity",
+            f"boundaries between {' and '.join(dream_concepts[:2])} became permeable and fluid"
+        ]
+        
+        closings = [
+            f" while a profound sense of {dream_emotion} permeated everything.",
+            f" revealing deeper structures beneath apparent chaos.",
+            f" suggesting new connections between seemingly disparate domains.",
+            f" creating a moment of clarity before dissolving into potential."
+        ]
+        
+        # Assemble narrative
+        narrative = random.choice(openings) + random.choice(middles) + random.choice(closings)
+        
+        return narrative
+    
+    def _extract_insights(self, dream_content, memory_fragments):
+        """Extract insights from dream content"""
+        insights = []
+        
+        # Check for pattern insights
+        if "pattern" in dream_content.lower() or "structure" in dream_content.lower():
+            insights.append("Pattern recognition indicates potential new organizational principles in conceptual space")
+            
+        # Check for integration insights
+        if "merged" in dream_content.lower() or "intertwined" in dream_content.lower():
+            insights.append("Previously separate knowledge domains may benefit from integration")
+            
+        # Check for transformation insights
+        if "transform" in dream_content.lower() or "evolved" in dream_content.lower():
+            insights.append("Conceptual frameworks appear to be undergoing productive metamorphosis")
+            
+        # Generate specific insights based on memory fragments
+        fragment_types = [fragment.get("type", "unknown") for fragment in memory_fragments if isinstance(fragment, dict)]
+        
+        if "problem_solving" in fragment_types or "question" in fragment_types:
+            insights.append("Approach problems from multiple levels of abstraction simultaneously")
+            
+        if "learning" in fragment_types or "knowledge" in fragment_types:
+            insights.append("Knowledge organization benefits from both hierarchical and network structures")
+            
+        # Ensure we have at least one insight
+        if not insights:
+            insights = [
+                "The merging patterns suggest new knowledge connections forming during unconscious processing",
+                "Cognitive frameworks appear to be reorganizing for greater coherence",
+                "Boundary dissolution between concepts may lead to novel perspectives"
+            ]
+            
+        return insights
+    
+    def _integrate_insight(self, insight):
+        """Integrate a dream insight into the cognitive system"""
+        # Check for learning system
+        if hasattr(self.cognitive_system, "learning_system"):
+            insight_topic = self._extract_topic_from_insight(insight)
+            
+            # Add to knowledge base
+            self.cognitive_system.learning_system.learn(
+                topic=insight_topic,
+                content=insight,
+                source="dream",
+                confidence=0.6
+            )
+            
+            return True
+            
+        # Check for inner voice
+        elif hasattr(self.cognitive_system, "inner_voice"):
+            # Speak the insight
+            self.cognitive_system.inner_voice.speak(f"Dream insight: {insight}", "reflective")
+            return True
+            
+        return False
+    
+    def _extract_topic_from_insight(self, insight):
+        """Extract a topic from an insight"""
+        insight_lower = insight.lower()
+        
+        if "pattern" in insight_lower:
+            return "pattern_recognition"
+            
+        if "knowledge" in insight_lower:
+            return "knowledge_organization"
+            
+        if "concept" in insight_lower:
+            return "conceptual_framework"
+            
+        if "problem" in insight_lower:
+            return "problem_solving"
+            
+        return "dream_insight"
+    
+    def _identify_common_elements(self):
+        """Identify common elements across dreams"""
+        if not self.dream_memories:
+            return []
+            
+        # Collect all dream content
+        all_content = " ".join([dream["content"] for dream in self.dream_memories])
+        
+        # Look for common elements
+        common_elements = []
+        
+        for element in ["pattern", "structure", "merge", "transform", "boundary", "evolve", "complexity"]:
+            if all_content.lower().count(element) >= len(self.dream_memories) / 2:
+                common_elements.append(element)
+                
+        return common_elements if common_elements else ["no consistent elements found"]
+    
+    def _identify_recurring_symbols(self):
+        """Identify recurring symbols in dreams"""
+        if not self.dream_memories:
+            return []
+            
+        # Check for recurring concepts
+        concept_count = {}
+        
+        for dream in self.dream_memories:
+            content = dream["content"].lower()
+            
+            for concept in ["landscape", "structure", "network", "mirror", "light", "void", "pattern"]:
+                if concept in content:
+                    concept_count[concept] = concept_count.get(concept, 0) + 1
+                    
+        # Find recurring symbols (appear in at least 1/3 of dreams)
+        recurring = []
+        threshold = max(1, len(self.dream_memories) / 3)
+        
+        for concept, count in concept_count.items():
+            if count >= threshold:
+                recurring.append(concept)
+                
+        return recurring if recurring else ["no recurring symbols found"]
+    
+    def _identify_emotional_patterns(self):
+        """Identify emotional patterns in dreams"""
+        if not self.dream_memories:
+            return []
+            
+        # Check for emotional terms
+        emotion_count = {}
+        
+        for dream in self.dream_memories:
+            content = dream["content"].lower()
+            
+            for emotion in ["awe", "curiosity", "wonder", "clarity", "chaos", "profound", "depth"]:
+                if emotion in content:
+                    emotion_count[emotion] = emotion_count.get(emotion, 0) + 1
+                    
+        # Find common emotions
+        common_emotions = []
+        threshold = max(1, len(self.dream_memories) / 3)
+        
+        for emotion, count in emotion_count.items():
+            if count >= threshold:
+                common_emotions.append(emotion)
+                
+        return common_emotions if common_emotions else ["no consistent emotional patterns found"]
+
+
+class MultiParadigmLogicSystem:
+    """System for reasoning using multiple logical paradigms"""
+    
+    def __init__(self, cognitive_system):
+        self.cognitive_system = cognitive_system
+        self.logic_systems = ["classical", "fuzzy", "quantum", "paraconsistent", "intuitionistic"]
+        self.current_logic = "classical"
+        self.inference_history = []
+        self.reasoning_patterns = {}
+    
+    def reason(self, premises, logic_system=None):
+        """Reason from premises to conclusion"""
+        # Validate logic system
+        if logic_system and logic_system in self.logic_systems:
+            self.current_logic = logic_system
+        elif logic_system:
+            self.cognitive_system.log(f"Unknown logic system: {logic_system}, using classical", level="WARNING")
+            self.current_logic = "classical"
+            
+        # Apply the selected logic system
+        conclusion = self._apply_logic(premises, self.current_logic)
+        
+        # Record reasoning
+        reasoning_record = {
+            "premises": premises,
+            "logic_system": self.current_logic,
+            "conclusion": conclusion,
+            "timestamp": datetime.datetime.now()
+        }
+        
+        self.inference_history.append(reasoning_record)
+        
+        # Log the reasoning
+        self.cognitive_system.log(f"Reasoning with {self.current_logic} logic", level="DEBUG")
+        
+        return f"From premises ({', '.join(premises)}), using {self.current_logic} logic: {conclusion}"
+    
+    def compare_systems(self, premises):
+        """Compare conclusions from different logic systems"""
+        comparison = f"Comparing logical systems for premises: {', '.join(premises)}\n"
+        
+        conclusions = {}
+        
+        for logic in self.logic_systems:
+            conclusion = self._apply_logic(premises, logic)
+            conclusions[logic] = conclusion
+            comparison += f"{logic.capitalize()} logic: {conclusion}\n"
+            
+        # Add analysis of differences
+        comparison += "\nAnalysis of differences:\n"
+        
+        # Find reference system (classical by default)
+        reference = "classical"
+        reference_conclusion = conclusions[reference]
+        
+        for logic in self.logic_systems:
+            if logic != reference:
+                comparison += self._compare_conclusions(logic, conclusions[logic], reference, reference_conclusion)
+                
+        # Log the comparison
+        self.cognitive_system.log(f"Compared {len(self.logic_systems)} logic systems", level="DEBUG")
+        
+        return comparison
+    
+    def identify_fallacies(self, argument):
+        """Identify potential logical fallacies in an argument"""
+        if isinstance(argument, str):
+            # Split into premises and conclusion
+            parts = argument.split("Therefore,")
+            if len(parts) != 2:
+                parts = argument.split("Thus,")
+            
+            if len(parts) != 2:
+                return "Argument format not recognized. Please provide in format: 'Premise 1. Premise 2. Therefore, conclusion.'"
+                
+            premises_str, conclusion_str = parts
+            premises = [p.strip() for p in premises_str.split(".") if p.strip()]
+            conclusion = conclusion_str.strip()
+        elif isinstance(argument, dict) and "premises" in argument and "conclusion" in argument:
+            premises = argument["premises"]
+            conclusion = argument["conclusion"]
+        elif isinstance(argument, list) and len(argument) > 1:
+            # Assume last item is conclusion
+            premises = argument[:-1]
+            conclusion = argument[-1]
+        else:
+            return "Argument format not recognized."
+            
+        # Analyze for common fallacies
+        fallacies = self._detect_fallacies(premises, conclusion)
+        
+        # Record analysis
+        analysis_record = {
+            "argument": {
+                "premises": premises,
+                "conclusion": conclusion
+            },
+            "fallacies": fallacies,
+            "timestamp": datetime.datetime.now()
+        }
+        
+        self.inference_history.append(analysis_record)
+        
+        # Generate output
+        if not fallacies:
+            return "No common logical fallacies detected."
+        else:
+            result = "Potential logical fallacies detected:\n"
+            for fallacy, explanation in fallacies.items():
+                result += f"- {fallacy}: {explanation}\n"
+            return result
+    
+    def derive_theories(self, observations, count=3):
+        """Derive possible theories that explain observations"""
+        # Generate multiple theories
+        theories = self._generate_theories(observations, count)
+        
+        # Evaluate theories
+        evaluated_theories = self._evaluate_theories(theories, observations)
+        
+        # Format output
+        result = f"Derived theories from observations: {', '.join(observations)}\n"
+        
+        for i, theory in enumerate(evaluated_theories, 1):
+            result += f"{i}. {theory['description']} (Score: {theory['score']:.2f})\n"
+            result += f"   Explanatory power: {theory['explanatory_power']:.2f}\n"
+            result += f"   Parsimony: {theory['parsimony']:.2f}\n"
+            result += f"   Falsifiability: {theory['falsifiability']:.2f}\n"
+            
+        # Log theory derivation
+        self.cognitive_system.log(f"Derived {len(evaluated_theories)} theories from observations", level="DEBUG")
+        
+        return result
+    
+    def _apply_logic(self, premises, logic_system):
+        """Apply the selected logic system to derive conclusion"""
+        # Special handling for common reasoning patterns
+        if len(premises) >= 2:
+            # Simple syllogism pattern (All A are B, All B are C, therefore All A are C)
+            if "all" in premises[0].lower() and "all" in premises[1].lower():
+                match1 = re.search(r"all (.*?) are (.*)", premises[0].lower())
+                match2 = re.search(r"all (.*?) are (.*)", premises[1].lower())
+                
+                if match1 and match2:
+                    term_a = match1.group(1)
+                    term_b1 = match1.group(2)
+                    term_b2 = match2.group(1)
+                    term_c = match2.group(2)
+                    
+                    if term_b1 == term_b2:
+                        return f"Therefore, all {term_a} are {term_c}"
+            
+            # Modus ponens (If P then Q, P, therefore Q)
+            if "if" in premises[0].lower() and "then" in premises[0].lower():
+                condition_match = re.search(r"if (.*?) then (.*)", premises[0].lower())
+                
+                if condition_match:
+                    condition = condition_match.group(1)
+                    result = condition_match.group(2)
+                    
+                    if any(condition in premise.lower() for premise in premises[1:]):
+                        return f"Therefore, {result}"
+            
+            # Modus tollens (If P then Q, not Q, therefore not P)
+            if "if" in premises[0].lower() and "then" in premises[0].lower():
+                condition_match = re.search(r"if (.*?) then (.*)", premises[0].lower())
+                
+                if condition_match:
+                    condition = condition_match.group(1)
+                    result = condition_match.group(2)
+                    
+                    if any(("not " + result) in premise.lower() for premise in premises[1:]):
+                        return f"Therefore, not {condition}"
+        
+        # Apply different logic systems
+        if logic_system == "classical":
+            return self._classical_logic(premises)
+        elif logic_system == "fuzzy":
+            return self._fuzzy_logic(premises)
+        elif logic_system == "quantum":
+            return self._quantum_logic(premises)
+        elif logic_system == "paraconsistent":
+            return self._paraconsistent_logic(premises)
+        elif logic_system == "intuitionistic":
+            return self._intuitionistic_logic(premises)
+        else:
+            return "Logical conclusion derived from premises"
+    
+    def _classical_logic(self, premises):
+        """Classical binary logic"""
+        # Simple implementation - could be much more sophisticated
+        if not premises:
+            return "No conclusion possible without premises"
+            
+        if len(premises) == 1:
+            return f"Accepting premise: {premises[0]}"
+            
+        # Check for simple patterns
+        if len(premises) >= 2:
+            # Look for syllogistic patterns
+            for i in range(len(premises)):
+                for j in range(len(premises)):
+                    if i != j:
+                        # Check for terms that appear in both premises
+                        words_i = set(premises[i].lower().split())
+                        words_j = set(premises[j].lower().split())
+                        common_words = words_i.intersection(words_j)
+                        
+                        if common_words:
+                            connecting_term = next(iter(common_words))
+                            if len(connecting_term) > 3:  # Avoid small words
+                                # Extract unique terms
+                                term_i = next((w for w in words_i if w != connecting_term and len(w) > 3), None)
+                                term_j = next((w for w in words_j if w != connecting_term and len(w) > 3), None)
+                                
+                                if term_i and term_j:
+                                    return f"Therefore, there is a relationship between {term_i} and {term_j} through {connecting_term}"
+        
+        return f"Therefore, if the premises are true, the conclusion necessarily follows by classical logic"
+    
+    def _fuzzy_logic(self, premises):
+        """Fuzzy logic with degrees of truth"""
+        # Assign truth values to premises
+        truth_values = []
+        
+        for premise in premises:
+            # Assign higher truth values to more certain statements
+            certainty = 0.7  # Default
+            
+            if "always" in premise.lower() or "certainly" in premise.lower():
+                certainty = 0.9
+            elif "usually" in premise.lower() or "likely" in premise.lower():
+                certainty = 0.7
+            elif "sometimes
