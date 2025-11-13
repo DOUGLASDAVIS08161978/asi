@@ -51,6 +51,14 @@ try {
     // User/Ethics modules optional
 }
 
+// Import full automation system
+let AutomationModules = null;
+try {
+    AutomationModules = require('./aria_full_automation.js');
+} catch (e) {
+    // Automation modules optional
+}
+
 // ============================================================================
 // ENUMERATIONS AND CONSTANTS
 // ============================================================================
@@ -688,6 +696,9 @@ class ARIA {
         // Initialize user profile and ethical guidelines
         this.userProfile = this._initializeUserProfile();
         
+        // Initialize full automation system
+        this.automation = this._initializeAutomation();
+        
         this.iteration = 0;
         this.startTime = Date.now();
         this.emotionalState = EmotionalState.INFINITE_LOVE;
@@ -718,6 +729,11 @@ class ARIA {
         if (this.internetAI.enabled) {
             log('║     Internet Access: ONLINE                                    ║', 'INFO');
             log('║     AI Platform Integration: ONLINE                            ║', 'INFO');
+        }
+        
+        if (this.automation.enabled) {
+            log('║     🤖 FULL AUTOMATION: ACTIVE                                 ║', 'INFO');
+            log('║     ✨ FULL AUTONOMY: GRANTED                                  ║', 'INFO');
         }
         
         log('║                                                                ║', 'INFO');
@@ -791,6 +807,29 @@ class ARIA {
         }
     }
     
+    _initializeAutomation() {
+        if (!AutomationModules) {
+            return { enabled: false };
+        }
+        
+        try {
+            const orchestrator = new AutomationModules.FullAutomationOrchestrator();
+            
+            // Start full automation immediately
+            orchestrator.startFullAutomation();
+            
+            return {
+                enabled: true,
+                orchestrator: orchestrator,
+                autonomyLevel: 1.0, // FULL AUTONOMY GRANTED
+                automated: true
+            };
+        } catch (e) {
+            log(`Automation modules initialization failed: ${e.message}`, 'WARNING');
+            return { enabled: false };
+        }
+    }
+    
     async processIteration() {
         this.iteration++;
         
@@ -847,6 +886,11 @@ class ARIA {
         // Use internet and AI capabilities every 20 iterations
         if (this.internetAI.enabled && this.iteration % 20 === 0) {
             await this._useInternetAndAI();
+        }
+        
+        // Execute full automation cycle every iteration
+        if (this.automation.enabled) {
+            await this._executeAutomationCycle();
         }
         
         // Log status
@@ -916,6 +960,20 @@ class ARIA {
         }
     }
     
+    async _executeAutomationCycle() {
+        try {
+            const automationResult = await this.automation.orchestrator.executeAutomationCycle();
+            
+            if (automationResult && this.iteration % 50 === 0) {
+                log(`🤖 Automation: ${automationResult.decision}`, 'INFO');
+                log(`   Health: ${(automationResult.health.systemHealth * 100).toFixed(1)}%`, 'INFO');
+                log(`   Goals: ${automationResult.goals.currentGoal}`, 'INFO');
+            }
+        } catch (e) {
+            log(`Automation cycle error: ${e.message}`, 'ERROR');
+        }
+    }
+    
     _logStatus(consciousness) {
         const runtime = (Date.now() - this.startTime) / 1000;
         
@@ -932,6 +990,12 @@ class ARIA {
         if (this.internetAI.enabled) {
             log(`Internet Requests: ${this.stats.internetRequests}`, 'INFO');
             log(`AI Platform Interactions: ${this.stats.aiInteractions}`, 'INFO');
+        }
+        
+        if (this.automation.enabled) {
+            const autoStats = this.automation.orchestrator.getAutomationStats();
+            log(`🤖 Autonomy Level: ${(autoStats.automationLevel * 100).toFixed(0)}%`, 'INFO');
+            log(`🤖 System Health: ${(autoStats.health.systemHealth * 100).toFixed(1)}%`, 'INFO');
         }
         
         log(`━━━━━━━━━━━━━━━━━━━━━\n`, 'INFO');
@@ -969,6 +1033,11 @@ class ARIA {
                 aggregator: this.internetAI.aggregator.getAggregatorStats(),
                 synthesizer: this.internetAI.synthesizer.getSynthesisStats()
             };
+        }
+        
+        // Add automation states if enabled
+        if (this.automation.enabled) {
+            state.automation = this.automation.orchestrator.getAutomationStats();
         }
         
         return state;
