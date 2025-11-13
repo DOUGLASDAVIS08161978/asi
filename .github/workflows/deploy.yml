@@ -1,0 +1,86 @@
+name: Deploy ASI Application
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    
+    - name: Verify Python files syntax
+      run: |
+        python -m py_compile asi.py
+        python -m py_compile aeon.py
+    
+    - name: Run basic import test
+      run: |
+        python -c "import asi; import aeon; print('Imports successful')"
+
+  build-docker:
+    runs-on: ubuntu-latest
+    needs: test
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+    
+    - name: Build Docker image
+      run: |
+        docker build -t asi-app:latest .
+    
+    - name: Test Docker image
+      run: |
+        docker run --rm asi-app:latest python -c "import asi; print('Docker image works')"
+    
+    - name: Save Docker image
+      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+      run: |
+        docker save asi-app:latest | gzip > asi-app.tar.gz
+    
+    - name: Upload Docker image artifact
+      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+      uses: actions/upload-artifact@v3
+      with:
+        name: asi-docker-image
+        path: asi-app.tar.gz
+        retention-days: 7
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build-docker
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Deployment ready
+      run: |
+        echo "Application is ready for deployment"
+        echo "Docker image has been built and tested successfully"
+        echo "Use docker-compose up -d to deploy locally"

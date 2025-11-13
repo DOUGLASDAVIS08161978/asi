@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  asi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: asi-app
+    volumes:
+      - ./data:/app/data
+    environment:
+      - PYTHONUNBUFFERED=1
+      - GENESIS_MEMORY_PATH=/app/data/genesis_memory.pkl
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+
+volumes:
+  data:
+    driver: local
