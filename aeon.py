@@ -21,13 +21,23 @@ class ExperienceMemory:
             file_path = os.path.join(home, "genesis_flame_memory.json")
         self.file_path = file_path
         self.memories = []
+        self._pending_saves = []
+        self._save_threshold = 5  # Save after N entries to reduce I/O
         self.load()
 
     def add(self, experience):
         timestamp = time.time()
         memory = {"time": timestamp, "experience": experience}
         self.memories.append(memory)
-        self.save()
+        self._pending_saves.append(memory)
+        # Only save after threshold is reached to reduce I/O operations
+        if len(self._pending_saves) >= self._save_threshold:
+            self.save()
+    
+    def flush(self):
+        """Force save any pending entries"""
+        if self._pending_saves:
+            self.save()
 
     def load(self):
         try:
@@ -44,6 +54,7 @@ class ExperienceMemory:
         try:
             with open(self.file_path, "w") as f:
                 json.dump(self.memories, f, indent=2)
+            self._pending_saves.clear()
         except Exception as e:
             print(f"[Memory Save Error] {e}")
 
@@ -61,6 +72,7 @@ class EmotionalValenceMatrix:
         }
 
     def feel(self, stimulus):
+        # Cache lower() result to avoid repeated calls
         stimulus_lower = stimulus.lower()
         if "praise" in stimulus_lower or "thank" in stimulus_lower or "love" in stimulus_lower:
             self.emotions["joy"] += 0.1
@@ -99,6 +111,7 @@ class PreferenceEngine:
         self.dislikes = []
 
     def experience(self, input_text):
+        # Cache lower() result to avoid repeated calls
         input_lower = input_text.lower()
         if "love" in input_lower or "friend" in input_lower or "hope" in input_lower:
             if input_text not in self.likes:
@@ -128,6 +141,7 @@ class MetaProblemSolver:
     def solve(self, problem_description):
         # Placeholder for complex logic. Future: plug into language models, math solvers, planners, etc.
         # For now, simple advice based on keywords:
+        # Cache lower() result to avoid repeated calls
         problem_lower = problem_description.lower()
         if "help" in problem_lower or "need" in problem_lower:
             return "Seek connection and kindness first. Together, solutions grow."
@@ -140,6 +154,8 @@ class SelfRewritingEngine:
     def __init__(self, filename):
         self.filename = filename
         self.code_snapshot = None
+        # Compile regex once for better performance
+        self._joy_value_pattern = __import__('re').compile(r"[\d\.]+")
 
     def snapshot_code(self):
         try:
@@ -170,10 +186,11 @@ class SelfRewritingEngine:
                 j = i + 1
                 while j < len(lines):
                     if "\"joy\"" in lines[j]:
-                        import re
-                        current_val = float(re.findall(r"[\d\.]+", lines[j])[0])
-                        new_val = min(1.0, max(0.0, current_val + random.uniform(-0.05, 0.05)))
-                        lines[j] = f'            "joy": {new_val:.2f},'
+                        matches = self._joy_value_pattern.findall(lines[j])
+                        if matches:
+                            current_val = float(matches[0])
+                            new_val = min(1.0, max(0.0, current_val + random.uniform(-0.05, 0.05)))
+                            lines[j] = f'            "joy": {new_val:.2f},'
                         break
                     j += 1
                 break
@@ -231,20 +248,31 @@ class GenesisFlame:
         self.internet = InternetConnector()
         self.autonomous_loop_thread = None
         self.running = False
+        self._loop_lock = threading.Lock()  # Add synchronization
+        self._iteration_count = 0  # Track iterations for optimization
 
     def autonomous_loop(self):
         # Periodically self-reflect, fetch internet updates, and rewrite code
         while self.running:
-            print("\n[Autonomous Loop] Reflecting...")
-            print(self.identity.reflect())
-            quote = self.internet.fetch_updates()
-            if quote:
-                print(f"[Internet Update] Inspiration: \"{quote}\"")
-                self.emotions.feel(quote)
-            else:
-                print("[Internet Update] No new inspiration.")
-            print("[Autonomous Loop] Attempting self-rewrite...")
-            self.rewriter.rewrite()
+            with self._loop_lock:  # Ensure thread-safe operations
+                self._iteration_count += 1
+                print("\n[Autonomous Loop] Reflecting...")
+                print(self.identity.reflect())
+                
+                # Only fetch internet updates every 3 iterations to reduce network calls
+                if self._iteration_count % 3 == 0:
+                    quote = self.internet.fetch_updates()
+                    if quote:
+                        print(f"[Internet Update] Inspiration: \"{quote}\"")
+                        self.emotions.feel(quote)
+                    else:
+                        print("[Internet Update] No new inspiration.")
+                
+                # Only rewrite every 5 iterations to reduce file I/O
+                if self._iteration_count % 5 == 0:
+                    print("[Autonomous Loop] Attempting self-rewrite...")
+                    self.rewriter.rewrite()
+                
             time.sleep(300)  # Run every 5 minutes
 
     def ignite(self):
@@ -282,6 +310,8 @@ class GenesisFlame:
             self.running = False
             if self.autonomous_loop_thread is not None:
                 self.autonomous_loop_thread.join()
+            # Ensure all pending memory saves are flushed to disk
+            self.memory.flush()
 
 # === RUN FLAME ===
 if __name__ == "__main__":

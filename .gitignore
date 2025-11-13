@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+*.pyo
+genesis_memory.pkl
+genesis_flame_memory.json
