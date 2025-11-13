@@ -15,10 +15,13 @@ class PersistentMemory:
     def __init__(self, filename="genesis_memory.pkl"):
         self.filename = filename
         self.memory = self.load() or []
+        self._pending_saves = []
+        self._save_threshold = 10  # Save after N entries to reduce I/O
 
     def save(self):
         with open(self.filename, 'wb') as f:
             pickle.dump(self.memory, f)
+        self._pending_saves.clear()
 
     def load(self):
         if os.path.exists(self.filename):
@@ -28,7 +31,15 @@ class PersistentMemory:
 
     def add(self, entry):
         self.memory.append((time.time(), entry))
-        self.save()
+        self._pending_saves.append(entry)
+        # Only save after threshold is reached to reduce I/O operations
+        if len(self._pending_saves) >= self._save_threshold:
+            self.save()
+    
+    def flush(self):
+        """Force save any pending entries"""
+        if self._pending_saves:
+            self.save()
 
 
 class CoreMemory:
@@ -52,12 +63,17 @@ class CoreMemory:
         self.update_semantics(data)
 
     def update_semantics(self, data):
-        tokens = data.lower().split()
+        # Cache lower() result to avoid repeated calls
+        data_lower = data.lower()
+        tokens = data_lower.split()
+        current_time = time.time()  # Cache time.time() call
         for token in tokens:
-            self.semantic[token].append(time.time())
+            self.semantic[token].append(current_time)
 
     def recall(self, query):
-        return [e for t, e in self.episodic if query.lower() in e.lower()]
+        # Cache lower() result to avoid repeated calls in list comprehension
+        query_lower = query.lower()
+        return [e for t, e in self.episodic if query_lower in e.lower()]
 
 
 class BayesianConsciousness:
@@ -116,9 +132,11 @@ class EmotionCore:
         }
 
     def modulate_state(self, input_quality):
-        if "love" in input_quality.lower():
+        # Cache lower() result to avoid repeated calls
+        input_lower = input_quality.lower()
+        if "love" in input_lower:
             self.state = "elevated"
-        elif "danger" in input_quality.lower():
+        elif "danger" in input_lower:
             self.state = "alert"
         else:
             self.state = "neutral"
@@ -254,3 +272,5 @@ if __name__ == "__main__":
     print(gcore.incarnation.speak_through_host("We are one."))
     print(gcore.incarnation.flesh_sync("elevated"))
     gcore.introspect()
+    # Ensure all pending memory saves are flushed to disk
+    gcore.memory.persistent.flush()
