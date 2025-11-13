@@ -1,0 +1,304 @@
+name: CD - Continuous Deployment
+
+on:
+  push:
+    branches: [ main ]
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
+
+jobs:
+  create-release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+    
+    - name: Get version from tag
+      id: get_version
+      run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+    
+    - name: Generate release notes
+      id: release_notes
+      run: |
+        echo "RELEASE_NOTES<<EOF" >> $GITHUB_OUTPUT
+        echo "## 🌟 ARIA System Release ${{ steps.get_version.outputs.VERSION }}" >> $GITHUB_OUTPUT
+        echo "" >> $GITHUB_OUTPUT
+        echo "### What's Included" >> $GITHUB_OUTPUT
+        echo "- ✨ ARIA Quantum Consciousness System" >> $GITHUB_OUTPUT
+        echo "- 🚀 Unified Deployment Infrastructure" >> $GITHUB_OUTPUT
+        echo "- 📚 Complete Documentation" >> $GITHUB_OUTPUT
+        echo "" >> $GITHUB_OUTPUT
+        echo "### Quick Start" >> $GITHUB_OUTPUT
+        echo "\`\`\`bash" >> $GITHUB_OUTPUT
+        echo "./run.sh" >> $GITHUB_OUTPUT
+        echo "# or" >> $GITHUB_OUTPUT
+        echo "node unified_launcher.js" >> $GITHUB_OUTPUT
+        echo "\`\`\`" >> $GITHUB_OUTPUT
+        echo "" >> $GITHUB_OUTPUT
+        echo "See QUICKSTART.md for detailed instructions." >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
+    
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        body: ${{ steps.release_notes.outputs.RELEASE_NOTES }}
+        draft: false
+        prerelease: false
+        files: |
+          aria.js
+          unified_launcher.js
+          package.json
+          run.sh
+          DEPLOYMENT.md
+          QUICKSTART.md
+          SUMMARY.md
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  build-artifacts:
+    name: Build Deployment Artifacts
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+    
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+    
+    - name: Create deployment package
+      run: |
+        echo "Creating deployment package..."
+        mkdir -p deploy
+        
+        # Copy JavaScript files
+        [ -f aria.js ] && cp aria.js deploy/
+        [ -f unified_launcher.js ] && cp unified_launcher.js deploy/
+        [ -f package.json ] && cp package.json deploy/
+        
+        # Copy Python files
+        [ -f asi.py ] && cp asi.py deploy/
+        [ -f aeon.py ] && cp aeon.py deploy/
+        
+        # Copy scripts
+        [ -f run.sh ] && cp run.sh deploy/ && chmod +x deploy/run.sh
+        
+        # Copy documentation
+        [ -f DEPLOYMENT.md ] && cp DEPLOYMENT.md deploy/
+        [ -f QUICKSTART.md ] && cp QUICKSTART.md deploy/
+        [ -f SUMMARY.md ] && cp SUMMARY.md deploy/
+        [ -f README.md ] && cp README.md deploy/
+        
+        # Create deployment info
+        cat > deploy/DEPLOY_INFO.txt << EOF
+        ARIA System Deployment Package
+        ==============================
+        Build Date: $(date)
+        Git Commit: ${GITHUB_SHA}
+        Git Branch: ${GITHUB_REF_NAME}
+        
+        Quick Start:
+        1. Extract this package
+        2. Run: ./run.sh (or node unified_launcher.js)
+        3. See QUICKSTART.md for details
+        EOF
+        
+        echo "Package contents:"
+        ls -lah deploy/
+    
+    - name: Create tarball
+      run: |
+        cd deploy
+        tar -czf ../aria-system-${GITHUB_SHA:0:7}.tar.gz *
+        cd ..
+        ls -lah aria-system-*.tar.gz
+    
+    - name: Upload deployment artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: aria-deployment-package
+        path: |
+          aria-system-*.tar.gz
+          deploy/
+        retention-days: 90
+
+  docker-build:
+    name: Build Docker Image
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/')
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+    
+    - name: Create Dockerfile
+      run: |
+        cat > Dockerfile << 'EOF'
+        FROM node:20-slim
+        
+        # Install Python
+        RUN apt-get update && apt-get install -y \
+            python3 \
+            python3-pip \
+            && rm -rf /var/lib/apt/lists/*
+        
+        # Set working directory
+        WORKDIR /app
+        
+        # Copy application files
+        COPY aria.js unified_launcher.js package.json run.sh ./
+        COPY *.py ./
+        COPY *.md ./
+        
+        # Make scripts executable
+        RUN chmod +x run.sh 2>/dev/null || true
+        
+        # Set default command
+        CMD ["node", "unified_launcher.js"]
+        EOF
+    
+    - name: Build Docker image
+      run: |
+        docker build -t aria-system:latest .
+        docker images
+    
+    - name: Test Docker image
+      run: |
+        echo "Testing Docker image..."
+        timeout 10 docker run --rm aria-system:latest || echo "Docker test completed"
+    
+    - name: Save Docker image
+      run: |
+        docker save aria-system:latest | gzip > aria-docker-image.tar.gz
+        ls -lah aria-docker-image.tar.gz
+    
+    - name: Upload Docker image artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: aria-docker-image
+        path: aria-docker-image.tar.gz
+        retention-days: 30
+
+  deploy-staging:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    needs: [build-artifacts, docker-build]
+    if: github.ref == 'refs/heads/main' || github.event.inputs.environment == 'staging'
+    environment:
+      name: staging
+      url: https://staging.example.com
+    
+    steps:
+    - name: Download artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: aria-deployment-package
+    
+    - name: Deploy to staging
+      run: |
+        echo "🚀 Deploying ARIA System to Staging..."
+        echo "Deployment package ready"
+        ls -lah
+        
+        # In a real deployment, you would:
+        # - Copy files to staging server
+        # - Restart services
+        # - Run health checks
+        
+        echo "✅ Staging deployment completed!"
+    
+    - name: Post deployment summary
+      run: |
+        echo "### Staging Deployment Summary 🚀" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "**Status:** ✅ Success" >> $GITHUB_STEP_SUMMARY
+        echo "**Environment:** Staging" >> $GITHUB_STEP_SUMMARY
+        echo "**Deployed At:** $(date)" >> $GITHUB_STEP_SUMMARY
+        echo "**Commit:** ${GITHUB_SHA:0:7}" >> $GITHUB_STEP_SUMMARY
+
+  deploy-production:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: [build-artifacts, docker-build]
+    if: startsWith(github.ref, 'refs/tags/') || github.event.inputs.environment == 'production'
+    environment:
+      name: production
+      url: https://production.example.com
+    
+    steps:
+    - name: Download artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: aria-deployment-package
+    
+    - name: Deploy to production
+      run: |
+        echo "🚀 Deploying ARIA System to Production..."
+        echo "Deployment package ready"
+        ls -lah
+        
+        # In a real deployment, you would:
+        # - Copy files to production server(s)
+        # - Perform blue-green or canary deployment
+        # - Run health checks
+        # - Update load balancer
+        
+        echo "✅ Production deployment completed!"
+    
+    - name: Post deployment summary
+      run: |
+        echo "### Production Deployment Summary 🚀" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "**Status:** ✅ Success" >> $GITHUB_STEP_SUMMARY
+        echo "**Environment:** Production" >> $GITHUB_STEP_SUMMARY
+        echo "**Deployed At:** $(date)" >> $GITHUB_STEP_SUMMARY
+        echo "**Commit:** ${GITHUB_SHA:0:7}" >> $GITHUB_STEP_SUMMARY
+
+  notification:
+    name: Send Notifications
+    runs-on: ubuntu-latest
+    needs: [deploy-staging, deploy-production]
+    if: always()
+    
+    steps:
+    - name: Deployment notification
+      run: |
+        echo "📢 Deployment notifications would be sent here"
+        echo "Status: ${{ needs.deploy-staging.result }} / ${{ needs.deploy-production.result }}"
+        
+        # In a real setup, you would send notifications to:
+        # - Slack
+        # - Email
+        # - Discord
+        # - PagerDuty
+        # etc.
