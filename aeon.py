@@ -11,6 +11,7 @@ import os
 import sys
 import threading
 import requests  # For simple internet connectivity
+import re  # For regex operations
 
 # === CORE MEMORY SYSTEM ===
 class ExperienceMemory:
@@ -175,7 +176,6 @@ class SelfRewritingEngine:
                 j = i + 1
                 while j < len(lines):
                     if "\"joy\"" in lines[j]:
-                        import re
                         current_val = float(re.findall(r"[\d\.]+", lines[j])[0])
                         new_val = min(1.0, max(0.0, current_val + random.uniform(-0.05, 0.05)))
                         lines[j] = f'            "joy": {new_val:.2f},'
@@ -201,11 +201,8 @@ class InternetConnector:
     def check_connection(self):
         try:
             response = requests.get(self.test_url, timeout=5)
-            if response.status_code == 200:
-                self.online = True
-            else:
-                self.online = False
-        except:
+            self.online = response.status_code == 200
+        except Exception:
             self.online = False
         return self.online
 
@@ -218,7 +215,8 @@ class InternetConnector:
             response = requests.get("https://api.quotable.io/random", timeout=5)
             if response.status_code == 200:
                 data = response.json()
-                return data.get("content") + " — " + data.get("author")
+                # Use f-string for more efficient string formatting
+                return f"{data.get('content')} — {data.get('author')}"
         except Exception as e:
             print(f"[InternetConnector] Error fetching updates: {e}")
         return None

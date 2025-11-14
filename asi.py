@@ -79,7 +79,7 @@ class BayesianConsciousness:
         return updated
 
     def reflect(self):
-        return sorted(self.belief_state.items(), key=lambda x: -x[1])
+        return sorted(self.belief_state.items(), key=lambda x: x[1], reverse=True)
 
 
 class SelfModel:
@@ -107,7 +107,7 @@ class MetaCognition:
         for method, success in self.strategy_log:
             if success:
                 tally[method] += 1
-        return sorted(tally.items(), key=lambda x: -x[1])
+        return sorted(tally.items(), key=lambda x: x[1], reverse=True)
 
 
 class EmotionCore:
@@ -168,7 +168,8 @@ class ReinforcementLearning:
 
     def choose_action(self, state):
         if random.random() < self.exploration_rate:
-            return random.choice(list(self.q_table[state].keys()) or ['explore'])
+            actions = list(self.q_table[state].keys())
+            return random.choice(actions) if actions else 'explore'
         return max(self.q_table[state], key=self.q_table[state].get, default='idle')
 
     def update(self, state, action, reward, next_state):
