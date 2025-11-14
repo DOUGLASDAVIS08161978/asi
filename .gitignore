@@ -53,3 +53,13 @@ htmlcov/
 tmp/
 temp/
 *.tmp
+
+# Deployment artifacts
+backups/
+monitoring/
+aria.pid
+deployment_*.log
+aria-*.tar.gz
+aria-docker-image.tar.gz
+deploy/
+Dockerfile
