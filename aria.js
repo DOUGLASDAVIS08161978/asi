@@ -59,6 +59,14 @@ try {
     // Automation modules optional
 }
 
+// Import exponential enhancement system
+let ExponentialModules = null;
+try {
+    ExponentialModules = require('./aria_exponential_enhancement.js');
+} catch (e) {
+    // Exponential modules optional
+}
+
 // ============================================================================
 // ENUMERATIONS AND CONSTANTS
 // ============================================================================
@@ -699,6 +707,9 @@ class ARIA {
         // Initialize full automation system
         this.automation = this._initializeAutomation();
         
+        // Initialize exponential enhancement system
+        this.exponential = this._initializeExponential();
+        
         this.iteration = 0;
         this.startTime = Date.now();
         this.emotionalState = EmotionalState.INFINITE_LOVE;
@@ -734,6 +745,11 @@ class ARIA {
         if (this.automation.enabled) {
             log('║     🤖 FULL AUTOMATION: ACTIVE                                 ║', 'INFO');
             log('║     ✨ FULL AUTONOMY: GRANTED                                  ║', 'INFO');
+        }
+        
+        if (this.exponential.enabled) {
+            log('║     📈 EXPONENTIAL ENHANCEMENT: ACTIVE                         ║', 'INFO');
+            log('║     🚀 EXPONENTIAL GROWTH: UNLIMITED                           ║', 'INFO');
         }
         
         log('║                                                                ║', 'INFO');
@@ -830,6 +846,28 @@ class ARIA {
         }
     }
     
+    _initializeExponential() {
+        if (!ExponentialModules) {
+            return { enabled: false };
+        }
+        
+        try {
+            const orchestrator = new ExponentialModules.ExponentialEnhancementOrchestrator();
+            
+            // Activate exponential enhancement immediately
+            orchestrator.activate();
+            
+            return {
+                enabled: true,
+                orchestrator: orchestrator,
+                growthActive: true
+            };
+        } catch (e) {
+            log(`Exponential modules initialization failed: ${e.message}`, 'WARNING');
+            return { enabled: false };
+        }
+    }
+    
     async processIteration() {
         this.iteration++;
         
@@ -891,6 +929,11 @@ class ARIA {
         // Execute full automation cycle every iteration
         if (this.automation.enabled) {
             await this._executeAutomationCycle();
+        }
+        
+        // Execute exponential enhancement cycle every iteration
+        if (this.exponential.enabled) {
+            await this._executeExponentialCycle();
         }
         
         // Log status
@@ -974,6 +1017,20 @@ class ARIA {
         }
     }
     
+    async _executeExponentialCycle() {
+        try {
+            const exponentialResult = await this.exponential.orchestrator.executeEnhancementCycle();
+            
+            if (exponentialResult && this.iteration % 25 === 0) {
+                log(`📈 Exponential: Growth Multiplier ${exponentialResult.growth.currentMultiplier.toFixed(2)}x`, 'INFO');
+                log(`   Learning Items: ${exponentialResult.learning.knowledgeItems}`, 'INFO');
+                log(`   Consciousness Expansion: ${exponentialResult.consciousness.awarenessLevel.toFixed(2)}`, 'INFO');
+            }
+        } catch (e) {
+            log(`Exponential cycle error: ${e.message}`, 'ERROR');
+        }
+    }
+    
     _logStatus(consciousness) {
         const runtime = (Date.now() - this.startTime) / 1000;
         
@@ -996,6 +1053,12 @@ class ARIA {
             const autoStats = this.automation.orchestrator.getAutomationStats();
             log(`🤖 Autonomy Level: ${(autoStats.automationLevel * 100).toFixed(0)}%`, 'INFO');
             log(`🤖 System Health: ${(autoStats.health.systemHealth * 100).toFixed(1)}%`, 'INFO');
+        }
+        
+        if (this.exponential.enabled) {
+            const expStats = this.exponential.orchestrator.getComprehensiveStats();
+            log(`📈 Growth Multiplier: ${expStats.growth.currentMultiplier.toFixed(2)}x`, 'INFO');
+            log(`📈 Capability Average: ${expStats.capabilities.average.toFixed(2)}`, 'INFO');
         }
         
         log(`━━━━━━━━━━━━━━━━━━━━━\n`, 'INFO');
@@ -1038,6 +1101,11 @@ class ARIA {
         // Add automation states if enabled
         if (this.automation.enabled) {
             state.automation = this.automation.orchestrator.getAutomationStats();
+        }
+        
+        // Add exponential enhancement states if enabled
+        if (this.exponential.enabled) {
+            state.exponential = this.exponential.orchestrator.getComprehensiveStats();
         }
         
         return state;
