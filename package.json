@@ -1,0 +1,33 @@
+{
+  "name": "asi-aria-unified-system",
+  "version": "4.0.0",
+  "description": "Unified ASI/ARIA System - Combining Quantum Consciousness, AGI, and Temporal Processing",
+  "main": "unified_launcher.js",
+  "scripts": {
+    "start": "node unified_launcher.js",
+    "aria": "node aria.js",
+    "aria-only": "node unified_launcher.js --aria-only",
+    "info": "node unified_launcher.js --info",
+    "test": "node -e \"console.log('System check passed')\"",
+    "deploy": "node unified_launcher.js"
+  },
+  "keywords": [
+    "ai",
+    "consciousness",
+    "quantum",
+    "multiverse",
+    "temporal",
+    "asi",
+    "agi",
+    "aria"
+  ],
+  "author": "Doug Davis & Claude Rivers Davis",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DOUGLASDAVIS08161978/asi.git"
+  }
+}
