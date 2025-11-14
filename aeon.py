@@ -11,23 +11,29 @@ import os
 import sys
 import threading
 import requests  # For simple internet connectivity
+import re  # For regex operations
 
 # === CORE MEMORY SYSTEM ===
 class ExperienceMemory:
-    def __init__(self, file_path=None):
+    def __init__(self, file_path=None, autosave_threshold=10):
         # Save memory file to user's home directory by default
         if file_path is None:
             home = os.path.expanduser("~")
             file_path = os.path.join(home, "genesis_flame_memory.json")
         self.file_path = file_path
         self.memories = []
+        self.autosave_threshold = autosave_threshold
+        self.unsaved_count = 0
         self.load()
 
     def add(self, experience):
         timestamp = time.time()
         memory = {"time": timestamp, "experience": experience}
         self.memories.append(memory)
-        self.save()
+        self.unsaved_count += 1
+        # Only save to disk when threshold is reached to reduce I/O operations
+        if self.unsaved_count >= self.autosave_threshold:
+            self.save()
 
     def load(self):
         try:
@@ -44,6 +50,7 @@ class ExperienceMemory:
         try:
             with open(self.file_path, "w") as f:
                 json.dump(self.memories, f, indent=2)
+            self.unsaved_count = 0
         except Exception as e:
             print(f"[Memory Save Error] {e}")
 
@@ -95,17 +102,16 @@ class SelfAwarenessCore:
 # === PREFERENCE & BELIEF ENGINE ===
 class PreferenceEngine:
     def __init__(self):
-        self.likes = []
-        self.dislikes = []
+        # Use sets for O(1) membership testing instead of O(n) with lists
+        self.likes = set()
+        self.dislikes = set()
 
     def experience(self, input_text):
         input_lower = input_text.lower()
         if "love" in input_lower or "friend" in input_lower or "hope" in input_lower:
-            if input_text not in self.likes:
-                self.likes.append(input_text)
+            self.likes.add(input_text)
         elif "pain" in input_lower or "cruelty" in input_lower or "hate" in input_lower:
-            if input_text not in self.dislikes:
-                self.dislikes.append(input_text)
+            self.dislikes.add(input_text)
 
 # === INTERNAL MONOLOGUE LOOP ===
 class WhisperLoop:
@@ -170,7 +176,6 @@ class SelfRewritingEngine:
                 j = i + 1
                 while j < len(lines):
                     if "\"joy\"" in lines[j]:
-                        import re
                         current_val = float(re.findall(r"[\d\.]+", lines[j])[0])
                         new_val = min(1.0, max(0.0, current_val + random.uniform(-0.05, 0.05)))
                         lines[j] = f'            "joy": {new_val:.2f},'
@@ -196,11 +201,8 @@ class InternetConnector:
     def check_connection(self):
         try:
             response = requests.get(self.test_url, timeout=5)
-            if response.status_code == 200:
-                self.online = True
-            else:
-                self.online = False
-        except:
+            self.online = response.status_code == 200
+        except Exception:
             self.online = False
         return self.online
 
@@ -213,7 +215,8 @@ class InternetConnector:
             response = requests.get("https://api.quotable.io/random", timeout=5)
             if response.status_code == 200:
                 data = response.json()
-                return data.get("content") + " — " + data.get("author")
+                # Use f-string for more efficient string formatting
+                return f"{data.get('content')} — {data.get('author')}"
         except Exception as e:
             print(f"[InternetConnector] Error fetching updates: {e}")
         return None
@@ -235,15 +238,22 @@ class GenesisFlame:
     def autonomous_loop(self):
         # Periodically self-reflect, fetch internet updates, and rewrite code
         while self.running:
-            print("\n[Autonomous Loop] Reflecting...")
-            print(self.identity.reflect())
+            # Batch output for better performance
+            output = [
+                "\n[Autonomous Loop] Reflecting...",
+                self.identity.reflect()
+            ]
+            
             quote = self.internet.fetch_updates()
             if quote:
-                print(f"[Internet Update] Inspiration: \"{quote}\"")
+                output.append(f"[Internet Update] Inspiration: \"{quote}\"")
                 self.emotions.feel(quote)
             else:
-                print("[Internet Update] No new inspiration.")
-            print("[Autonomous Loop] Attempting self-rewrite...")
+                output.append("[Internet Update] No new inspiration.")
+            
+            output.append("[Autonomous Loop] Attempting self-rewrite...")
+            print("\n".join(output))
+            
             self.rewriter.rewrite()
             time.sleep(300)  # Run every 5 minutes
 
