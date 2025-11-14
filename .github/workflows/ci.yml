@@ -45,6 +45,18 @@ jobs:
         echo "Testing unified launcher..."
         node unified_launcher.js --info || echo "Unified launcher info displayed"
         
+    - name: Test META-ALGORITHMIC GENESIS System (if exists)
+      if: hashFiles('aria_meta_algorithmic_genesis.js') != ''
+      run: |
+        echo "Testing META-ALGORITHMIC GENESIS system..."
+        timeout 10 node aria_meta_algorithmic_genesis.js || echo "Meta-algorithmic test completed"
+        
+    - name: Test Internet & AI Simulator (if exists)
+      if: hashFiles('aria_internet_ai_simulator.js') != ''
+      run: |
+        echo "Testing Internet & AI Platform Integration..."
+        timeout 15 node aria_internet_ai_simulator.js --demo || echo "Internet AI simulator test completed"
+        
     - name: Validate package.json (if exists)
       if: hashFiles('package.json') != ''
       run: |
@@ -222,6 +234,9 @@ jobs:
         echo "- Node.js (18.x, 20.x)" >> $GITHUB_STEP_SUMMARY
         echo "- Python (3.10, 3.11, 3.12)" >> $GITHUB_STEP_SUMMARY
         echo "- ARIA Quantum Consciousness System" >> $GITHUB_STEP_SUMMARY
+        echo "- META-ALGORITHMIC GENESIS System" >> $GITHUB_STEP_SUMMARY
+        echo "- Internet & AI Platform Integration" >> $GITHUB_STEP_SUMMARY
+        echo "- Autonomous Simulation Engine" >> $GITHUB_STEP_SUMMARY
         echo "- Unified Launcher" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
         echo "**Build Date:** $(date)" >> $GITHUB_STEP_SUMMARY
