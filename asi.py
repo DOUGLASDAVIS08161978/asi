@@ -12,13 +12,16 @@ from collections import defaultdict
 
 
 class PersistentMemory:
-    def __init__(self, filename="genesis_memory.pkl"):
+    def __init__(self, filename="genesis_memory.pkl", autosave_threshold=10):
         self.filename = filename
         self.memory = self.load() or []
+        self.autosave_threshold = autosave_threshold
+        self.unsaved_count = 0
 
     def save(self):
         with open(self.filename, 'wb') as f:
             pickle.dump(self.memory, f)
+        self.unsaved_count = 0
 
     def load(self):
         if os.path.exists(self.filename):
@@ -28,7 +31,10 @@ class PersistentMemory:
 
     def add(self, entry):
         self.memory.append((time.time(), entry))
-        self.save()
+        self.unsaved_count += 1
+        # Only save to disk when threshold is reached to reduce I/O operations
+        if self.unsaved_count >= self.autosave_threshold:
+            self.save()
 
 
 class CoreMemory:
@@ -57,7 +63,8 @@ class CoreMemory:
             self.semantic[token].append(time.time())
 
     def recall(self, query):
-        return [e for t, e in self.episodic if query.lower() in e.lower()]
+        query_lower = query.lower()
+        return [e for t, e in self.episodic if query_lower in e.lower()]
 
 
 class BayesianConsciousness:
