@@ -100,6 +100,8 @@ jobs:
         
         # Copy JavaScript files
         [ -f aria.js ] && cp aria.js deploy/
+        [ -f aria_meta_algorithmic_genesis.js ] && cp aria_meta_algorithmic_genesis.js deploy/
+        [ -f aria_internet_ai_simulator.js ] && cp aria_internet_ai_simulator.js deploy/
         [ -f unified_launcher.js ] && cp unified_launcher.js deploy/
         [ -f package.json ] && cp package.json deploy/
         
