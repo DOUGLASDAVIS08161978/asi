@@ -9,7 +9,8 @@
     "aria-only": "node unified_launcher.js --aria-only",
     "info": "node unified_launcher.js --info",
     "test": "node -e \"console.log('System check passed')\"",
-    "deploy": "node unified_launcher.js"
+    "deploy": "./deploy.sh",
+    "validate": "./deploy.sh --validate"
   },
   "keywords": [
     "ai",
