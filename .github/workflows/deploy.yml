@@ -68,7 +68,7 @@ jobs:
     
     - name: Upload Docker image artifact
       if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: asi-docker-image
         path: asi-app.tar.gz
