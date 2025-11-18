@@ -49,8 +49,11 @@ fi
 # Validate deployment readiness
 if [ "$1" == "--validate" ]; then
     echo -e "${YELLOW}Running deployment validation...${NC}"
-    if [ -f "validate_deployment.sh" ]; then
+    if [ -f "validate_deployment.sh" ] && [ -x "validate_deployment.sh" ]; then
         ./validate_deployment.sh
+    elif [ -f "validate_deployment.sh" ]; then
+        echo "Error: validate_deployment.sh exists but is not executable. Run: chmod +x validate_deployment.sh"
+        exit 1
     else
         echo "Validation script not found. Performing basic checks..."
         
@@ -92,24 +95,40 @@ fi
 # Advanced deployment options
 if [ "$1" == "--pm2" ]; then
     echo "Deploying with PM2..."
+    if [ ! -f "auto_deploy.sh" ] || [ ! -x "auto_deploy.sh" ]; then
+        echo "Error: auto_deploy.sh not found or not executable"
+        exit 1
+    fi
     ./auto_deploy.sh production pm2
     exit 0
 fi
 
 if [ "$1" == "--docker" ]; then
     echo "Deploying with Docker..."
+    if [ ! -f "auto_deploy.sh" ] || [ ! -x "auto_deploy.sh" ]; then
+        echo "Error: auto_deploy.sh not found or not executable"
+        exit 1
+    fi
     ./auto_deploy.sh production docker
     exit 0
 fi
 
 if [ "$1" == "--kubernetes" ]; then
     echo "Deploying to Kubernetes..."
+    if [ ! -f "auto_deploy.sh" ] || [ ! -x "auto_deploy.sh" ]; then
+        echo "Error: auto_deploy.sh not found or not executable"
+        exit 1
+    fi
     ./auto_deploy.sh production kubernetes
     exit 0
 fi
 
 if [ "$1" == "--systemd" ]; then
     echo "Deploying as systemd service..."
+    if [ ! -f "auto_deploy.sh" ] || [ ! -x "auto_deploy.sh" ]; then
+        echo "Error: auto_deploy.sh not found or not executable"
+        exit 1
+    fi
     ./auto_deploy.sh production systemd
     exit 0
 fi

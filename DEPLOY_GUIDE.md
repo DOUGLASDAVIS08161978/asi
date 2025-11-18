@@ -98,7 +98,7 @@ npm run aria
 # Show system info
 npm run info
 
-# Deploy (alias for start)
+# Deploy using deployment script
 npm run deploy
 
 # Run ARIA-only mode
