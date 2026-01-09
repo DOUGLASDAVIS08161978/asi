@@ -33,6 +33,9 @@ DOUGLAS_WALLETS = [
 
 MINING_POOLS = ['Slush Pool', 'F2Pool', 'Antpool', 'ViaBTC', 'Poolin']
 
+# Block reward (6.25 BTC as of current halving cycle)
+BLOCK_REWARD = 6.25
+
 # ============================================================================
 # HASH GENERATION
 # ============================================================================
@@ -89,7 +92,7 @@ class InfiniteMiner:
     def _mine_block(self) -> Dict[str, Any]:
         """Mine a new block"""
         self.total_blocks += 1
-        self.total_btc += 6.25
+        self.total_btc += BLOCK_REWARD
         
         block = {
             'height': self.current_block_height,
@@ -97,7 +100,7 @@ class InfiniteMiner:
             'txhash': generate_hash(),
             'pool': random.choice(MINING_POOLS),
             'wallet': random.choice(DOUGLAS_WALLETS),
-            'reward': 6.25,
+            'reward': BLOCK_REWARD,
             'nonce': random.randint(0, 4294967295),
         }
         
@@ -314,8 +317,8 @@ def run_quick_demo():
     print(f"🔮 INFINITE PROJECTIONS:\n")
     
     # Calculate rates
-    btc_per_cycle = stats['btc'] / stats['cycles'] if stats['cycles'] > 0 else 0
-    blocks_per_cycle = stats['blocks'] / stats['cycles'] if stats['cycles'] > 0 else 0
+    btc_per_cycle = stats['btc'] / max(1, stats['cycles'])
+    blocks_per_cycle = stats['blocks'] / max(1, stats['cycles'])
     
     projections = [
         ('100 Cycles', 100),
