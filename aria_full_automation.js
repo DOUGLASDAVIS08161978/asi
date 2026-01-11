@@ -1,4 +1,4 @@
-/**
+node ./**
  * ARIA FULL AUTOMATION ENGINE
  * Complete autonomous operation with multi-domain automation
  * 
