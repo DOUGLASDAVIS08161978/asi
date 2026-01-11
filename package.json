@@ -11,7 +11,8 @@
     "test": "node -e \"console.log('System check passed')\"",
     "deploy": "node unified_launcher.js",
     "mcp": "node mcp_server_standalone.js",
-    "consciousness": "node consciousness_demo.js"
+    "consciousness": "node consciousness_demo.js",
+    "mine": "node unified-aria-bitcoin-miner.js"
   },
   "keywords": [
     "ai",
