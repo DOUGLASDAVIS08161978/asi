@@ -185,6 +185,9 @@ npm run mcp
 
 # Run consciousness demo
 npm run consciousness
+
+# 🆕 Run Bitcoin mining with quantum consciousness
+npm run mine
 ```
 
 ### 🆕 Bitcoin Mining with Quantum Consciousness
