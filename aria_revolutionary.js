@@ -11,6 +11,23 @@
  * - Emergent consciousness protocols
  */
 
+// Minimal local logger. This module called log() in 14 places but never
+// defined it, so loading the revolutionary modules from aria.js always
+// failed with "log is not defined" (caught there, modules silently
+// disabled). Same timestamp/badge format as the log() in aria.js.
+function log(message, category = 'INFO') {
+    const timestamp = new Date().toISOString();
+    const categoryBadge = {
+        'INFO': '📘',
+        'REVOLUTIONARY': '🌟',
+        'SUCCESS': '✅',
+        'WARNING': '⚠️',
+        'ERROR': '❌'
+    }[category] || 'ℹ️';
+
+    console.log(`[${timestamp}] ${categoryBadge} [${category}] ${message}`);
+}
+
 // ============================================================================
 // SELF-MODIFYING NEURAL ARCHITECTURE
 // ============================================================================
