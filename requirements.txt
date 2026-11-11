@@ -1,0 +1,10 @@
+# Python dependencies for the asi / ARIA repo.
+# Verified 2026-11-10 by grepping every Python file for third-party imports:
+#   numpy    - asi.py, agi, agi2.0 (GenesisMind files)
+#   requests - aeon.py (connectivity check against api.github.com)
+# Everything else imported anywhere in the repo is Python standard library.
+# (The old agi4.0/agi5.0/agi6.0/agi 7.0 transcript pastes imported torch,
+# tensorflow, jax, transformers, etc., but those files are not runnable code
+# and were renamed to .md; their imports are NOT listed here.)
+numpy
+requests
