@@ -35,7 +35,12 @@ class InternetAccessEngine {
         // Check cache first
         if (this.cache.has(url) && !options.bypassCache) {
             log(`Cache hit for ${url}`, 'INTERNET');
-            return this.cache.get(url);
+            // The cache stores { data, timestamp, url }; callers expect the
+            // raw response object { statusCode, headers, body }, so return
+            // the stored response, not the wrapper. (Fixed 2026-11-10: the
+            // old code returned the wrapper, which broke every caller that
+            // reads response.body on a second fetch of the same URL.)
+            return this.cache.get(url).data;
         }
         
         log(`Fetching: ${url}`, 'INTERNET');
@@ -148,6 +153,43 @@ class InternetAccessEngine {
         };
     }
     
+    // ------------------------------------------------------------------
+    // HONEST RESEARCH MODE (added 2026-11-10)
+    // Fetches a URL over plain HTTP(S) and extracts the page's own text:
+    // title, most frequent words, and the sentences containing them.
+    // That is all it does. No AI model, no API key, and no connection to
+    // any AI platform is involved; nothing here understands, reasons, or
+    // is conscious — it is word counting over fetched text.
+    // ------------------------------------------------------------------
+    async research(url, options = {}) {
+        const maxSentences = options.maxSentences || 5;
+        const response = await this.fetchURL(url, options);
+
+        if (!response || !response.body) {
+            return null;
+        }
+        if (response.statusCode !== 200) {
+            log(`Research fetch for ${url} returned HTTP ${response.statusCode}`, 'WARNING');
+            return null;
+        }
+
+        const text = stripHtmlToText(response.body);
+        const titleMatch = response.body.match(/<title[^>]*>([^<]*)<\/title>/i);
+        const words = text.toLowerCase().match(/[a-z0-9][a-z0-9'-]*/g) || [];
+        const topWords = topWordCounts(words, 10);
+
+        return {
+            mode: 'research', // plain fetch + word-frequency extraction
+            url,
+            title: titleMatch ? titleMatch[1].trim() : null,
+            fetchedAt: new Date().toISOString(),
+            statusCode: response.statusCode,
+            charCount: text.length,
+            topWords,
+            keySentences: pickKeySentences(text, topWords.map(w => w.word), maxSentences)
+        };
+    }
+
     _extractContent(html) {
         // Simple content extraction (in production, use proper HTML parser)
         return {
@@ -602,6 +644,58 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+// --- Helpers for the honest research mode (see InternetAccessEngine.research) ---
+
+// Strip scripts/styles/tags from HTML and collapse whitespace.
+// Returns the input unchanged if it contains no tags.
+function stripHtmlToText(html) {
+    return html
+        .replace(/<script[\s\S]*?<\/script>/gi, ' ')
+        .replace(/<style[\s\S]*?<\/style>/gi, ' ')
+        .replace(/<[^>]+>/g, ' ')
+        .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+        .replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'").replace(/&nbsp;/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+}
+
+const RESEARCH_STOPWORDS = new Set([
+    'the', 'and', 'for', 'with', 'that', 'this', 'from', 'are', 'was',
+    'have', 'has', 'not', 'but', 'you', 'your', 'can', 'all', 'any', 'more',
+    'when', 'which', 'their', 'they', 'them', 'then', 'than', 'its', 'into',
+    'about', 'also', 'will', 'would', 'there', 'here', 'what', 'how', 'who'
+]);
+
+function topWordCounts(words, limit) {
+    const counts = new Map();
+    for (const w of words) {
+        if (w.length < 3 || RESEARCH_STOPWORDS.has(w)) continue;
+        counts.set(w, (counts.get(w) || 0) + 1);
+    }
+    return [...counts.entries()]
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, limit)
+        .map(([word, count]) => ({ word, count }));
+}
+
+// Rank sentences by how many of the top words they contain; keep the best
+// few. A sentence is a word-counting result, not a summary written by a model.
+function pickKeySentences(text, keywords, limit) {
+    const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
+    return sentences
+        .map(s => s.trim())
+        .filter(s => s.length > 20 && s.length < 400)
+        .map(sentence => {
+            const lower = sentence.toLowerCase();
+            const score = keywords.reduce((n, kw) => n + (lower.includes(kw) ? 1 : 0), 0);
+            return { sentence, score };
+        })
+        .filter(item => item.score > 0)
+        .sort((a, b) => b.score - a.score)
+        .slice(0, limit)
+        .map(item => item.sentence);
+}
+
 // ============================================================================
 // EXPORTS
 // ============================================================================
@@ -613,4 +707,29 @@ if (typeof module !== 'undefined' && module.exports) {
         RealTimeInformationAggregator,
         CrossPlatformKnowledgeSynthesizer
     };
+}
+
+// CLI: node aria_internet_ai.js research <url>
+// Prints a human-readable summary of the fetched page. Plain HTTP fetch
+// plus word-frequency extraction; no AI platform is contacted.
+if (require.main === module) {
+    (async () => {
+        const [command, url] = process.argv.slice(2);
+        if (command !== 'research' || !url) {
+            console.log('Usage: node aria_internet_ai.js research <url>');
+            process.exit(1);
+        }
+        const engine = new InternetAccessEngine();
+        const result = await engine.research(url);
+        if (!result) {
+            console.error(`Research fetch failed for ${url}`);
+            process.exit(1);
+        }
+        console.log(`Research: ${result.url}`);
+        console.log(`Title: ${result.title || '(none)'}`);
+        console.log(`Fetched: ${result.fetchedAt} (HTTP ${result.statusCode}, ${result.charCount} chars of text)`);
+        console.log('Top words: ' + result.topWords.map(w => `${w.word}(${w.count})`).join(', '));
+        console.log('Key sentences:');
+        result.keySentences.forEach(s => console.log(`- ${s}`));
+    })();
 }
